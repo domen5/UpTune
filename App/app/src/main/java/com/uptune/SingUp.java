@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -27,6 +28,7 @@ public class SingUp extends AppCompatActivity {
     TextInputLayout username, password, phone, mail, name;
     FirebaseDatabase rootNode;
     DatabaseReference reference;
+    FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,9 @@ public class SingUp extends AppCompatActivity {
             if (!validateName() | !validateUsername() | !validateMail() | !validatePass() | !validateUsername()) {
                 return;
             }
+
+            auth = FirebaseAuth.getInstance();
+
             rootNode = FirebaseDatabase.getInstance();
             reference = rootNode.getReference("user");
             UserHelper helper = new UserHelper(name, username, mail, phone, password);

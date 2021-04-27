@@ -22,8 +22,12 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class Login extends AppCompatActivity {
 
@@ -53,13 +57,49 @@ public class Login extends AppCompatActivity {
             reference = rootNode.getReference("user");
             String us = username.getEditText().getText().toString();
             String pw = password.getEditText().getText().toString();
-            auth.signInWithEmailAndPassword(us, pw).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    Intent intent = new Intent(Login.this, Account.class);
-                    startActivity(intent);
-                } else
-                    Toast.makeText(Login.this, "sdasdsad", Toast.LENGTH_SHORT).show();
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("user");
+            Query checkUser = reference.orderByChild("username").equalTo(us);
+
+            checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        username.setError(null);
+                        username.setErrorEnabled(false);
+
+                        String passwordDB = dataSnapshot.child(us).child("passw").getValue(String.class);
+                        if (passwordDB.equals(pw)) {
+
+                            password.setError(null);
+                            password.setErrorEnabled(false);
+
+                            String name = dataSnapshot.child(us).child("name").getValue(String.class);
+                            String username = dataSnapshot.child(us).child("username").getValue(String.class);
+                            String phone = dataSnapshot.child(us).child("phone").getValue(String.class);
+                            String mail = dataSnapshot.child(us).child("mail").getValue(String.class);
+
+                            Intent intent = new Intent(getApplicationContext(), Account.class);
+                            intent.putExtra("name", name);
+                            intent.putExtra("username", username);
+                            intent.putExtra("email", mail);
+                            intent.putExtra("phone", phone);
+
+                            startActivity(intent);
+                        } else {
+                            password.setError("Wrong password");
+                            password.requestFocus();
+                        }
+                    } else {
+                        username.setError("This username does not exist");
+                        username.requestFocus();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
             });
+
 
         });
 
