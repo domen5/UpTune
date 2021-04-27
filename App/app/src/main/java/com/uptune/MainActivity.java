@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         loadText.setAnimation(bottomAnim);
 
         new Handler().postDelayed(()-> {
-                Intent intent = new Intent(MainActivity.this, Chart.class);
+                Intent intent = new Intent(MainActivity.this, Login.class);
                 Pair[] pairs = new Pair[2];
                 pairs[0] = new Pair<View, String>(img, "logo_img");
                 pairs[1] = new Pair<View, String>(loadTitle, "loadTitle");

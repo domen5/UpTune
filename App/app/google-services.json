@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "651747104780",
+    "firebase_url": "https://uptune-2d37c-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "uptune-2d37c",
+    "storage_bucket": "uptune-2d37c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:651747104780:android:4a19785b3283a44e503629",
+        "android_client_info": {
+          "package_name": "com.uptune"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "651747104780-9cgv462jeabukc1257nggraiqf0oi5u5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoL8oEbsw7m6q6snsPYkW9-h4b3b0HlYg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "651747104780-9cgv462jeabukc1257nggraiqf0oi5u5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,5 +1,6 @@
 package com.uptune;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActivityOptions;
@@ -15,12 +16,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class Login extends AppCompatActivity {
 
 
-   private Button callSingUp, callLogIn;
+    private Button callSingUp, callLogIn;
+    FirebaseDatabase rootNode;
+    DatabaseReference reference;
+    FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +48,19 @@ public class Login extends AppCompatActivity {
         TextInputLayout password = findViewById(R.id.password);
 
 
-        callSingUp.setOnClickListener(v -> {
-            Toast.makeText(getApplicationContext(), "asdsada", Toast.LENGTH_SHORT);
-            Log.i("sadada", "adasdasd");
+        callLogIn.setOnClickListener(v -> {
+            rootNode = FirebaseDatabase.getInstance();
+            reference = rootNode.getReference("user");
+            String us = username.getEditText().getText().toString();
+            String pw = password.getEditText().getText().toString();
+            auth.signInWithEmailAndPassword(us, pw).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Intent intent = new Intent(Login.this, Account.class);
+                    startActivity(intent);
+                } else
+                    Toast.makeText(Login.this, "sdasdsad", Toast.LENGTH_SHORT).show();
+            });
+
         });
 
         callSingUp.setOnClickListener(v -> {
