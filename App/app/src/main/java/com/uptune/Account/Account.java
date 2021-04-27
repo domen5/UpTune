@@ -1,4 +1,4 @@
-package com.uptune;
+package com.uptune.Account;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,17 +8,19 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.uptune.MainActivity;
+import com.uptune.R;
 
-public class Catalog extends AppCompatActivity {
+public class Account extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_catalog);
+        setContentView(R.layout.activity_account);
 
         //region Nav Bottom
         BottomNavigationView bottomNavView = findViewById(R.id.bottom_nav);
-        bottomNavView.setSelectedItemId(R.id.search);
+        bottomNavView.setSelectedItemId(R.id.user);
         bottomNavView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

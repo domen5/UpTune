@@ -9,11 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.UpTune">
-        <activity android:name=".SingUp"></activity>
-        <activity android:name=".Login" />
-        <activity android:name=".Chart" />
-        <activity android:name=".Catalog" />
-        <activity android:name=".Account" />
+        <activity android:name=".Login.SingUp"></activity>
+        <activity android:name=".Login.Login" />
+        <activity android:name=".Account.Chart" />
+        <activity android:name=".Account.Catalog" />
+        <activity android:name=".Account.Account" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

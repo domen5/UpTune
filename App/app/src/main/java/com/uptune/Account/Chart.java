@@ -1,4 +1,4 @@
-package com.uptune;
+package com.uptune.Account;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,17 +8,18 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.uptune.MainActivity;
+import com.uptune.R;
 
-public class Account extends AppCompatActivity {
+public class Chart extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_account);
-
+        setContentView(R.layout.activity_chart);
         //region Nav Bottom
         BottomNavigationView bottomNavView = findViewById(R.id.bottom_nav);
-        bottomNavView.setSelectedItemId(R.id.user);
+        bottomNavView.setSelectedItemId(R.id.charts);
         bottomNavView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -45,4 +46,5 @@ public class Account extends AppCompatActivity {
         });
         //endregion
     }
+
 }
