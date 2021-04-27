@@ -22,8 +22,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/bungee"
-        android:text="@string/welcome_back_name"
-        android:textSize="40sp"
+        android:text="Login to Up Tune"
+        android:textSize="25dp"
         android:textColor="@color/black"
         android:transitionName="loadTitle"/>
 
@@ -48,13 +48,14 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Username">
+            android:hint="Username"
+            android:transitionName="loadUsername">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:transitionName="loadUsername"/>
+               />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -64,13 +65,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Password"
-            app:passwordToggleEnabled="true">
+            app:passwordToggleEnabled="true"
+            android:transitionName="loadPw">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:transitionName="loadPw"/>
+               />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -84,13 +86,11 @@
             android:background="#00000000"
             android:textColor="#000"/>
         <Button
-            android:transitionName="loadLogin"
             android:id="@+id/logIn"
+            android:transitionName="loadLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/orange_200"
-            android:text="@string/logButton"
-            android:textColor="#fff"
+            android:text="Log in"
             android:layout_margin="5dp"/>
 
         <Button

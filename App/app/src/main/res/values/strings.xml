@@ -9,6 +9,7 @@
     <string name="welcome_back_name">Welcome to Up Tune</string>
     <string name="sing_in_to_continue">Sing In to continue</string>
     <string name="forgot_password">Forgot Password?</string>
-    <string name="logButton">Enter</string>
+    <string name="logButton">Register</string>
     <string name="full_name">Full Name</string>
+    <string name="already_have_an_account">Already have an account?</string>
 </resources>
