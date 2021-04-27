@@ -28,9 +28,6 @@ public class Login extends AppCompatActivity {
 
 
     private Button callSingUp, callLogIn;
-    FirebaseDatabase rootNode;
-    DatabaseReference reference;
-    FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +45,6 @@ public class Login extends AppCompatActivity {
 
 
         callLogIn.setOnClickListener(v -> {
-            rootNode = FirebaseDatabase.getInstance();
-            reference = rootNode.getReference("user");
             String us = username.getEditText().getText().toString();
             String pw = password.getEditText().getText().toString();
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("user");
@@ -61,13 +56,11 @@ public class Login extends AppCompatActivity {
                     if (dataSnapshot.exists()) {
                         username.setError(null);
                         username.setErrorEnabled(false);
-
                         String passwordDB = dataSnapshot.child(us).child("passw").getValue(String.class);
                         if (passwordDB.equals(pw)) {
 
                             password.setError(null);
                             password.setErrorEnabled(false);
-
                             String name = dataSnapshot.child(us).child("name").getValue(String.class);
                             String username = dataSnapshot.child(us).child("username").getValue(String.class);
                             String phone = dataSnapshot.child(us).child("phone").getValue(String.class);

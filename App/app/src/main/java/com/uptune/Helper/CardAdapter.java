@@ -13,26 +13,37 @@ import com.uptune.R;
 
 import java.util.ArrayList;
 
-public class FeatureAdapter extends RecyclerView.Adapter<FeatureAdapter.FeatureViewHolder> {
+public class CardAdapter extends RecyclerView.Adapter<CardAdapter.FeatureViewHolder> {
 
-    ArrayList<FetchBestCatg> location;
+    ArrayList<CardContainer> location;
+    int type;
 
-    public FeatureAdapter(ArrayList<FetchBestCatg> location) {
+    public CardAdapter(ArrayList<CardContainer> location, int type) {
+        this.type = type;
         this.location = location;
     }
 
     @NonNull
     @Override
     public FeatureViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.best_cat_layout, parent, false);
+        View v;
+        switch (this.type) {
+            case 0:
+                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.best_cat_layout, parent, false);
+                break;
+            case 1:
+                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.most_listen_card, parent, false);
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + this.type);
+        }
         FeatureViewHolder fvh = new FeatureViewHolder(v);
         return fvh;
     }
 
     @Override
     public void onBindViewHolder(@NonNull FeatureViewHolder holder, int position) {
-        FetchBestCatg fetchBest = location.get(position);
+        CardContainer fetchBest = location.get(position);
         holder.img.setImageResource(fetchBest.getImage());
         holder.title.setText(fetchBest.getTitle());
         holder.desc.setText(fetchBest.getDesc());
@@ -50,7 +61,7 @@ public class FeatureAdapter extends RecyclerView.Adapter<FeatureAdapter.FeatureV
 
         public FeatureViewHolder(@NonNull View itemView) {
             super(itemView);
-            img = itemView.findViewById(R.id.catImg);
+            img = itemView.findViewById(R.id.img);
             title = itemView.findViewById(R.id.catTitle);
             desc = itemView.findViewById(R.id.catDesc);
         }

@@ -8,8 +8,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.uptune.Helper.FeatureAdapter;
-import com.uptune.Helper.FetchBestCatg;
+import com.uptune.Helper.CardAdapter;
+import com.uptune.Helper.CardContainer;
 import com.uptune.MainActivity;
 import com.uptune.R;
 
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class Catalog extends AppCompatActivity {
 
     RecyclerView bestCateg, mostList;
-    RecyclerView.Adapter adapter;
+    RecyclerView.Adapter adapter, adapter2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,13 +63,14 @@ public class Catalog extends AppCompatActivity {
         mostList.setHasFixedSize(true);
         mostList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
-        ArrayList<FetchBestCatg> setData = new ArrayList<>();
-        setData.add(new FetchBestCatg(R.drawable.logo2, "logo", "sadadsadasdas"));
-        setData.add(new FetchBestCatg(R.drawable.logo2, "logo111", "sdas"));
-        setData.add(new FetchBestCatg(R.drawable.logo2, "logo2121", "saasda"));
+        ArrayList<CardContainer> setData = new ArrayList<>();
+        setData.add(new CardContainer(R.drawable.logo2, "logo", "sadadsadasdas"));
+        setData.add(new CardContainer(R.drawable.logo2, "logo111", "sdas"));
+        setData.add(new CardContainer(R.drawable.logo2, "logo2121", "saasda"));
 
-        adapter = new FeatureAdapter(setData);
+        adapter = new CardAdapter(setData, 0);
+        adapter2 = new CardAdapter(setData, 1);
         bestCateg.setAdapter(adapter);
-        mostList.setAdapter(adapter);
+        mostList.setAdapter(adapter2);
     }
 }

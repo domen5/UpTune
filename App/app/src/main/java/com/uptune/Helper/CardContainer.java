@@ -1,10 +1,10 @@
 package com.uptune.Helper;
 
-public class FetchBestCatg {
+public class CardContainer {
     int image;
     String title, desc;
 
-    public FetchBestCatg(int image, String title, String desc) {
+    public CardContainer(int image, String title, String desc) {
         this.image = image;
         this.title = title;
         this.desc = desc;
