@@ -26,7 +26,6 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/bungee"
             android:text="Login to Up Tune"
-            android:textColor="@color/black"
             android:textSize="25dp"
             android:transitionName="loadTitle" />
 
@@ -55,6 +54,9 @@
                 android:layout_height="wrap_content"
                 android:hint="Username"
                 android:transitionName="loadUsername"
+                app:boxStrokeColor="@color/white"
+                app:errorTextAppearance="@color/white"
+                app:hintTextColor="@color/white"
                 app:startIconDrawable="@drawable/ic_user">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -71,6 +73,9 @@
                 android:layout_height="wrap_content"
                 android:hint="Password"
                 android:transitionName="loadPw"
+                app:boxStrokeColor="@color/white"
+                app:errorTextAppearance="@color/white"
+                app:hintTextColor="@color/white"
                 app:passwordToggleEnabled="true"
                 app:startIconDrawable="@drawable/ic_lock">
 
@@ -88,8 +93,7 @@
                 android:layout_margin="5dp"
                 android:background="#00000000"
                 android:elevation="0dp"
-                android:text="@string/forgot_password"
-                android:textColor="#000" />
+                android:text="@string/forgot_password" />
 
             <Button
                 android:id="@+id/logIn"
@@ -112,7 +116,6 @@
                 android:elevation="0dp"
                 android:fontFamily="@font/antic"
                 android:text="New User? Register now!"
-                android:textColor="#000"
                 android:transitionName="loadSign" />
         </LinearLayout>
 

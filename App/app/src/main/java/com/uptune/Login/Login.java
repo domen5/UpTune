@@ -2,18 +2,23 @@ package com.uptune.Login;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -44,7 +49,6 @@ public class Login extends AppCompatActivity {
         TextView loginText = findViewById(R.id.LoginText);
         TextInputLayout username = findViewById(R.id.username);
         TextInputLayout password = findViewById(R.id.password);
-
 
         callLogIn.setOnClickListener(v -> {
             String us = username.getEditText().getText().toString();
@@ -112,5 +116,6 @@ public class Login extends AppCompatActivity {
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
+
     }
 }

@@ -4,18 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    tools:context=".Login.SignUp"
     android:background="@color/orange"
-    >
+    tools:context=".Login.SignUp">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
+
         <LinearLayout
-            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:orientation="vertical">
 
             <ImageView
@@ -32,7 +31,6 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/bungee"
                 android:text="@string/welcome_back_name"
-                android:textColor="@color/black"
                 android:textSize="25dp"
                 android:transitionName="loadTitle" />
 
@@ -53,13 +51,16 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/fullName"
-                    app:hintTextColor="@color/white"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/full_name"
                     android:transitionName="loadUsername"
+                    app:boxStrokeColor="@color/white"
+                    app:boxStrokeErrorColor="#8E1800"
                     app:errorTextAppearance="@color/white"
+                    app:errorTextColor="#8E1800"
+                    app:hintTextColor="@color/white"
                     app:startIconDrawable="@drawable/ic_fullname">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -78,6 +79,11 @@
                     android:hint="Username"
                     android:transitionName="loadUsername"
                     app:counterEnabled="true"
+                    app:boxStrokeColor="@color/white"
+                    app:boxStrokeErrorColor="#8E1800"
+                    app:errorTextAppearance="@color/white"
+                    app:errorTextColor="#8E1800"
+                    app:hintTextColor="@color/white"
                     app:startIconDrawable="@drawable/ic_user">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -92,6 +98,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="E-Mail"
+                    app:boxStrokeColor="@color/white"
+                    app:boxStrokeErrorColor="#8E1800"
+                    app:errorTextAppearance="@color/white"
+                    app:errorTextColor="#8E1800"
+                    app:hintTextColor="@color/white"
                     app:startIconDrawable="@drawable/ic_icon_mail">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -108,6 +119,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Phone number"
+                    app:boxStrokeColor="@color/white"
+                    app:boxStrokeErrorColor="#8E1800"
+                    app:errorTextAppearance="@color/white"
+                    app:errorTextColor="#8E1800"
+                    app:hintTextColor="@color/white"
                     app:startIconDrawable="@drawable/ic_phone">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -124,6 +140,11 @@
                     android:layout_height="wrap_content"
                     android:hint="Password"
                     android:transitionName="loadPw"
+                    app:boxStrokeColor="@color/white"
+                    app:boxStrokeErrorColor="#8E1800"
+                    app:errorTextAppearance="@color/white"
+                    app:errorTextColor="#8E1800"
+                    app:hintTextColor="@color/white"
                     app:passwordToggleEnabled="true"
                     app:startIconDrawable="@drawable/ic_lock">
 
@@ -140,19 +161,18 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="3dp"
-                    android:text="@string/logButton"
                     android:backgroundTint="@color/blue_light"
+                    android:text="@string/logButton"
                     android:transitionName="loadLogin"
                     app:cornerRadius="20dp" />
 
                 <Button
-                    android:fontFamily="@font/antic"
                     android:id="@+id/btn_login"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#0000"
+                    android:fontFamily="@font/antic"
                     android:text="@string/already_have_an_account"
-                    android:textColor="@color/black"
                     android:transitionName="loadSign" />
 
 
