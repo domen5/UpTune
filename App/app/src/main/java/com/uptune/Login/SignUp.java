@@ -3,8 +3,15 @@ package com.uptune.Login;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActivityOptions;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
@@ -72,6 +79,10 @@ public class SignUp extends AppCompatActivity {
                 return;
             }
 
+            if (!isConnected(this)) {
+                noInternetDialog();
+                return;
+            }
             auth = FirebaseAuth.getInstance();
 
             rootNode = FirebaseDatabase.getInstance();
@@ -142,5 +153,29 @@ public class SignUp extends AppCompatActivity {
         username.setError(null);
         username.setErrorEnabled(false);
         return true;
+    }
+
+    private void noInternetDialog() {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_no_connection);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Button btnCancel = dialog.findViewById(R.id.cancel);
+        Button btnConfirm = dialog.findViewById(R.id.confirm);
+        btnConfirm.setOnClickListener(v -> {
+            startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+            dialog.dismiss();
+        });
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+        dialog.show();
+    }
+
+    private boolean isConnected(SignUp signUp) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) signUp.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo wifiConn = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        NetworkInfo mobileConn = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        if ((wifiConn != null && wifiConn.isConnected()) || (mobileConn != null && mobileConn.isConnected()))
+            return true;
+        else
+            return false;
     }
 }

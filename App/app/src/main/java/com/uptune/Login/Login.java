@@ -5,9 +5,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.drawable.DrawableCompat;
 
 import android.app.ActivityOptions;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +36,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.uptune.Account.Account;
+import com.uptune.Account.Chart;
+import com.uptune.MainActivity;
 import com.uptune.R;
 
 public class Login extends AppCompatActivity {
@@ -51,6 +62,10 @@ public class Login extends AppCompatActivity {
         TextInputLayout password = findViewById(R.id.password);
 
         callLogIn.setOnClickListener(v -> {
+            if (!isConnected(this)) {
+                noInternetDialog();
+                return;
+            }
             String us = username.getEditText().getText().toString();
             String pw = password.getEditText().getText().toString();
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("user");
@@ -116,6 +131,29 @@ public class Login extends AppCompatActivity {
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
+    }
 
+    private void noInternetDialog() {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_no_connection);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Button btnCancel = dialog.findViewById(R.id.cancel);
+        Button btnConfirm = dialog.findViewById(R.id.confirm);
+        btnConfirm.setOnClickListener(v -> {
+            startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+            dialog.dismiss();
+        });
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+        dialog.show();
+    }
+
+    private boolean isConnected(Login login) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) login.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo wifiConn = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        NetworkInfo mobileConn = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        if ((wifiConn != null && wifiConn.isConnected()) || (mobileConn != null && mobileConn.isConnected()))
+            return true;
+        else
+            return false;
     }
 }
