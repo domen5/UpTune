@@ -10,11 +10,11 @@ import android.util.Pair;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,6 +28,7 @@ public class Login extends AppCompatActivity {
 
 
     private Button callSingUp, callLogIn;
+    ImageButton singUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +36,8 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
-        callSingUp = findViewById(R.id.sing_up);
+        callSingUp = findViewById(R.id.sign_up);
+        singUp = findViewById(R.id.sign_up_btn);
         callLogIn = findViewById(R.id.logIn);
         ImageView img = findViewById(R.id.logo);
         TextView loginTitle = findViewById(R.id.LoginTitle);
@@ -92,7 +94,7 @@ public class Login extends AppCompatActivity {
         });
 
         callSingUp.setOnClickListener(v -> {
-            Intent intent = new Intent(Login.this, SingUp.class);
+            Intent intent = new Intent(Login.this, SignUp.class);
             Pair[] pairs = new Pair[7];
             pairs[0] = new Pair<View, String>(img, "logo_img");
             pairs[1] = new Pair<View, String>(loginTitle, "loadTitle");
@@ -103,6 +105,12 @@ public class Login extends AppCompatActivity {
             pairs[6] = new Pair<View, String>(callLogIn, "loadSing");
             ActivityOptions opt = ActivityOptions.makeSceneTransitionAnimation(Login.this, pairs);
             startActivity(intent, opt.toBundle());
+        });
+
+        singUp.setOnClickListener(v -> {
+            Intent intent = new Intent(Login.this, SignUp.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
     }
 }

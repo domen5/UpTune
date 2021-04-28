@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="280dp"
-    android:layout_height="150dp"
-    app:cardCornerRadius="4dp"
+    android:layout_width="250dp"
+    android:layout_height="120dp"
+    android:layout_margin="10dp"
+    app:cardCornerRadius="20dp"
     app:cardElevation="8dp"
-    android:padding="10dp">
+    app:strokeColor="@color/white"
+
+    app:strokeWidth="2dp">
 
     <RelativeLayout
-        android:layout_width="280dp"
-        android:layout_height="150dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@color/orange_200"
-        android:padding="10dp"
-        >
+        android:padding="10dp">
 
         <ImageView
             android:id="@+id/img"
@@ -29,6 +31,7 @@
             android:layout_toRightOf="@id/img"
             android:fontFamily="@font/baloo"
             android:text="Some text"
+            android:textColor="@color/white"
             android:textSize="20dp" />
 
         <RatingBar
@@ -42,7 +45,6 @@
             android:rating="4" />
 
         <TextView
-
             android:id="@+id/catDesc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,7 +53,8 @@
             android:fontFamily="@font/antic"
             android:padding="10dp"
             android:text="sdasdasdasdas"
+            android:textColor="@color/white"
             android:textSize="10dp" />
     </RelativeLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

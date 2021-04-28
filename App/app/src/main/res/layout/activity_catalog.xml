@@ -42,7 +42,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="70dp"
-                    android:background="@color/orange"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -51,9 +50,8 @@
                     <LinearLayout
                         android:id="@+id/Left"
                         android:layout_width="170dp"
-                        android:layout_height="280dp"
+                        android:layout_height="180dp"
                         android:layout_margin="10dp"
-                        android:background="@color/orange_200"
                         android:orientation="vertical">
 
                         <TextView
@@ -75,8 +73,7 @@
                         android:id="@+id/bestCateg"
                         android:layout_width="match_parent"
                         android:layout_height="300dp"
-                        android:layout_toRightOf="@+id/Left"
-                        android:background="@color/orange_200" />
+                        android:layout_toRightOf="@+id/Left" />
 
                 </RelativeLayout>
 
@@ -114,7 +111,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         />
-
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </RelativeLayout>

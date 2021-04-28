@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,9 +20,10 @@ import com.uptune.Account.Account;
 import com.uptune.Helper.UserHelper;
 import com.uptune.R;
 
-public class SingUp extends AppCompatActivity {
+public class SignUp extends AppCompatActivity {
 
     Button callLogIn, callSingUp;
+    ImageButton back;
     ImageView img;
     TextView loginText, loginTitle;
     TextInputLayout username, password, phone, mail, name;
@@ -34,7 +36,8 @@ public class SingUp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sing_up);
         callLogIn = findViewById(R.id.btn_login);
-        callSingUp = findViewById(R.id.btn_sing_up);
+        callSingUp = findViewById(R.id.btn_sign_up);
+        back = findViewById(R.id.back);
         img = findViewById(R.id.logo);
         loginTitle = findViewById(R.id.LoginTitle);
         loginText = findViewById(R.id.LoginText);
@@ -46,7 +49,7 @@ public class SingUp extends AppCompatActivity {
 
         callLogIn.setOnClickListener(v -> {
             Pair[] pairs = new Pair[7];
-            Intent intent = new Intent(SingUp.this, Login.class);
+            Intent intent = new Intent(SignUp.this, Login.class);
             pairs[0] = new Pair<View, String>(img, "logo_img");
             pairs[1] = new Pair<View, String>(loginTitle, "loadTitle");
             pairs[2] = new Pair<View, String>(loginText, "loadText");
@@ -54,9 +57,16 @@ public class SingUp extends AppCompatActivity {
             pairs[4] = new Pair<View, String>(password, "loadPw");
             pairs[5] = new Pair<View, String>(callSingUp, "loadLogin");
             pairs[6] = new Pair<View, String>(callLogIn, "loadSing");
-            ActivityOptions opt = ActivityOptions.makeSceneTransitionAnimation(SingUp.this, pairs);
+            ActivityOptions opt = ActivityOptions.makeSceneTransitionAnimation(SignUp.this, pairs);
             startActivity(intent, opt.toBundle());
         });
+
+        back.setOnClickListener(v -> {
+            Intent intent = new Intent(SignUp.this, Login.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        });
+
         callSingUp.setOnClickListener(v -> {
             if (!validateName() | !validateUsername() | !validateMail() | !validatePass() | !validateUsername()) {
                 return;
@@ -68,7 +78,7 @@ public class SingUp extends AppCompatActivity {
             reference = rootNode.getReference("user");
             UserHelper helper = new UserHelper(name, username, mail, phone, password);
             reference.child(username.getEditText().getText().toString()).setValue(helper);
-            Intent intent = new Intent(SingUp.this, Account.class);
+            Intent intent = new Intent(SignUp.this, Account.class);
             startActivity(intent);
         });
     }
