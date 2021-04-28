@@ -43,6 +43,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     // This library handles authentication and authorization
     implementation 'com.github.kaaes:spotify-web-api-android:0.4.1'
-
-
+    implementation 'com.journeyapps:zxing-android-embedded:3.4.0'
 }

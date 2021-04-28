@@ -1,10 +1,13 @@
 package com.uptune.Account;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActivityOptions;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -14,8 +17,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+import com.uptune.Helper.CaptureAct;
 import com.uptune.Login.Login;
 import com.uptune.Login.SignUp;
 import com.uptune.MainActivity;
@@ -35,7 +42,7 @@ public class Chart extends AppCompatActivity {
         Button logout = findViewById(R.id.log);
         bottomNavView.setSelectedItemId(R.id.charts);
 
-        Button cancel, confirm;
+        Button scan = findViewById(R.id.scan);
         dialog = new Dialog(this);
         bottomNavView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
@@ -63,6 +70,36 @@ public class Chart extends AppCompatActivity {
         logout.setOnClickListener(v -> {
             openLogoutDialog();
         });
+
+        scan.setOnClickListener(v -> {
+            scanCode();
+        });
+    }
+
+    private void scanCode() {
+        IntentIntegrator integrator = new IntentIntegrator(this);
+        integrator.setCaptureActivity(CaptureAct.class);
+        integrator.setOrientationLocked(false);
+        integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
+        integrator.setPrompt("Scan album code");
+        integrator.initiateScan();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        IntentResult res = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (res != null) {
+            if (res.getContents() != null) {
+                AlertDialog.Builder build = new AlertDialog.Builder(this);
+                build.setMessage(res.getContents());
+                build.setTitle("Scan res");
+                build.setPositiveButton("Scan again", (dialog, which) -> scanCode()).setNegativeButton("finish", (dialog, which) -> finish());
+                AlertDialog dialog = build.create();
+                dialog.show();
+            } else
+                Toast.makeText(this, "no res", Toast.LENGTH_SHORT).show();
+        } else
+            super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void openLogoutDialog() {
