@@ -13,6 +13,8 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Pair;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -37,6 +39,9 @@ public class SignUp extends AppCompatActivity {
     FirebaseDatabase rootNode;
     DatabaseReference reference;
     FirebaseAuth auth;
+
+    private float x1, x2;
+    private final int MIN_DISTANCE = 150;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +97,30 @@ public class SignUp extends AppCompatActivity {
             Intent intent = new Intent(SignUp.this, Account.class);
             startActivity(intent);
         });
+    }
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                x1 = event.getX();
+                break;
+            case MotionEvent.ACTION_UP:
+                x2 = event.getX();
+
+                float valX = x2 - x1;
+
+                if (Math.abs(valX) > MIN_DISTANCE) {
+                    if (x2 > x1) {
+                        Intent intent = new Intent(SignUp.this, Login.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                    }
+                }
+                break;
+        }
+        return super.onTouchEvent(event);
     }
 
 
