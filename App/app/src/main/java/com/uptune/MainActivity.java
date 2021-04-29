@@ -13,6 +13,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.uptune.Login.FirstLogin;
 import com.uptune.Login.Login;
 
 
@@ -40,13 +41,13 @@ public class MainActivity extends AppCompatActivity {
         loadTitle.setAnimation(bottomAnim);
         loadText.setAnimation(bottomAnim);
 
-        new Handler().postDelayed(()-> {
-                Intent intent = new Intent(MainActivity.this, Login.class);
-                Pair[] pairs = new Pair[2];
-                pairs[0] = new Pair<View, String>(img, "logo_img");
-                pairs[1] = new Pair<View, String>(loadTitle, "loadTitle");
-                ActivityOptions opt = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pairs);
-                startActivity(intent, opt.toBundle());
+        new Handler().postDelayed(() -> {
+            Intent intent = new Intent(MainActivity.this, Login.class);
+            Pair[] pairs = new Pair[2];
+            pairs[0] = new Pair<View, String>(img, "logo_img");
+            pairs[1] = new Pair<View, String>(loadTitle, "loadTitle");
+            ActivityOptions opt = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pairs);
+            startActivity(intent, opt.toBundle());
         }, ANIMATION_TIME);
         //endregion
     }

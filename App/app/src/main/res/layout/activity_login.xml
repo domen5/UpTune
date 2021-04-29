@@ -129,7 +129,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_marginTop="20dp"
-        android:background="@drawable/roundedbutton"
+        android:background="@drawable/rounded_left_button"
         android:topLeftRadius="100dp" />
 
     <ImageButton
@@ -140,7 +140,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="30dp"
-        android:background="@drawable/roundedbutton"
+        android:background="@drawable/rounded_left_button"
         android:src="@drawable/ic_user"
         />
 </RelativeLayout>

@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.UpTune">
-        <activity android:name=".Login.SignUp"></activity>
+        <activity android:name=".Login.FirstLogin"></activity>
+        <activity android:name=".Login.SignUp" />
         <activity android:name=".Login.Login" />
         <activity android:name=".Account.Chart" />
         <activity android:name=".Account.Catalog" />
@@ -26,10 +27,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Helper.CaptureAct"
+        <activity
+            android:name=".Helper.CaptureAct"
             android:screenOrientation="fullSensor"
             android:stateNotNeeded="true"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+            android:windowSoftInputMode="stateAlwaysHidden" />
 
         <meta-data
             android:name="preloaded_fonts"
