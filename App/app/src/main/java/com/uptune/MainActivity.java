@@ -6,6 +6,7 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.LoginFilter;
 import android.util.Pair;
 import android.view.View;
 import android.view.animation.Animation;
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         loadText.setAnimation(bottomAnim);
 
         new Handler().postDelayed(() -> {
-            Intent intent = new Intent(MainActivity.this, Login.class);
+            Intent intent = new Intent(MainActivity.this, FirstLogin.class);
             Pair[] pairs = new Pair[2];
             pairs[0] = new Pair<View, String>(img, "logo_img");
             pairs[1] = new Pair<View, String>(loadTitle, "loadTitle");

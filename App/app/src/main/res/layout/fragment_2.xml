@@ -20,15 +20,14 @@
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="48dp"
-
-            android:layout_marginTop="60dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="400dp"
             android:fontFamily="@font/antic"
-            android:text="Welcome to"
+            android:text="Buy and Sell"
             android:textAlignment="center"
             android:textSize="42dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lottieAnimationView" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView4"
@@ -36,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:fontFamily="@font/antic"
-            android:text="Buy, sell and listent to our digital albums!Buy, sell and listent to our digital albums!Buy, sell and listent to our digital albums!"
+            android:text="Buy digital music and\nused physical albums \nHave you got \nsome old albums? \nSell it here!"
             android:textSize="24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/textView6"
@@ -51,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:fontFamily="@font/brandon_grotesque_black"
-            android:text="Up Tune!"
+            android:text="Music!"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="55dp"
@@ -62,18 +61,34 @@
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lottieAnimationView"
-            android:layout_width="180dp"
-            app:lottie_rawRes="@raw/dj"
-
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:layout_constraintHorizontal_bias="0.183"
-            android:layout_height="180dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:forceDarkAllowed="false"
+            app:layout_constraintBottom_toTopOf="@+id/textView5"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.183"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.252" />
+            android:layout_marginBottom="20dp"
+            app:layout_constraintVertical_bias="0.252"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/dj" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/download"
+            android:layout_width="155dp"
+            android:layout_height="166dp"
+            android:forceDarkAllowed="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.937"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.943"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/mixer" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
