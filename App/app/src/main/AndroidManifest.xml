@@ -14,8 +14,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.UpTune" >
-        <activity android:name=".new_catalog" >
-        </activity>
+        <activity
+            android:name=".Spacetab"
+            android:label="@string/title_activity_spacetab"
+        />
         <activity android:name=".Login.FirstLogin" />
         <activity android:name=".Login.SignUp" />
         <activity android:name=".Login.Login" />
