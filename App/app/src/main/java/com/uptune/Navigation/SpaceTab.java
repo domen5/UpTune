@@ -35,10 +35,10 @@ public class SpaceTab extends AppCompatActivity {
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
         tabLayout = (SpaceTabLayout) findViewById(R.id.spaceTabLayout);
-
         //we need the savedInstanceState to get the position
         tabLayout.initialize(viewPager, getSupportFragmentManager(),
                 fragmentList, savedInstanceState);
+        tabLayout.setTabFourIcon(R.drawable.ic_user);
     }
 
     //we need the outState to save the position

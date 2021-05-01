@@ -23,7 +23,7 @@
         app:icon_two="@drawable/ic_chart"
         app:layout_behavior="eu.long1.spacetablayout.SpaceTabLayoutBehavior"
         app:number_of_tabs="four"
-        app:starting_position="two"
+        app:starting_position="four"
         app:tab_color="@color/orange"
         app:text_one="Store"
         app:text_three="Home"

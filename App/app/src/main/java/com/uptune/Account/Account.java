@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.uptune.MainActivity;
@@ -34,7 +35,7 @@ public class Account extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Button logout = view.findViewById(R.id.btn_logout);
+        ImageButton logout = view.findViewById(R.id.btn_logout);
         dialog = new Dialog(getContext());
         logout.setOnClickListener(v -> {
             openLogoutDialog();
