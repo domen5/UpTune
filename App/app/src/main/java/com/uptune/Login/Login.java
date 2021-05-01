@@ -2,16 +2,13 @@ package com.uptune.Login;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.drawable.DrawableCompat;
 
 import android.app.ActivityOptions;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
@@ -19,22 +16,15 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Log;
 import android.util.Pair;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Space;
 import android.widget.TextView;
 
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -42,12 +32,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.uptune.Account.Account;
-import com.uptune.Account.Chart;
-import com.uptune.CatalogFragment;
-import com.uptune.MainActivity;
 import com.uptune.R;
-import com.uptune.Spacetab;
+import com.uptune.Navigation.SpaceTab;
 
 public class Login extends AppCompatActivity {
 
@@ -104,7 +90,7 @@ public class Login extends AppCompatActivity {
                             String phone = dataSnapshot.child(us).child("phone").getValue(String.class);
                             String mail = dataSnapshot.child(us).child("mail").getValue(String.class);
 
-                            Intent intent = new Intent(getApplicationContext(), Spacetab.class);
+                            Intent intent = new Intent(getApplicationContext(), SpaceTab.class);
                             intent.putExtra("name", name);
                             intent.putExtra("username", username);
                             intent.putExtra("email", mail);

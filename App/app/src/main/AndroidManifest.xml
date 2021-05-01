@@ -16,16 +16,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.UpTune">
-        <activity android:name=".Web"></activity>
         <activity
-            android:name=".Spacetab"
+            android:name=".Navigation.SpaceTab"
             android:label="@string/title_activity_spacetab" />
         <activity android:name=".Login.FirstLogin" />
         <activity android:name=".Login.SignUp" />
         <activity android:name=".Login.Login" />
-        <activity android:name=".Account.Chart" />
-        <activity android:name=".Account.Catalog" />
-        <activity android:name=".Account.Account" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import com.uptune.Account.Account;
+import com.uptune.Navigation.SpaceTab;
 import com.uptune.R;
 
 
@@ -44,7 +44,7 @@ public class fragment_welcome3 extends Fragment {
         handler.postDelayed(() -> ButtonAnim(btn, 1000), 4000);
 
         btn.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), Account.class);
+            Intent intent = new Intent(getActivity(), SpaceTab.class);
             /*
             intent.putExtra("name", name);
             intent.putExtra("username", username);

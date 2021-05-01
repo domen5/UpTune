@@ -1,19 +1,23 @@
-package com.uptune;
+package com.uptune.Navigation;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import com.uptune.Account.Account;
+import com.uptune.Catalog.CatalogFragment;
+import com.uptune.Chart.Chart;
 import com.uptune.Login.Welcome.fragment_welcome2;
 import com.uptune.Login.Welcome.fragment_welcome3;
+import com.uptune.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import eu.long1.spacetablayout.SpaceTabLayout;
 
-public class Spacetab extends AppCompatActivity {
+public class SpaceTab extends AppCompatActivity {
 
     SpaceTabLayout tabLayout;
 
@@ -24,11 +28,10 @@ public class Spacetab extends AppCompatActivity {
 
         //add the fragments you want to display in a List
         List<Fragment> fragmentList = new ArrayList<>();
-        fragmentList.add(new CatalogFragment()); //crasha
-        //fragmentList.add(new fragment_1());
-        fragmentList.add(new fragment_welcome2());
+        fragmentList.add(new CatalogFragment());
+        fragmentList.add(new Chart());
         fragmentList.add(new fragment_welcome3());
-        fragmentList.add(new fragment_welcome3());
+        fragmentList.add(new Account());
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
         tabLayout = (SpaceTabLayout) findViewById(R.id.spaceTabLayout);
@@ -37,7 +40,6 @@ public class Spacetab extends AppCompatActivity {
         tabLayout.initialize(viewPager, getSupportFragmentManager(),
                 fragmentList, savedInstanceState);
     }
-
 
     //we need the outState to save the position
     @Override

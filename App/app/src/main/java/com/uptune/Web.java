@@ -16,12 +16,12 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
-public class Web extends AppCompatActivity {
+public class Web{
 
     private static String token;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void httpCall() throws IOException {
+    public static void httpCall() throws IOException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 

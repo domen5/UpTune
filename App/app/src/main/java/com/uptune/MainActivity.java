@@ -22,13 +22,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.uptune.Account.Account;
 import com.uptune.Login.Login;
 
 import java.io.IOException;
 
 
-public class MainActivity extends Web  {
+public class MainActivity extends AppCompatActivity  {
 
     Animation topAnim, bottomAnim;
     ImageView img;
@@ -56,7 +55,7 @@ public class MainActivity extends Web  {
             openSettings();
         } else {
             try {
-                httpCall();
+                Web.httpCall();
             } catch (IOException e) {
                 e.printStackTrace();
             }

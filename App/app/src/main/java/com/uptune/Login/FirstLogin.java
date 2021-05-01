@@ -14,10 +14,10 @@ import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-import com.uptune.Account.Account;
 import com.uptune.Login.Welcome.fragment_welcome1;
 import com.uptune.Login.Welcome.fragment_welcome2;
 import com.uptune.Login.Welcome.fragment_welcome3;
+import com.uptune.Navigation.SpaceTab;
 import com.uptune.R;
 
 public class FirstLogin extends AppCompatActivity {
@@ -53,7 +53,7 @@ public class FirstLogin extends AppCompatActivity {
         });
 
         skip.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), Account.class);
+            Intent intent = new Intent(getApplicationContext(), SpaceTab.class);
 
             /*
             intent.putExtra("name", name);
