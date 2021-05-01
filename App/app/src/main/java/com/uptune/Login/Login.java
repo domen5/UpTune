@@ -30,6 +30,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Space;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
@@ -43,8 +44,10 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.uptune.Account.Account;
 import com.uptune.Account.Chart;
+import com.uptune.CatalogFragment;
 import com.uptune.MainActivity;
 import com.uptune.R;
+import com.uptune.Spacetab;
 
 public class Login extends AppCompatActivity {
 
@@ -101,7 +104,7 @@ public class Login extends AppCompatActivity {
                             String phone = dataSnapshot.child(us).child("phone").getValue(String.class);
                             String mail = dataSnapshot.child(us).child("mail").getValue(String.class);
 
-                            Intent intent = new Intent(getApplicationContext(), Account.class);
+                            Intent intent = new Intent(getApplicationContext(), Spacetab.class);
                             intent.putExtra("name", name);
                             intent.putExtra("username", username);
                             intent.putExtra("email", mail);

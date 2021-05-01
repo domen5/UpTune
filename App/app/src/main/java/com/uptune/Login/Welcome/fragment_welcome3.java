@@ -1,4 +1,4 @@
-package com.uptune.Login;
+package com.uptune.Login.Welcome;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
@@ -8,26 +8,20 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.uptune.Account.Account;
 import com.uptune.R;
 
 
-public class fragment_3 extends Fragment {
+public class fragment_welcome3 extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_3, container, false);
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_welcome3, container, false);
         return root;
     }
 

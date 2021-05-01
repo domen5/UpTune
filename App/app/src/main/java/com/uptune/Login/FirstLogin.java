@@ -11,11 +11,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.uptune.Account.Account;
+import com.uptune.Login.Welcome.fragment_welcome1;
+import com.uptune.Login.Welcome.fragment_welcome2;
+import com.uptune.Login.Welcome.fragment_welcome3;
 import com.uptune.R;
 
 public class FirstLogin extends AppCompatActivity {
@@ -52,6 +54,7 @@ public class FirstLogin extends AppCompatActivity {
 
         skip.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), Account.class);
+
             /*
             intent.putExtra("name", name);
             intent.putExtra("username", username);
@@ -79,13 +82,13 @@ public class FirstLogin extends AppCompatActivity {
             switch (position) {
                 case 0:
                     pos = 0;
-                    return new fragment_1();
+                    return new fragment_welcome1();
                 case 1:
                     pos = 1;
-                    return new fragment_2();
+                    return new fragment_welcome2();
                 case 2:
                     pos = 2;
-                    return new fragment_3();
+                    return new fragment_welcome3();
             }
             return null;
         }

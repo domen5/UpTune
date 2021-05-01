@@ -5,9 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import com.uptune.Login.fragment_1;
-import com.uptune.Login.fragment_2;
-import com.uptune.Login.fragment_3;
+import com.uptune.Login.Welcome.fragment_welcome2;
+import com.uptune.Login.Welcome.fragment_welcome3;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +26,9 @@ public class Spacetab extends AppCompatActivity {
         List<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(new CatalogFragment()); //crasha
         //fragmentList.add(new fragment_1());
-        fragmentList.add(new fragment_2());
-        fragmentList.add(new fragment_3());
+        fragmentList.add(new fragment_welcome2());
+        fragmentList.add(new fragment_welcome3());
+        fragmentList.add(new fragment_welcome3());
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
         tabLayout = (SpaceTabLayout) findViewById(R.id.spaceTabLayout);

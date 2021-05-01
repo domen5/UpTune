@@ -5,9 +5,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.uptune.Login.fragment_1;
-import com.uptune.Login.fragment_2;
-import com.uptune.Login.fragment_3;
+import com.uptune.Login.Welcome.fragment_welcome1;
+import com.uptune.Login.Welcome.fragment_welcome2;
+import com.uptune.Login.Welcome.fragment_welcome3;
 
 public class viewPager extends FragmentPagerAdapter {
 
@@ -23,11 +23,11 @@ public class viewPager extends FragmentPagerAdapter {
 
         switch (position) {
             case 0:
-                return new fragment_1();
+                return new fragment_welcome1();
             case 1:
-                return new fragment_2();
+                return new fragment_welcome2();
             case 2:
-                return new fragment_3();
+                return new fragment_welcome3();
         }
         return null;
     }
