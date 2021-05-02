@@ -1,20 +1,21 @@
 package com.uptune.Helper;
 
-public class CardContainer {
-    int image;
-    String title, desc;
+import java.net.URL;
 
-    public CardContainer(int image, String title, String desc) {
+public class CardContainer {
+    URL image;
+    String title;
+
+    public CardContainer(URL image, String title) {
         this.image = image;
         this.title = title;
-        this.desc = desc;
     }
 
-    public int getImage() {
+    public URL getImage() {
         return image;
     }
 
-    public void setImage(int image) {
+    public void setImage(URL image) {
         this.image = image;
     }
 
@@ -26,11 +27,4 @@ public class CardContainer {
         this.title = title;
     }
 
-    public String getDesc() {
-        return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
 }

@@ -106,7 +106,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
                 android:orientation="horizontal"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -118,16 +120,6 @@
                     android:fontFamily="@font/antic"
                     android:text="My Account"
                     android:textColor="#767676" />
-
-                <TextView
-                    android:id="@+id/textView8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/antic"
-                    android:text="account status"
-                    android:textAlignment="viewEnd"
-                    android:textColor="#767676" />
             </LinearLayout>
 
             <ImageView
@@ -136,108 +128,125 @@
                 android:layout_margin="10dp"
                 android:background="@color/black" />
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                    <TextView
+                        android:layout_width="150dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/baloo"
+                        android:gravity="center"
+                        android:text="Album Bought:"
+                        android:textColor="#767676" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/bangers"
+                        android:gravity="center"
+                        android:text="6"
+                        android:textAlignment="center"
+                        android:textColor="#767676" />
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_gravity="center"
-                        android:background="#CDCDCD"
+                        android:layout_weight="1"
                         android:src="@drawable/ic_boombox"
-                        app:shapeAppearanceOverlay="@style/Circular" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:fontFamily="@font/baloo"
-                        android:text="My music"
-                        android:textAlignment="center"
-                        android:textColor="#767676" />
+                        app:tint="@color/red" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                    <TextView
+                        android:layout_width="150dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/baloo"
+                        android:gravity="center"
+                        android:text="Album Sold:"
+                        android:textColor="#767676" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/bangers"
+                        android:gravity="center"
+                        android:text="3"
+                        android:textAlignment="center"
+                        android:textColor="#767676" />
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_gravity="center"
-                        android:background="#CDCDCD"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_sell"
+                        app:tint="@color/purple" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:layout_width="150dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/baloo"
+                        android:gravity="center"
+                        android:text="Review Written:"
+                        android:textColor="#767676" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/bangers"
+                        android:gravity="center"
+                        android:text="5"
+                        android:textAlignment="center"
+                        android:textColor="#767676" />
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
                         android:src="@drawable/ic_rate"
-                        app:shapeAppearanceOverlay="@style/Circular" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:fontFamily="@font/baloo"
-                        android:text="My reviews"
-                        android:textAlignment="center"
-                        android:textColor="#767676" />
+                        app:tint="@color/blue" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_gravity="center"
-                        android:background="#CDCDCD"
-                        app:shapeAppearanceOverlay="@style/Circular"
-                        app:srcCompat="@drawable/ic_sell" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:fontFamily="@font/baloo"
-                        android:text="Sell albums"
-                        android:textAlignment="center"
-                        android:textColor="#767676" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_gravity="center"
-                        android:background="#CDCDCD"
-                        android:src="@drawable/ic_box"
-                        app:shapeAppearanceOverlay="@style/Circular" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:fontFamily="@font/baloo"
-                        android:text="Order status"
-                        android:textAlignment="center"
-                        android:textColor="#767676" />
-                </LinearLayout>
             </LinearLayout>
+
 
         </LinearLayout>
 
@@ -254,9 +263,10 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
 
         <com.google.android.material.circularreveal.CircularRevealGridLayout
+            android:id="@+id/circularRevealGridLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:columnCount="2"
+            android:columnCount="3"
             android:padding="10dp"
             android:rowCount="2">
 
@@ -269,10 +279,10 @@
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
                 android:layout_margin="8dp"
-                android:elevation="22dp"
                 android:forceDarkAllowed="false"
                 app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="20dp">
+                app:cardCornerRadius="20dp"
+                app:cardElevation="5dp">
 
                 <LinearLayout
 
@@ -308,10 +318,10 @@
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
                 android:layout_margin="8dp"
-                android:elevation="22dp"
                 android:forceDarkAllowed="false"
                 app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="20dp">
+                app:cardCornerRadius="20dp"
+                app:cardElevation="5dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -335,45 +345,135 @@
                         android:textSize="22dp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-        </com.google.android.material.circularreveal.CircularRevealGridLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="180dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="fill"
-        android:layout_margin="8dp"
-        android:elevation="22dp"
-        android:forceDarkAllowed="false"
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout3">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|center_horizontal"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/icons8_impostazioni_100" />
-
-            <TextView
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:fontFamily="@font/baloo"
-                android:text="Settings"
-                android:textColor="@color/orange"
-                android:textSize="22dp" />
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+                android:layout_row="0"
+                android:layout_rowWeight="1"
+                android:layout_column="2"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+
+                android:layout_margin="8dp"
+                android:forceDarkAllowed="false"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="5dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/icons8_rating_circled_100" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:fontFamily="@font/baloo"
+                        android:text="Review"
+                        android:textColor="@color/orange"
+                        android:textSize="22dp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </com.google.android.material.circularreveal.CircularRevealGridLayout>
+
+        <com.google.android.material.circularreveal.CircularRevealGridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:columnCount="3"
+            android:padding="10dp"
+            android:rowCount="2"
+            app:layout_constraintTop_toBottomOf="@+id/circularRevealGridLayout">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="1"
+                android:layout_rowWeight="1"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+
+                android:layout_margin="8dp"
+                android:forceDarkAllowed="false"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="5dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/icons8_ricevere_denaro_100" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:fontFamily="@font/baloo"
+                        android:text="Sell now"
+                        android:textColor="@color/orange"
+                        android:textSize="22dp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="1"
+                android:layout_rowWeight="1"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+
+                android:layout_margin="8dp"
+                android:forceDarkAllowed="false"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="5dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/icons8_impostazioni_100" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:fontFamily="@font/baloo"
+                        android:text="Settings"
+                        android:textColor="@color/orange"
+                        android:textSize="22dp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+
+        </com.google.android.material.circularreveal.CircularRevealGridLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

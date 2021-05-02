@@ -1,13 +1,7 @@
 package com.uptune;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Build;
 import android.os.StrictMode;
 import android.util.Log;
-
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,15 +45,15 @@ public class Web {
         if (tmp != token) {
             token = tmp;
         }
+        Log.i("TOKEN", token);
         http.disconnect();
-        httpCall2();
     }
 
-    public static void httpCall2() throws IOException {
+    public static JSONArray getCategories() throws IOException, JSONException {
+        JSONObject obj=null;
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
-        URL url = new URL("https://api.spotify.com/v1/browse/categories?limit=10");
+        URL url = new URL("https://api.spotify.com/v1/browse/categories?country=US&limit=10");
         HttpURLConnection http = (HttpURLConnection) url.openConnection();
         http.setRequestProperty("Accept", "application/json");
         http.setRequestProperty("Content-Type", "application/json");
@@ -74,19 +68,12 @@ public class Web {
         }
 
         try {
-            JSONObject obj = new JSONObject(tmp);
-            JSONArray arr = obj.getJSONObject("categories").getJSONArray("items");
-            for (int i = 0; i < arr.length(); i++){
-                JSONObject current = arr.getJSONObject(i);
-                Log.i("Success", current.getString("name"));
-                Log.i("Success", current.getString("id"));
-                Log.i("Success", current.getJSONArray("icons").getJSONObject(0).getString("url"));
-            }
-        }catch (JSONException err){
+            obj = new JSONObject(tmp);
+        } catch (JSONException err) {
             Log.d("Error", err.toString());
         }
-        Log.i("Success", tmp.toString());
         http.disconnect();
+        return obj.getJSONObject("categories").getJSONArray("items");
     }
 
 

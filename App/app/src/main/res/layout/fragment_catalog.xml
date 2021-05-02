@@ -161,7 +161,7 @@
                             android:layout_alignParentRight="true"
                             android:layout_marginTop="10dp"
                             android:fontFamily="@font/antic"
-                            android:text="View all"
+                            android:text="View all categories"
                             android:textAllCaps="true"
                             android:textSize="11dp" />
                     </RelativeLayout>
@@ -170,16 +170,8 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/mostList2"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp" />
-
-
-                    <include
-                        android:id="@+id/container_header_lyt"
-                        layout="@layout/categories_card"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="80dp" />
-
+                        android:layout_gravity="center"
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </RelativeLayout>

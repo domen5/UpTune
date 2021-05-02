@@ -6,9 +6,8 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.uptune.Account.Account;
-import com.uptune.Catalog.CatalogFragment;
+import com.uptune.Catalog.Catalog;
 import com.uptune.Chart.Chart;
-import com.uptune.Login.Welcome.fragment_welcome2;
 import com.uptune.Login.Welcome.fragment_welcome3;
 import com.uptune.R;
 
@@ -28,7 +27,7 @@ public class SpaceTab extends AppCompatActivity {
 
         //add the fragments you want to display in a List
         List<Fragment> fragmentList = new ArrayList<>();
-        fragmentList.add(new CatalogFragment());
+        fragmentList.add(new Catalog());
         fragmentList.add(new Chart());
         fragmentList.add(new fragment_welcome3());
         fragmentList.add(new Account());

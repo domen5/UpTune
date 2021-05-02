@@ -1,16 +1,28 @@
 package com.uptune.Helper;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.uptune.Catalog.CardDetails;
+import com.uptune.Catalog.CategoriesDetails;
+import com.uptune.MainActivity;
 import com.uptune.R;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.FeatureViewHolder> {
@@ -34,19 +46,40 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.FeatureViewHol
             case 1:
                 v = LayoutInflater.from(parent.getContext()).inflate(R.layout.most_listen_card, parent, false);
                 break;
+            case 2:
+                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.categories_card, parent, false);
+                break;
             default:
                 throw new IllegalStateException("Unexpected value: " + this.type);
         }
         FeatureViewHolder fvh = new FeatureViewHolder(v);
+        switch (this.type) {
+            case 0:
+                v.setOnClickListener(e -> {
+                    Toast.makeText(parent.getContext(), "TEST1 " + fvh.getAdapterPosition(), Toast.LENGTH_SHORT).show();
+                });
+                break;
+            case 1:
+                v.setOnClickListener(e -> Toast.makeText(parent.getContext(), "TEST2 " + fvh.getAdapterPosition(), Toast.LENGTH_SHORT).show());
+                break;
+            case 2:
+                v.setOnClickListener(e -> Toast.makeText(parent.getContext(), "TEST3 " + fvh.getAdapterPosition(), Toast.LENGTH_SHORT).show());
+                break;
+        }
         return fvh;
     }
 
     @Override
     public void onBindViewHolder(@NonNull FeatureViewHolder holder, int position) {
+        Bitmap image = null;
         CardContainer fetchBest = location.get(position);
-        holder.img.setImageResource(fetchBest.getImage());
+        try {
+            image = BitmapFactory.decodeStream(fetchBest.getImage().openStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        holder.img.setImageBitmap(image);
         holder.title.setText(fetchBest.getTitle());
-        holder.desc.setText(fetchBest.getDesc());
     }
 
     @Override
