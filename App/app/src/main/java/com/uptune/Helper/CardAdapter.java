@@ -12,7 +12,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
@@ -55,15 +57,24 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.FeatureViewHol
         FeatureViewHolder fvh = new FeatureViewHolder(v);
         switch (this.type) {
             case 0:
-                v.setOnClickListener(e -> {
-                    Toast.makeText(parent.getContext(), "TEST1 " + fvh.getAdapterPosition(), Toast.LENGTH_SHORT).show();
-                });
+                v.setOnClickListener(e -> Toast.makeText(parent.getContext(), "TEST1 " + fvh.getAdapterPosition(), Toast.LENGTH_SHORT).show());
+
                 break;
             case 1:
                 v.setOnClickListener(e -> Toast.makeText(parent.getContext(), "TEST2 " + fvh.getAdapterPosition(), Toast.LENGTH_SHORT).show());
                 break;
             case 2:
-                v.setOnClickListener(e -> Toast.makeText(parent.getContext(), "TEST3 " + fvh.getAdapterPosition(), Toast.LENGTH_SHORT).show());
+
+                v.setOnClickListener(e -> {
+                    int position = fvh.getAdapterPosition();
+                    // Toast.makeText(parent.getContext(), "TEST1 " + fvh.getAdapterPosition(), Toast.LENGTH_SHORT).show();
+                    AppCompatActivity activity = (AppCompatActivity) v.getContext();
+                    activity.getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.catalog, new CategoriesDetails(location.get(position).title, location.get(position).image, location.get(position).id))
+                            .addToBackStack("a")
+                            .commit();
+                });
                 break;
         }
         return fvh;

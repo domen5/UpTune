@@ -4,11 +4,12 @@ import java.net.URL;
 
 public class CardContainer {
     URL image;
-    String title;
+    String title, id;
 
-    public CardContainer(URL image, String title) {
+    public CardContainer(String title, URL image, String id) {
         this.image = image;
         this.title = title;
+        this.id = id;
     }
 
     public URL getImage() {
@@ -25,6 +26,14 @@ public class CardContainer {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getID() {
+        return id;
+    }
+
+    public void setID(String title) {
+        this.id = id;
     }
 
 }

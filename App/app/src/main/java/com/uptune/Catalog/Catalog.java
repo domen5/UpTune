@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class Catalog extends Fragment  {
+public class Catalog extends Fragment {
     RecyclerView bestCateg, mostList, mostList2;
     RecyclerView.Adapter adapter;
 
@@ -47,7 +47,6 @@ public class Catalog extends Fragment  {
         bestCateg = view.findViewById(R.id.bestCateg);
         mostList = view.findViewById(R.id.mostList);
         mostList2 = view.findViewById(R.id.mostList2);
-
         renderBestCateg();
     }
 
@@ -65,9 +64,9 @@ public class Catalog extends Fragment  {
             for (int i = 0; i < arr.length(); i++) {
                 JSONObject current = arr.getJSONObject(i);
                 String name = current.getString("name");
-                Log.i("Success", current.getString("id"));
+                String id = current.getString("id");
                 URL img = new URL(current.getJSONArray("icons").getJSONObject(0).getString("url"));
-                setData.add(new CardContainer(img, name));
+                setData.add(new CardContainer(name, img, id));
             }
         } catch (IOException | JSONException e) {
             e.printStackTrace();
@@ -77,7 +76,7 @@ public class Catalog extends Fragment  {
         adapter = new CardAdapter(setData, 1);
         mostList.setAdapter(adapter);
         adapter = new CardAdapter(setData, 2);
-        GridLayoutManager gridLayoutManager= new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
         mostList2.setLayoutManager(gridLayoutManager);
         mostList2.setAdapter(adapter);
     }

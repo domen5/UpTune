@@ -51,7 +51,7 @@ public class Web {
     }
 
     public static JSONArray getCategories() throws IOException, JSONException {
-        JSONObject obj=null;
+        JSONObject obj = null;
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         URL url = new URL("https://api.spotify.com/v1/browse/categories?country=US&limit=10");
@@ -59,7 +59,6 @@ public class Web {
         http.setRequestProperty("Accept", "application/json");
         http.setRequestProperty("Content-Type", "application/json");
         http.setRequestProperty("Authorization", "Bearer " + token);
-
         System.out.println(http.getResponseCode() + " " + http.getResponseMessage());
         BufferedReader br = null;
         br = new BufferedReader(new InputStreamReader(http.getInputStream()));
@@ -67,7 +66,6 @@ public class Web {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             tmp = br.lines().collect(Collectors.joining());
         }
-
         try {
             obj = new JSONObject(tmp);
         } catch (JSONException err) {
@@ -93,6 +91,32 @@ public class Web {
         JSONArray arr = new JSONObject(msg).getJSONObject("tracks").getJSONArray("items");
         http.disconnect();
         return arr;
+    }
+
+
+    public static JSONArray getCategories(String type) throws IOException, JSONException {
+        JSONObject obj = null;
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        URL url = new URL("https://api.spotify.com/v1/search?q=" + type + "&type=album");
+        HttpURLConnection http = (HttpURLConnection) url.openConnection();
+        http.setRequestProperty("Accept", "application/json");
+        http.setRequestProperty("Content-Type", "application/json");
+        http.setRequestProperty("Authorization", "Bearer " + token);
+        System.out.println(http.getResponseCode() + " " + http.getResponseMessage());
+        BufferedReader br = null;
+        br = new BufferedReader(new InputStreamReader(http.getInputStream()));
+        String tmp = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            tmp = br.lines().collect(Collectors.joining());
+        }
+        try {
+            obj = new JSONObject(tmp);
+        } catch (JSONException err) {
+            Log.d("Error", err.toString());
+        }
+        http.disconnect();
+        return obj.getJSONObject("albums").getJSONArray("items");
     }
 
 
