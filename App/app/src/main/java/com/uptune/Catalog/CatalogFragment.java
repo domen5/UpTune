@@ -2,6 +2,7 @@ package com.uptune.Catalog;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.uptune.Helper.CardAdapter;
 import com.uptune.Helper.CardContainer;
@@ -38,16 +40,22 @@ public class CatalogFragment extends Fragment {
     }
 
     @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        //Toast.makeText(getContext(), "asdadsa", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         bestCateg = view.findViewById(R.id.bestCateg);
         mostList = view.findViewById(R.id.mostList);
         mostList2 = view.findViewById(R.id.mostList2);
         SpotifyApi api = new SpotifyApi();
-        String a = Web.getToken();
-        api.setAccessToken(a);
+        api.setAccessToken(Web.getToken().toString());
+        Log.i("TOKEN", Web.getToken());
         SpotifyService fetchData = api.getService();
+
 
 
         fetchData.searchAlbums("Music to be murder", new Callback<AlbumsPager>() {
@@ -55,17 +63,16 @@ public class CatalogFragment extends Fragment {
             public void success(AlbumsPager albumsPager, Response response) {
                 List<AlbumSimple> list = albumsPager.albums.items;
                 for (AlbumSimple i : list) {
-                    Log.i("Success", i.images.toString());
+                    Log.i("Success", i.name);
                 }
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Log.i("Success", "FAIL");
+                Log.i("Success", "FAIL" + error);
             }
         });
         renderBestCateg();
-        //endregion
     }
 
     private void renderBestCateg() {
