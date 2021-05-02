@@ -7,6 +7,12 @@ import android.os.Build;
 import android.os.StrictMode;
 import android.util.Log;
 
+import com.google.gson.JsonObject;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -66,8 +72,20 @@ public class Web {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             tmp = br.lines().collect(Collectors.joining());
         }
-        Log.i("Success", tmp.toString());
 
+        try {
+            JSONObject obj = new JSONObject(tmp);
+            JSONArray arr = obj.getJSONObject("categories").getJSONArray("items");
+            for (int i = 0; i < arr.length(); i++){
+                JSONObject current = arr.getJSONObject(i);
+                Log.i("Success", current.getString("name"));
+                Log.i("Success", current.getString("id"));
+                Log.i("Success", current.getJSONArray("icons").getJSONObject(0).getString("url"));
+            }
+        }catch (JSONException err){
+            Log.d("Error", err.toString());
+        }
+        Log.i("Success", tmp.toString());
         http.disconnect();
     }
 
