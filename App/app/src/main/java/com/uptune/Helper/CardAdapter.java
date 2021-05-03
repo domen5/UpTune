@@ -1,7 +1,5 @@
 package com.uptune.Helper;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
@@ -13,15 +11,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.uptune.Catalog.CardDetails;
 import com.uptune.Catalog.CategoriesDetails;
-import com.uptune.MainActivity;
 import com.uptune.R;
 
 import java.io.IOException;
@@ -49,6 +41,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.FeatureViewHol
                 v = LayoutInflater.from(parent.getContext()).inflate(R.layout.most_listen_card, parent, false);
                 break;
             case 2:
+            case 3:
                 v = LayoutInflater.from(parent.getContext()).inflate(R.layout.categories_card, parent, false);
                 break;
             default:
@@ -58,13 +51,11 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.FeatureViewHol
         switch (this.type) {
             case 0:
                 v.setOnClickListener(e -> Toast.makeText(parent.getContext(), "TEST1 " + fvh.getAdapterPosition(), Toast.LENGTH_SHORT).show());
-
                 break;
             case 1:
                 v.setOnClickListener(e -> Toast.makeText(parent.getContext(), "TEST2 " + fvh.getAdapterPosition(), Toast.LENGTH_SHORT).show());
                 break;
             case 2:
-
                 v.setOnClickListener(e -> {
                     int position = fvh.getAdapterPosition();
                     // Toast.makeText(parent.getContext(), "TEST1 " + fvh.getAdapterPosition(), Toast.LENGTH_SHORT).show();
@@ -76,6 +67,18 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.FeatureViewHol
                             .commit();
                 });
                 break;
+            case 3:
+                v.setOnClickListener(e -> {
+                    int position = fvh.getAdapterPosition();
+                    AppCompatActivity activity = (AppCompatActivity) v.getContext();
+                    activity.getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.categories_details, new CategoriesDetails(location.get(position).title, location.get(position).image, location.get(position).id))
+                            .addToBackStack("a")
+                            .commit();
+                });
+                break;
+
         }
         return fvh;
     }
