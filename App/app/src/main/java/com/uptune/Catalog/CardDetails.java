@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,11 @@ public class CardDetails extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        Fragment fragment =getActivity().getSupportFragmentManager().findFragmentByTag(String.valueOf(R.id.categories_details));
+        if (fragment != null)
+            getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+
         ImageView imgView = view.findViewById(R.id.details_song_img);
 
         try {
@@ -54,10 +60,11 @@ public class CardDetails extends Fragment {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 1, GridLayoutManager.VERTICAL, false);
         ArrayList<SongList> setData = new ArrayList<>();
         try {
-            JSONArray arr = Web.getCategories();
+            JSONArray arr = Web.getCategories("pop");
             for (int i = 0; i < arr.length(); i++) {
                 JSONObject current = arr.getJSONObject(i);
                 String name = current.getString("name");
+                Log.i("AAAAA", name);
                 String id = current.getString("id");
                 URL img = new URL(current.getJSONArray("images").getJSONObject(0).getString("url"));
                 setData.add(new SongList(name, img, id));
@@ -76,7 +83,7 @@ public class CardDetails extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_card_details, container, false);
     }
 }

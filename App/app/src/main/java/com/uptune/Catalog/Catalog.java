@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +59,7 @@ public class Catalog extends Fragment {
         mostList2.setHasFixedSize(true);
         mostList2.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         ArrayList<CardContainer> setData = new ArrayList<>();
+        ArrayList<CardContainer> setData2 = new ArrayList<>();
 
         try {
             JSONArray arr = Web.getCategories();
@@ -71,7 +73,21 @@ public class Catalog extends Fragment {
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
-        adapter = new CardAdapter(setData, 0);
+
+        try {
+            JSONArray arr = Web.getNewRelease();
+            for (int i = 0; i < arr.length(); i++) {
+                JSONObject current = arr.getJSONObject(i);
+                String name = current.getString("name");
+             //   Log.i("TOKEN", arr.length()+"");
+                String id = current.getString("id");
+                URL img = new URL(current.getJSONArray("icons").getJSONObject(0).getString("url"));
+                setData2.add(new CardContainer(name, img, id));
+            }
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+        adapter = new CardAdapter(setData2, 0);
         bestCateg.setAdapter(adapter);
         adapter = new CardAdapter(setData, 1);
         mostList.setAdapter(adapter);

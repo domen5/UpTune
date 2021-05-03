@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
@@ -51,27 +50,8 @@ public class Web {
     }
 
     public static JSONArray getCategories() throws IOException, JSONException {
-        JSONObject obj = null;
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
         URL url = new URL("https://api.spotify.com/v1/browse/categories?country=US&limit=10");
-        HttpURLConnection http = (HttpURLConnection) url.openConnection();
-        http.setRequestProperty("Accept", "application/json");
-        http.setRequestProperty("Content-Type", "application/json");
-        http.setRequestProperty("Authorization", "Bearer " + token);
-        System.out.println(http.getResponseCode() + " " + http.getResponseMessage());
-        BufferedReader br = null;
-        br = new BufferedReader(new InputStreamReader(http.getInputStream()));
-        String tmp = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            tmp = br.lines().collect(Collectors.joining());
-        }
-        try {
-            obj = new JSONObject(tmp);
-        } catch (JSONException err) {
-            Log.d("Error", err.toString());
-        }
-        http.disconnect();
+        JSONObject obj = getJsonFromUrl(url);
         return obj.getJSONObject("categories").getJSONArray("items");
     }
 
@@ -87,7 +67,6 @@ public class Web {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             msg = br.lines().collect(Collectors.joining());
         }
-
         JSONArray arr = new JSONObject(msg).getJSONObject("tracks").getJSONArray("items");
         http.disconnect();
         return arr;
@@ -95,43 +74,35 @@ public class Web {
 
 
     public static JSONArray getCategories(String type) throws IOException, JSONException {
-        JSONObject obj = null;
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
         URL url = new URL("https://api.spotify.com/v1/search?query=" + type + "&type=album&market=US&offset=1&limit=50");
-        HttpURLConnection http = (HttpURLConnection) url.openConnection();
-        http.setRequestProperty("Accept", "application/json");
-        http.setRequestProperty("Content-Type", "application/json");
-        http.setRequestProperty("Authorization", "Bearer " + token);
-        System.out.println(http.getResponseCode() + " " + http.getResponseMessage());
-        BufferedReader br = null;
-        br = new BufferedReader(new InputStreamReader(http.getInputStream()));
-        String tmp = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            tmp = br.lines().collect(Collectors.joining());
-        }
-        try {
-            obj = new JSONObject(tmp);
-        } catch (JSONException err) {
-            Log.d("Error", err.toString());
-        }
-        http.disconnect();
+        JSONObject obj = getJsonFromUrl(url);
         return obj.getJSONObject("albums").getJSONArray("items");
     }
 
 
     public static JSONArray getAlbum(String id) throws IOException, JSONException {
-        JSONObject obj = null;
+        URL url = new URL("https://api.spotify.com/v1/albums/" + id + "?market=US");
+        JSONObject obj = getJsonFromUrl(url);
+        return obj.getJSONObject("albums").getJSONArray("items");
+    }
+
+    public static JSONArray getNewRelease() throws IOException, JSONException {
+        URL url = new URL("https://api.spotify.com/v1/browse/new-releases");
+        JSONObject obj = getJsonFromUrl(url);
+        return obj.getJSONObject("albums").getJSONArray("items");
+    }
+
+    public static JSONObject getJsonFromUrl(URL url) throws IOException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        URL url = new URL("https://api.spotify.com/v1/albums/" + id + "?market=US");
+        JSONObject obj = null;
+        String tmp = null;
         HttpURLConnection http = (HttpURLConnection) url.openConnection();
         http.setRequestProperty("Accept", "application/json");
         http.setRequestProperty("Content-Type", "application/json");
         http.setRequestProperty("Authorization", "Bearer " + token);
         BufferedReader br = null;
         br = new BufferedReader(new InputStreamReader(http.getInputStream()));
-        String tmp = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             tmp = br.lines().collect(Collectors.joining());
         }
@@ -141,7 +112,7 @@ public class Web {
             Log.d("Error", err.toString());
         }
         http.disconnect();
-        return obj.getJSONObject("albums").getJSONArray("items");
+        return obj;
     }
 
     public static String getToken() {
