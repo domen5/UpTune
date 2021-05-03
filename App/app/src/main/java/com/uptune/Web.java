@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
@@ -70,6 +71,33 @@ public class Web {
         JSONArray arr = new JSONObject(msg).getJSONObject("tracks").getJSONArray("items");
         http.disconnect();
         return arr;
+    }
+
+    public static JSONArray getTopTracksItaly() throws IOException, JSONException {
+        URL url = new URL("https://api.spotify.com/v1/playlists/37i9dQZEVXbNG2KDcFcKOF");
+        JSONArray arr = getJsonFromUrl(url)
+                .getJSONObject("tracks")
+                .getJSONArray("items");
+        return arr;
+
+    }
+
+    public static JSONArray getTopAlbumsGlobal() throws IOException, JSONException {
+        URL url = new URL("https://api.spotify.com/v1/playlists/37i9dQZEVXbNG2KDcFcKOF");
+        JSONArray arr = getJsonFromUrl(url)
+                .getJSONObject("tracks")
+                .getJSONArray("items");
+        return arr;
+
+    }
+
+    public static JSONArray getTopAlbumsItaly() throws IOException, JSONException {
+        URL url = new URL("https://api.spotify.com/v1/playlists/37i9dQZEVXbNG2KDcFcKOF");
+        JSONArray arr = getJsonFromUrl(url)
+                .getJSONObject("tracks")
+                .getJSONArray("items");
+        return arr;
+
     }
 
 
