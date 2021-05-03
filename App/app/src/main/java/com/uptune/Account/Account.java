@@ -6,7 +6,10 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.card.MaterialCardView;
+import com.uptune.Catalog.CategoriesDetails;
 import com.uptune.MainActivity;
 import com.uptune.R;
 
@@ -56,6 +60,11 @@ public class Account extends Fragment {
             Toast.makeText(getContext(), "3", Toast.LENGTH_SHORT).show();
         });
         btnSell.setOnClickListener(e -> {
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();;
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(getId(), new Sell());
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
             Toast.makeText(getContext(), "4", Toast.LENGTH_SHORT).show();
         });
         btnRating.setOnClickListener(e -> {

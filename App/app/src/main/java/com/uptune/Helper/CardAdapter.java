@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.uptune.Catalog.ArtistDetails;
 import com.uptune.Catalog.CardDetails;
 import com.uptune.Catalog.CategoriesDetails;
 import com.uptune.R;
@@ -51,10 +52,26 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.FeatureViewHol
         FeatureViewHolder fvh = new FeatureViewHolder(v);
         switch (this.type) {
             case 0:
-                v.setOnClickListener(e -> Toast.makeText(parent.getContext(), "TEST1 " + fvh.getAdapterPosition(), Toast.LENGTH_SHORT).show());
+                v.setOnClickListener(e -> {
+                    int position = fvh.getAdapterPosition();
+                    AppCompatActivity activity = (AppCompatActivity) v.getContext();
+                    activity.getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.catalog, new CardDetails(location.get(position).title, location.get(position).image, location.get(position).id))
+                            .addToBackStack("a")
+                            .commit();
+                });
                 break;
             case 1:
-                v.setOnClickListener(e -> Toast.makeText(parent.getContext(), "TEST2 " + fvh.getAdapterPosition(), Toast.LENGTH_SHORT).show());
+                v.setOnClickListener(e -> {
+                    int position = fvh.getAdapterPosition();
+                    AppCompatActivity activity = (AppCompatActivity) v.getContext();
+                    activity.getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.catalog, new ArtistDetails(location.get(position).title, location.get(position).image, location.get(position).id))
+                            .addToBackStack("a")
+                            .commit();
+                });
                 break;
             case 2:
                 v.setOnClickListener(e -> {

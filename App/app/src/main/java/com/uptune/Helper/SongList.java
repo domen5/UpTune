@@ -3,23 +3,13 @@ package com.uptune.Helper;
 import java.net.URL;
 
 public class SongList {
-    URL image;
+
     String title, id;
 
-    public SongList(String title, URL image, String id) {
-        this.image = image;
+    public SongList(String title, String id) {
         this.title = title;
         this.id = id;
     }
-
-    public URL getImage() {
-        return image;
-    }
-
-    public void setImage(URL image) {
-        this.image = image;
-    }
-
     public String getTitle() {
         return title;
     }

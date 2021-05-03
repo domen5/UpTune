@@ -28,13 +28,13 @@ import java.net.URL;
 import java.util.ArrayList;
 
 
-public class CardDetails extends Fragment {
+public class ArtistDetails extends Fragment {
     private String id, title;
     RecyclerView songList;
     RecyclerView.Adapter adapter;
     URL img;
 
-    public CardDetails(String title, URL img, String id) {
+    public ArtistDetails(String title, URL img, String id) {
         this.id = id;
         this.title = title;
         this.img = img;
@@ -47,26 +47,26 @@ public class CardDetails extends Fragment {
         Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(String.valueOf(R.id.categories_details));
         if (fragment != null)
             getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-
-        ImageView imgView = view.findViewById(R.id.details_song_img);
-
+        ImageView imgView = view.findViewById(R.id.details_artist_img);
         try {
             imgView.setImageBitmap(BitmapFactory.decodeStream(img.openStream()));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        songList = view.findViewById(R.id.details_song_list);
+        songList = view.findViewById(R.id.artist_object);
         songList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 1, GridLayoutManager.VERTICAL, false);
         ArrayList<SongList> setData = new ArrayList<>();
 
         try {
-            JSONArray arr = Web.getAlbum(id);
-            Log.i("TOKEN", "sdsadsa");
+            JSONArray arr = Web.getArtistId();
+            JSONObject current = arr.getJSONObject(0);
+            String id = current.getString("id");
+            arr = Web.getArtistStuff(id);
             for (int i = 0; i < arr.length(); i++) {
-                JSONObject current = arr.getJSONObject(i);
+                current = arr.getJSONObject(i);
+                id = current.getString("id");
                 String name = current.getString("name");
-                String id = current.getString("id");
                 setData.add(new SongList(name, id));
             }
         } catch (IOException | JSONException e) {
@@ -84,6 +84,6 @@ public class CardDetails extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_card_details, container, false);
+        return inflater.inflate(R.layout.fragment_artist_details, container, false);
     }
 }

@@ -56,6 +56,12 @@ public class Web {
         return obj.getJSONObject("categories").getJSONArray("items");
     }
 
+    public static JSONArray getCategories(String type) throws IOException, JSONException {
+        URL url = new URL("https://api.spotify.com/v1/search?query=" + type + "&type=album&market=US&offset=1&limit=50");
+        JSONObject obj = getJsonFromUrl(url);
+        return obj.getJSONObject("albums").getJSONArray("items");
+    }
+
     public static JSONArray getTopTracksGlobal() throws IOException, JSONException {
         URL url = new URL("https://api.spotify.com/v1/playlists/37i9dQZEVXbNG2KDcFcKOF");
         HttpURLConnection http = (HttpURLConnection) url.openConnection();
@@ -100,18 +106,10 @@ public class Web {
 
     }
 
-
-    public static JSONArray getCategories(String type) throws IOException, JSONException {
-        URL url = new URL("https://api.spotify.com/v1/search?query=" + type + "&type=album&market=US&offset=1&limit=50");
-        JSONObject obj = getJsonFromUrl(url);
-        return obj.getJSONObject("albums").getJSONArray("items");
-    }
-
-
     public static JSONArray getAlbum(String id) throws IOException, JSONException {
-        URL url = new URL("https://api.spotify.com/v1/albums/" + id + "?market=US");
+        URL url = new URL("https://api.spotify.com/v1/albums/" + id + "/tracks?market=US");
         JSONObject obj = getJsonFromUrl(url);
-        return obj.getJSONObject("albums").getJSONArray("items");
+        return obj.getJSONArray("items");
     }
 
     public static JSONArray getNewRelease() throws IOException, JSONException {
@@ -119,6 +117,40 @@ public class Web {
         JSONObject obj = getJsonFromUrl(url);
         return obj.getJSONObject("albums").getJSONArray("items");
     }
+
+
+    public static JSONArray getArtistId() throws IOException, JSONException {
+        URL url = new URL("https://api.spotify.com/v1/recommendations?seed_artists=7dGJo4pcD2V6oG8kP0tJRR&seed_genres=rap&seed_tracks=4JNKmlZrxBwsdUVKakeU6G");
+        JSONObject obj = getJsonFromUrl(url);
+        JSONObject list1 = new JSONObject();
+        JSONArray arr = new JSONArray();
+        for (int i = 0; i < 2; i++) {
+            list1.put(i + "", obj.getJSONArray("tracks").getJSONObject(i).getJSONArray("artists"));
+        }
+        arr.put(list1);
+        Log.i("TOKEN", arr.toString());
+        return arr;
+    }
+
+    public static JSONObject getArtist(String id) throws IOException, JSONException {
+        URL url = new URL("https://api.spotify.com/v1/artists/" + id);
+        JSONObject obj = getJsonFromUrl(url);
+        return obj;
+    }
+
+    public static JSONArray getArtistStuff(String id) throws IOException, JSONException {
+        URL urlTracks = new URL("https://api.spotify.com/v1/artists/id/top-tracks");
+        URL urlAlbum = new URL("ttps://api.spotify.com/v1/artists/id/albums?market=US&limit=10");
+        JSONObject obj = getJsonFromUrl(urlAlbum);
+        JSONObject obj2 = getJsonFromUrl(urlTracks);
+        JSONArray arr = new JSONArray();
+        //album
+        arr.put(obj.getJSONArray("items"));
+        //track
+        arr.put(obj2.getJSONArray("tracks"));
+        return arr;
+    }
+
 
     public static JSONObject getJsonFromUrl(URL url) throws IOException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();

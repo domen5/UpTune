@@ -60,6 +60,7 @@ public class Catalog extends Fragment {
         mostList2.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         ArrayList<CardContainer> setData = new ArrayList<>();
         ArrayList<CardContainer> setData2 = new ArrayList<>();
+        ArrayList<CardContainer> setData1 = new ArrayList<>();
 
         try {
             JSONArray arr = Web.getCategories();
@@ -75,13 +76,28 @@ public class Catalog extends Fragment {
         }
 
         try {
+            JSONArray arr = Web.getArtistId();
+            for (int i = 0; i < arr.length(); i++) {
+                JSONArray current = arr.getJSONObject(i).getJSONArray(i+"");
+                Log.i("TOKEN", current.toString());
+                String id = current.getJSONObject(i).getString("id");
+                //prendo img e dati qui
+                JSONObject artist = Web.getArtist(id);
+                String name = artist.getString("name");
+                String popularity = artist.getString("popularity");
+                URL img = new URL(artist.getJSONArray("images").getJSONObject(0).getString("url"));
+                setData1.add(new CardContainer(name, img, id));
+            }
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+        try {
             JSONArray arr = Web.getNewRelease();
             for (int i = 0; i < arr.length(); i++) {
                 JSONObject current = arr.getJSONObject(i);
                 String name = current.getString("name");
-             //   Log.i("TOKEN", arr.length()+"");
                 String id = current.getString("id");
-                URL img = new URL(current.getJSONArray("icons").getJSONObject(0).getString("url"));
+                URL img = new URL(current.getJSONArray("images").getJSONObject(0).getString("url"));
                 setData2.add(new CardContainer(name, img, id));
             }
         } catch (IOException | JSONException e) {
@@ -89,7 +105,7 @@ public class Catalog extends Fragment {
         }
         adapter = new CardAdapter(setData2, 0);
         bestCateg.setAdapter(adapter);
-        adapter = new CardAdapter(setData, 1);
+        adapter = new CardAdapter(setData1, 1);
         mostList.setAdapter(adapter);
         adapter = new CardAdapter(setData, 2);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);

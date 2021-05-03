@@ -38,14 +38,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.FeatureViewHol
 
     @Override
     public void onBindViewHolder(@NonNull FeatureViewHolder holder, int position) {
-        Bitmap image = null;
         SongList fetchBest = location.get(position);
-        try {
-            image = BitmapFactory.decodeStream(fetchBest.getImage().openStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        holder.img.setImageBitmap(image);
         holder.title.setText(fetchBest.getTitle());
     }
 
@@ -56,14 +49,11 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.FeatureViewHol
 
 
     public static class FeatureViewHolder extends RecyclerView.ViewHolder {
-        ImageView img;
-        TextView title, desc;
+        TextView title;
 
         public FeatureViewHolder(@NonNull View itemView) {
             super(itemView);
-            img = itemView.findViewById(R.id.img);
             title = itemView.findViewById(R.id.catTitle);
-            desc = itemView.findViewById(R.id.catDesc);
         }
     }
 }
