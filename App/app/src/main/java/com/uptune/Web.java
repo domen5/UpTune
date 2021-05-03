@@ -98,7 +98,7 @@ public class Web {
         JSONObject obj = null;
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        URL url = new URL("https://api.spotify.com/v1/search?q=" + type + "&type=album&limit=51&offset=1");
+        URL url = new URL("https://api.spotify.com/v1/search?q=" + type + "&type=album");
         HttpURLConnection http = (HttpURLConnection) url.openConnection();
         http.setRequestProperty("Accept", "application/json");
         http.setRequestProperty("Content-Type", "application/json");
