@@ -77,7 +77,7 @@ public class Web {
 
     public static JSONArray getTopTracksGlobal() throws IOException, JSONException {
         URL url = new URL("https://api.spotify.com/v1/playlists/37i9dQZEVXbNG2KDcFcKOF");
-        HttpURLConnection http = (HttpURLConnection)url.openConnection();
+        HttpURLConnection http = (HttpURLConnection) url.openConnection();
         http.setRequestProperty("Accept", "application/json");
         http.setRequestProperty("Content-Type", "application/json");
         http.setRequestProperty("Authorization", "Bearer " + token);
@@ -98,7 +98,7 @@ public class Web {
         JSONObject obj = null;
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        URL url = new URL("https://api.spotify.com/v1/search?q=" + type + "&type=album&limit=51&offset=1");
+        URL url = new URL("https://api.spotify.com/v1/search?query=" + type + "&type=album&market=US&offset=1&limit=50");
         HttpURLConnection http = (HttpURLConnection) url.openConnection();
         http.setRequestProperty("Accept", "application/json");
         http.setRequestProperty("Content-Type", "application/json");
@@ -119,6 +119,30 @@ public class Web {
         return obj.getJSONObject("albums").getJSONArray("items");
     }
 
+
+    public static JSONArray getAlbum(String id) throws IOException, JSONException {
+        JSONObject obj = null;
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        URL url = new URL("https://api.spotify.com/v1/albums/" + id + "?market=US");
+        HttpURLConnection http = (HttpURLConnection) url.openConnection();
+        http.setRequestProperty("Accept", "application/json");
+        http.setRequestProperty("Content-Type", "application/json");
+        http.setRequestProperty("Authorization", "Bearer " + token);
+        BufferedReader br = null;
+        br = new BufferedReader(new InputStreamReader(http.getInputStream()));
+        String tmp = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            tmp = br.lines().collect(Collectors.joining());
+        }
+        try {
+            obj = new JSONObject(tmp);
+        } catch (JSONException err) {
+            Log.d("Error", err.toString());
+        }
+        http.disconnect();
+        return obj.getJSONObject("albums").getJSONArray("items");
+    }
 
     public static String getToken() {
         return token;

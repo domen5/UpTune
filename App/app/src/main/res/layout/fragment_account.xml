@@ -271,6 +271,7 @@
             android:rowCount="2">
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btn_search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_row="0"
@@ -310,9 +311,11 @@
 
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btn_my_files"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_row="0"
+
                 android:layout_rowWeight="1"
                 android:layout_column="1"
                 android:layout_columnWeight="1"
@@ -348,6 +351,7 @@
 
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btn_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_row="0"
@@ -396,6 +400,7 @@
             app:layout_constraintTop_toBottomOf="@+id/circularRevealGridLayout">
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btn_sell"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_row="1"
@@ -434,6 +439,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btn_settings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_row="1"
@@ -441,7 +447,6 @@
                 android:layout_column="1"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
-
                 android:layout_margin="8dp"
                 android:forceDarkAllowed="false"
                 app:cardBackgroundColor="@color/white"

@@ -33,13 +33,11 @@ public class CardDetails extends Fragment {
     RecyclerView.Adapter adapter;
     URL img;
 
-
     public CardDetails(String title, URL img, String id) {
         this.id = id;
         this.title = title;
         this.img = img;
     }
-
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -52,14 +50,11 @@ public class CardDetails extends Fragment {
             e.printStackTrace();
         }
         songList = view.findViewById(R.id.details_song_list);
-
         songList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 1, GridLayoutManager.VERTICAL, false);
         ArrayList<SongList> setData = new ArrayList<>();
-
-        setData.add(new SongList(title, img, id));
         try {
-            JSONArray arr = Web.getCategories(title);
+            JSONArray arr = Web.getCategories();
             for (int i = 0; i < arr.length(); i++) {
                 JSONObject current = arr.getJSONObject(i);
                 String name = current.getString("name");
@@ -70,7 +65,6 @@ public class CardDetails extends Fragment {
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
-
         adapter = new SongAdapter(setData);
         songList.setLayoutManager(gridLayoutManager);
         songList.setAdapter(adapter);
@@ -82,9 +76,7 @@ public class CardDetails extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_card_details, container, false);
     }
 }
