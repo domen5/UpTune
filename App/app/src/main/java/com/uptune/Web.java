@@ -11,10 +11,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class Web {
@@ -123,9 +125,16 @@ public class Web {
         URL url = new URL("https://api.spotify.com/v1/recommendations?seed_artists=7dGJo4pcD2V6oG8kP0tJRR&seed_genres=rap&seed_tracks=4JNKmlZrxBwsdUVKakeU6G");
         JSONObject obj = getJsonFromUrl(url);
         JSONObject list1 = new JSONObject();
+        String check[] = new String[20];
         JSONArray arr = new JSONArray();
-        for (int i = 0; i < 2; i++) {
-            list1.put(i + "", obj.getJSONArray("tracks").getJSONObject(i).getJSONArray("artists"));
+        for (int i = 0; i < 20; i++) {
+            if (Arrays.asList(check).contains(obj.getJSONArray("tracks").getJSONObject(i).getJSONArray("artists").getJSONObject(0).toString())) {
+                i--;
+                obj = getJsonFromUrl(url);
+            } else {
+                list1.put(i + "", obj.getJSONArray("tracks").getJSONObject(i).getJSONArray("artists").getJSONObject(0));
+                check[i] = obj.getJSONArray("tracks").getJSONObject(i).getJSONArray("artists").getJSONObject(0).toString();
+            }
         }
         arr.put(list1);
         Log.i("TOKEN", arr.toString());

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -123,6 +124,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.FeatureViewHol
     public static class FeatureViewHolder extends RecyclerView.ViewHolder {
         ImageView img;
         TextView title, desc;
+        RatingBar popularity;
 
         public FeatureViewHolder(@NonNull View itemView) {
             super(itemView);
