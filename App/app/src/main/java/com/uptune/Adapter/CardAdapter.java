@@ -1,4 +1,4 @@
-package com.uptune.Helper;
+package com.uptune.Adapter;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,15 +8,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.uptune.Catalog.ArtistDetails;
+import com.uptune.Artist.ArtistDetails;
 import com.uptune.Catalog.CardDetails;
 import com.uptune.Catalog.CategoriesDetails;
+import com.uptune.Helper.CardContainer;
 import com.uptune.R;
 
 import java.io.IOException;
@@ -58,7 +58,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.FeatureViewHol
                     AppCompatActivity activity = (AppCompatActivity) v.getContext();
                     activity.getSupportFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.catalog, new CardDetails(location.get(position).title, location.get(position).image, location.get(position).id))
+                            .replace(R.id.catalog, new CardDetails(location.get(position).getTitle(), location.get(position).getImage(), location.get(position).getID()))
                             .addToBackStack("a")
                             .commit();
                 });
@@ -69,7 +69,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.FeatureViewHol
                     AppCompatActivity activity = (AppCompatActivity) v.getContext();
                     activity.getSupportFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.catalog, new ArtistDetails(location.get(position).title, location.get(position).image, location.get(position).id))
+                            .replace(R.id.catalog, new ArtistDetails(location.get(position).getTitle(), location.get(position).getImage(), location.get(position).getID()))
                             .addToBackStack("a")
                             .commit();
                 });
@@ -81,7 +81,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.FeatureViewHol
                     AppCompatActivity activity = (AppCompatActivity) v.getContext();
                     activity.getSupportFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.catalog, new CategoriesDetails(location.get(position).title, location.get(position).image, location.get(position).id))
+                            .replace(R.id.catalog, new CategoriesDetails(location.get(position).getTitle(), location.get(position).getImage(), location.get(position).getID()))
                             .addToBackStack("a")
                             .commit();
                 });
@@ -92,7 +92,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.FeatureViewHol
                     AppCompatActivity activity = (AppCompatActivity) v.getContext();
                     activity.getSupportFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.categories_details, new CardDetails(location.get(position).title, location.get(position).image, location.get(position).id))
+                            .replace(R.id.categories_details, new CardDetails(location.get(position).getTitle(), location.get(position).getImage(), location.get(position).getID()))
                             .addToBackStack("a")
                             .commit();
                 });

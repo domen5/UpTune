@@ -8,13 +8,11 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.uptune.Helper.CardAdapter;
-import com.uptune.Helper.SongAdapter;
+import com.uptune.Adapter.CardAdapter;
 import com.uptune.Helper.CardContainer;
 import com.uptune.R;
 import com.uptune.Web;

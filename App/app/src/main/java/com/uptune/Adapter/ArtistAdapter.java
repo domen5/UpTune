@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.uptune.Helper.ArtistStuff;
+import com.uptune.Artist.ArtistStuff;
 import com.uptune.R;
 
 import java.io.IOException;

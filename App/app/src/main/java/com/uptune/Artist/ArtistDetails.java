@@ -1,4 +1,4 @@
-package com.uptune.Catalog;
+package com.uptune.Artist;
 
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.uptune.Adapter.ArtistAdapter;
-import com.uptune.Helper.ArtistStuff;
+import com.uptune.Artist.ArtistStuff;
 import com.uptune.R;
 import com.uptune.Web;
 

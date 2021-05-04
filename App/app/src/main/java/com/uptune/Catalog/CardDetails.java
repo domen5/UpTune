@@ -14,8 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.uptune.Helper.SongAdapter;
-import com.uptune.Helper.SongList;
+import com.uptune.Adapter.SongAdapter;
+import com.uptune.Song.SongList;
 import com.uptune.R;
 import com.uptune.Web;
 

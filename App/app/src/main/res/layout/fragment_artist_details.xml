@@ -9,7 +9,7 @@
     android:clickable="true"
     android:focusable="true"
     android:elevation="22dp"
-    tools:context=".Catalog.ArtistDetails">
+    tools:context=".Artist.ArtistDetails">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
