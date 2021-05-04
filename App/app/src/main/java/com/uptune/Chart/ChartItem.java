@@ -42,9 +42,10 @@ public class ChartItem {
         return Collections.unmodifiableList(this.artists);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public String getArtistsString() {
-        return this.artists.stream().collect(Collectors.joining(","));
+        String line = "";
+        for(String a : artists) { line += a + ", "; }
+        return line.substring(0, line.length() - 2);
     }
 
 }
