@@ -14,8 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.uptune.Helper.SongAdapter;
-import com.uptune.Helper.SongList;
+import com.uptune.Adapter.ArtistAdapter;
+import com.uptune.Helper.ArtistStuff;
 import com.uptune.R;
 import com.uptune.Web;
 
@@ -30,7 +30,7 @@ import java.util.ArrayList;
 
 public class ArtistDetails extends Fragment {
     private String id, title;
-    RecyclerView songList;
+    RecyclerView artistStuff;
     RecyclerView.Adapter adapter;
     URL img;
 
@@ -47,34 +47,50 @@ public class ArtistDetails extends Fragment {
         Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(String.valueOf(R.id.categories_details));
         if (fragment != null)
             getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+
         ImageView imgView = view.findViewById(R.id.details_artist_img);
         try {
             imgView.setImageBitmap(BitmapFactory.decodeStream(img.openStream()));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        songList = view.findViewById(R.id.artist_object);
-        songList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 1, GridLayoutManager.VERTICAL, false);
-        ArrayList<SongList> setData = new ArrayList<>();
+        artistStuff = view.findViewById(R.id.artist_object);
+        artistStuff.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
+        ArrayList<ArtistStuff> setData = new ArrayList<>();
 
         try {
-            JSONArray arr = Web.getArtistId();
-            JSONObject current = arr.getJSONObject(0);
-            String id = current.getString("id");
-            arr = Web.getArtistStuff(id);
-            for (int i = 0; i < arr.length(); i++) {
-                current = arr.getJSONObject(i);
-                id = current.getString("id");
+            //ALBUM & TRACK OF ARTIST
+            JSONArray arr = Web.getArtistStuff(id);
+            JSONObject current = new JSONObject();
+            //GET ALBUMS
+            for (int i = 0; i < 8; i++) {
+                current = arr.getJSONArray(0).getJSONObject(i);
+                Log.i("TOKEN2", arr.getJSONArray(0).getJSONObject(i).toString());
+                String id = current.getString("id");
                 String name = current.getString("name");
-                setData.add(new SongList(name, id));
+                URL img = new URL(current.getJSONArray("images").getJSONObject(0).getString("url"));
+                //popularity
+                //release date
+                //total_tracks
+                setData.add(new ArtistStuff(name, id, img));
+            }
+            //GET Tracks
+            for (int i = 0; i < 8; i++) {
+                Log.i("TOKEN3", arr.getJSONArray(1).getJSONObject(i).toString());
+                current = arr.getJSONArray(1).getJSONObject(i);
+                URL img = new URL(current.getJSONObject("album").getJSONArray("images").getJSONObject(0).getString("url"));
+                //preview_url a volte null!
+                String id = current.getString("id");
+                String name = current.getString("name");
+                setData.add(new ArtistStuff(name, id, img));
             }
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
-        adapter = new SongAdapter(setData);
-        songList.setLayoutManager(gridLayoutManager);
-        songList.setAdapter(adapter);
+        adapter = new ArtistAdapter(setData);
+        artistStuff.setLayoutManager(gridLayoutManager);
+        artistStuff.setAdapter(adapter);
     }
 
     @Override

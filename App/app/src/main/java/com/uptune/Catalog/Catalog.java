@@ -85,7 +85,7 @@ public class Catalog extends Fragment {
                 String name = artist.getString("name");
                 String popularity = artist.getString("popularity");
                 URL img = new URL(artist.getJSONArray("images").getJSONObject(0).getString("url"));
-                setNewRelease.add(new CardContainer(name, img, id, popularity));
+                setNewRelease.add(new CardContainer(name, img, id));
             }
         } catch (IOException | JSONException e) {
             e.printStackTrace();

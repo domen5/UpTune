@@ -32,6 +32,9 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/logo2"
                 android:background="@drawable/rounded_button"
                 app:layout_collapseMode="parallax" />
 

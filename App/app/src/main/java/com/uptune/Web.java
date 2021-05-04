@@ -148,10 +148,10 @@ public class Web {
     }
 
     public static JSONArray getArtistStuff(String id) throws IOException, JSONException {
-        URL urlTracks = new URL("https://api.spotify.com/v1/artists/id/top-tracks");
-        URL urlAlbum = new URL("ttps://api.spotify.com/v1/artists/id/albums?market=US&limit=10");
-        JSONObject obj = getJsonFromUrl(urlAlbum);
+        URL urlTracks = new URL("https://api.spotify.com/v1/artists/"+id+"/top-tracks?market=US");
         JSONObject obj2 = getJsonFromUrl(urlTracks);
+        URL urlAlbum = new URL("https://api.spotify.com/v1/artists/"+id+"/albums?market=US&limit=10");
+        JSONObject obj = getJsonFromUrl(urlAlbum);
         JSONArray arr = new JSONArray();
         //album
         arr.put(obj.getJSONArray("items"));
