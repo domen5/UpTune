@@ -10,6 +10,18 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/topTracksGlobal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/topTracksItaly"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </androidx.recyclerview.widget.RecyclerView>
+        <!--
         <LinearLayout
             android:id="@+id/topTracksGlobal"
             android:layout_width="match_parent"
@@ -17,6 +29,7 @@
             android:orientation="vertical">
 
         </LinearLayout>
+        -->
     </ScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
