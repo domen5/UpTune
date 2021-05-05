@@ -53,7 +53,6 @@ import retrofit.client.UrlConnectionClient;
 public class Chart extends Fragment {
     private RecyclerView rwTopTracksGlobal;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chart, container, false);
@@ -66,18 +65,35 @@ public class Chart extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         this.rwTopTracksGlobal = view.findViewById(R.id.topTracksGlobal);
         this.rwTopTracksGlobal.setHasFixedSize(true);
-        this.rwTopTracksGlobal.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        this.rwTopTracksGlobal.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
         final List<ChartItem> items = new ArrayList<>();
         try {
             JSONArray arr = Web.getTopTracksGlobal();
 
             for(int i = 0; i < arr.length(); i++) {
-                JSONObject current = arr.getJSONObject(i);
-                String name = current.getJSONObject("track").getString("name");
-                List<String> artists = Arrays.asList("Artista A", "Artista B");
-                URL image = new URL("http://link.to.image");
-                items.add(new ChartItem(name, image, artists));
+                JSONObject current = arr.getJSONObject(i).getJSONObject("track");
+
+                // name
+                String name = current.getString("name");
+                JSONArray artists = current.getJSONArray("artists");
+
+                // artists
+                List<String> artistsList = new ArrayList<>();
+                for(int a = 0; a < artists.length(); a++) {
+                    String currentArtist = artists.getJSONObject(a).getString("name");
+                    artistsList.add(currentArtist);
+                }
+
+                // image
+                String url = current.getJSONObject("album")
+                        .getJSONArray("images")
+                        .getJSONObject(0)
+                        .getString("url");
+                //Log.d("charts", artistsList.get(0));
+                Log.d("charts", url);
+                URL image = new URL(url);
+                items.add(new ChartItem(name, image, artistsList));
                 //Log.d("charts", current.getJSONObject("track").getString("name"));
             }
         } catch (Exception e) {

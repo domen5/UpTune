@@ -25,7 +25,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.FeatureViewHol
     @Override
     public FeatureViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v;
-        v = LayoutInflater.from(parent.getContext()).inflate(R.layout.categories_card, parent, false);
+        v = LayoutInflater.from(parent.getContext()).inflate(R.layout.charts_card, parent, false);
         FeatureViewHolder fvh = new FeatureViewHolder(v);
         return fvh;
     }
@@ -47,7 +47,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.FeatureViewHol
 
         public FeatureViewHolder(@NonNull View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.catTitle);
+            title = itemView.findViewById(R.id.trackNameView);
         }
     }
 }
