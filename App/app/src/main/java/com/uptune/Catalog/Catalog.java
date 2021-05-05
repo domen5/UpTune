@@ -43,6 +43,12 @@ public class Catalog extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(String.valueOf(R.id.account_frag));
+        if (fragment != null) {
+            getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+        }
+
         bestCateg = view.findViewById(R.id.bestCateg);
         mostList = view.findViewById(R.id.mostList);
         mostList2 = view.findViewById(R.id.mostList2);

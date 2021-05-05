@@ -44,6 +44,11 @@ public class CategoriesDetails extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.toolbar_cat_det);
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
+
         ImageView imgView = view.findViewById(R.id.categ_details_img);
 
         try {
@@ -56,13 +61,13 @@ public class CategoriesDetails extends Fragment {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
         ArrayList<CardContainer> setData = new ArrayList<>();
         try {
-            JSONArray arr = Web.getCategories(id);
+            JSONArray arr = Web.getCategories(title, 0);
             for (int i = 0; i < arr.length(); i++) {
                 JSONObject current = arr.getJSONObject(i);
                 String name = current.getString("name");
-                String id = current.getString("id");
-                URL img = new URL(current.getJSONArray("images").getJSONObject(0).getString("url"));
-                Log.i("Data", name);
+                String id = Web.getIdFromName(name);
+                Log.i("TOKEN", id);
+                URL img = new URL(current.getJSONArray("image").getJSONObject(3).getString("#text"));
                 setData.add(new CardContainer(name, img, id));
             }
         } catch (IOException | JSONException e) {

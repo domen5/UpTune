@@ -34,9 +34,9 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.uptune.R;
 import com.uptune.Navigation.SpaceTab;
+import com.uptune.SessionAccount;
 
 public class Login extends AppCompatActivity {
-
 
     private Button callSingUp, callLogIn;
     ImageButton singUp;
@@ -95,6 +95,7 @@ public class Login extends AppCompatActivity {
                             intent.putExtra("username", username);
                             intent.putExtra("email", mail);
                             intent.putExtra("phone", phone);
+                            SessionAccount sessionAccount= new SessionAccount(name, username, mail, phone);
 
                             startActivity(intent);
                         } else {

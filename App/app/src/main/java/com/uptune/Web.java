@@ -15,6 +15,7 @@ import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -53,15 +54,21 @@ public class Web {
     }
 
     public static JSONArray getCategories() throws IOException, JSONException {
-        URL url = new URL("https://api.spotify.com/v1/browse/categories?country=US&limit=10");
+        URL url = new URL("https://api.spotify.com/v1/browse/categories?country=US&limit=10&offset=1");
         JSONObject obj = getJsonFromUrl(url);
         return obj.getJSONObject("categories").getJSONArray("items");
     }
 
     public static JSONArray getCategories(String type) throws IOException, JSONException {
-        URL url = new URL("https://api.spotify.com/v1/search?query=" + type + "&type=album&market=US&offset=1&limit=50");
+        URL url = new URL("https://api.spotify.com/v1/search?query=" + type + "&type=album&offset=1&limit=50");
         JSONObject obj = getJsonFromUrl(url);
         return obj.getJSONObject("albums").getJSONArray("items");
+    }
+    public static JSONArray getCategories(String type, int n) throws IOException, JSONException {
+        URL url = new URL("https://ws.audioscrobbler.com/2.0/?method=tag.gettopalbums&tag="+type+"&api_key=030333446fe36a7c6b24368071dd1579&format=json");
+        JSONObject obj = getJsonFromLastFm(url);
+      //  Log.i("TOKEN", obj.toString());
+        return obj.getJSONObject("albums").getJSONArray("album");
     }
 
     public static JSONArray getTopTracksGlobal() throws IOException, JSONException {
@@ -137,7 +144,7 @@ public class Web {
             }
         }
         arr.put(list1);
-        Log.i("TOKEN", arr.toString());
+        //Log.i("TOKEN", arr.toString());
         return arr;
     }
 
@@ -146,6 +153,8 @@ public class Web {
         JSONObject obj = getJsonFromUrl(url);
         return obj;
     }
+
+
 
     public static JSONArray getArtistStuff(String id) throws IOException, JSONException {
         URL urlTracks = new URL("https://api.spotify.com/v1/artists/"+id+"/top-tracks?market=US");
@@ -160,6 +169,11 @@ public class Web {
         return arr;
     }
 
+    public static String getIdFromName(String type) throws IOException, JSONException {
+        URL url = new URL("https://api.spotify.com/v1/search?query=" + URLEncoder.encode(type, String.valueOf(StandardCharsets.UTF_8)) + "&type=album&limit=1");
+        JSONObject obj = getJsonFromUrl(url);
+        return obj.getJSONObject("albums").getJSONArray("items").getJSONObject(0).getString("id");
+    }
 
     public static JSONObject getJsonFromUrl(URL url) throws IOException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -183,6 +197,30 @@ public class Web {
         http.disconnect();
         return obj;
     }
+
+    public static JSONObject getJsonFromLastFm(URL url) throws IOException {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        JSONObject obj = null;
+        String tmp = null;
+        HttpURLConnection http = (HttpURLConnection) url.openConnection();
+        http.setRequestProperty("Authorization", "Bearer " + "030333446fe36a7c6b24368071dd1579");
+        BufferedReader br = null;
+        br = new BufferedReader(new InputStreamReader(http.getInputStream()));
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            tmp = br.lines().collect(Collectors.joining());
+        }
+        try {
+            obj = new JSONObject(tmp);
+
+        } catch (JSONException err) {
+            Log.d("Error", err.toString());
+        }
+        http.disconnect();
+        return obj;
+    }
+
+
 
     public static String getToken() {
         return token;

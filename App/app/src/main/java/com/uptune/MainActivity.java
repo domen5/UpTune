@@ -22,7 +22,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.uptune.Catalog.CategoriesDetails;
 import com.uptune.Login.Login;
+import com.uptune.Navigation.SpaceTab;
 
 import java.io.IOException;
 
@@ -60,7 +62,7 @@ public class MainActivity extends AppCompatActivity  {
                 e.printStackTrace();
             }
             new Handler().postDelayed(() -> {
-                Intent intent = new Intent(MainActivity.this, Login.class);
+                Intent intent = new Intent(MainActivity.this, SpaceTab.class);
                 Pair[] pairs = new Pair[2];
                 pairs[0] = new Pair<View, String>(img, "logo_img");
                 pairs[1] = new Pair<View, String>(loadTitle, "loadTitle");

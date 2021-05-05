@@ -26,6 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.uptune.Helper.UserHelper;
 import com.uptune.R;
+import com.uptune.SessionAccount;
 
 public class SignUp extends AppCompatActivity {
 
@@ -91,6 +92,7 @@ public class SignUp extends AppCompatActivity {
             rootNode = FirebaseDatabase.getInstance();
             reference = rootNode.getReference("user");
             UserHelper helper = new UserHelper(name, username, mail, phone, password);
+
             reference.child(username.getEditText().getText().toString()).setValue(helper);
             Intent intent = new Intent(SignUp.this, FirstLogin.class);
             startActivity(intent);

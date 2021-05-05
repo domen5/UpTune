@@ -45,8 +45,13 @@ public class ArtistDetails extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(String.valueOf(R.id.categories_details));
-        if (fragment != null)
+        if (fragment != null) {
             getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+        }
+
+        androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.toolbar_artist_det);
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
 
         ImageView imgView = view.findViewById(R.id.details_artist_img);
         try {

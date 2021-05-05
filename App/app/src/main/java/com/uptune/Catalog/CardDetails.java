@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toolbar;
 
 import com.uptune.Adapter.SongAdapter;
 import com.uptune.Song.SongList;
@@ -44,6 +45,10 @@ public class CardDetails extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.toolbar_card_details);
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
+
         Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(String.valueOf(R.id.categories_details));
         if (fragment != null)
             getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
@@ -62,7 +67,6 @@ public class CardDetails extends Fragment {
 
         try {
             JSONArray arr = Web.getAlbum(id);
-            Log.i("TOKEN", "sdsadsa");
             for (int i = 0; i < arr.length(); i++) {
                 JSONObject current = arr.getJSONObject(i);
                 String name = current.getString("name");

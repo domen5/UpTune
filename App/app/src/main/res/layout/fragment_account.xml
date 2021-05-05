@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/orange"
+    android:id="@+id/account_frag"
     tools:context=".Account.Account">
 
 
