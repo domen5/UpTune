@@ -3,6 +3,8 @@ package com.uptune;
 import android.os.StrictMode;
 import android.util.Log;
 
+import com.uptune.Chart.ChartItem;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,13 +19,18 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class Web {
 
     private static String token = "";
-
+    private static List<ChartItem> bestSongsGlobal;
+    private static List<ChartItem> bestSongsItaly;
+    private static List<ChartItem> bestAlbumsGlobal;
+    private static List<ChartItem> bestAlbumsItaly;
 
     public static void httpCall() throws IOException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -67,10 +74,67 @@ public class Web {
 
 
     public static JSONArray getCategoriesLastFm(String type) throws IOException, JSONException {
-        URL url = new URL("https://ws.audioscrobbler.com/2.0/?method=tag.gettopalbums&tag="+type+"&api_key=030333446fe36a7c6b24368071dd1579&format=json");
+        URL url = new URL("https://ws.audioscrobbler.com/2.0/?method=tag.gettopalbums&tag=" + type + "&api_key=030333446fe36a7c6b24368071dd1579&format=json");
         JSONObject obj = getJsonFromLastFm(url);
-      //  Log.i("TOKEN", obj.toString());
+        //  Log.i("TOKEN", obj.toString());
         return obj.getJSONObject("albums").getJSONArray("album");
+    }
+
+    public static void initialize() {
+        try {
+            bestSongsGlobal = new ArrayList<>();
+            fetchItems(new URL("https://api.spotify.com/v1/playlists/37i9dQZEVXbNG2KDcFcKOF"), bestSongsGlobal);
+//            bestSongsItaly = new ArrayList<>();
+//            fetchItems(new URL("https://api.spotify.com/v1/playlists/37i9dQZEVXbNG2KDcFcKOF"), bestSongsGlobal);
+//            bestAlbumsGlobal = new ArrayList<>();
+//            fetchItems(new URL("https://api.spotify.com/v1/playlists/37i9dQZEVXbNG2KDcFcKOF"), bestSongsGlobal);
+//            bestAlbumsItaly = new ArrayList<>();
+//            fetchItems(new URL("https://api.spotify.com/v1/playlists/37i9dQZEVXbNG2KDcFcKOF"), bestSongsGlobal);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void fetchItems(URL url, List<ChartItem> items) {
+        try {
+            // fetch JSON from Spotify
+            JSONArray arr = getJsonFromUrl(url)
+                    .getJSONObject("tracks")
+                    .getJSONArray("items");
+
+            for (int i = 0; i < arr.length(); i++) {
+                JSONObject current = arr.getJSONObject(i).getJSONObject("track");
+
+                // name
+                String name = current.getString("name");
+                JSONArray artists = current.getJSONArray("artists");
+
+                // artists
+                List<String> artistsList = new ArrayList<>();
+                for (int a = 0; a < artists.length(); a++) {
+                    String currentArtist = artists.getJSONObject(a).getString("name");
+                    artistsList.add(currentArtist);
+                }
+
+                // image
+                String stringUrl = current.getJSONObject("album")
+                        .getJSONArray("images")
+                        .getJSONObject(0)
+                        .getString("url");
+                //Log.d("charts", artistsList.get(0));
+                Log.d("charts", stringUrl);
+                URL image = new URL(stringUrl);
+                ChartItem item = new ChartItem(name, image, artistsList);
+
+                // download image
+                item.fetchImage();
+
+                //add item to the list
+                items.add(item);
+            }
+        } catch (IOException | JSONException ex) {
+            Log.e("ERROR", ex.getMessage());
+        }
     }
 
     public static JSONArray getTopTracksGlobal() throws IOException, JSONException {
@@ -91,7 +155,7 @@ public class Web {
     }
 
     public static JSONArray getTopTracksItaly() throws IOException, JSONException {
-        URL url = new URL("https://api.spotify.com/v1/playlists/37i9dQZEVXbNG2KDcFcKOF");
+        URL url = new URL("https://api.spotify.com/v1/playlists/37i9dQZEVXbJUPkgaWZcWG");
         JSONArray arr = getJsonFromUrl(url)
                 .getJSONObject("tracks")
                 .getJSONArray("items");
@@ -157,11 +221,10 @@ public class Web {
     }
 
 
-
     public static JSONArray getArtistStuff(String id) throws IOException, JSONException {
-        URL urlTracks = new URL("https://api.spotify.com/v1/artists/"+id+"/top-tracks?market=US");
+        URL urlTracks = new URL("https://api.spotify.com/v1/artists/" + id + "/top-tracks?market=US");
         JSONObject obj2 = getJsonFromUrl(urlTracks);
-        URL urlAlbum = new URL("https://api.spotify.com/v1/artists/"+id+"/albums?market=US&limit=10");
+        URL urlAlbum = new URL("https://api.spotify.com/v1/artists/" + id + "/albums?market=US&limit=10");
         JSONObject obj = getJsonFromUrl(urlAlbum);
         JSONArray arr = new JSONArray();
         //album
@@ -221,7 +284,6 @@ public class Web {
         http.disconnect();
         return obj;
     }
-
 
 
     public static String getToken() {

@@ -34,4 +34,6 @@
     <string name="token">Access Token: %1$s</string>
     <string name="com_spotify_sdk_redirect_scheme">spotify-sdk</string>
     <string name="com_spotify_sdk_redirect_host">auth</string>
+    <string name="top_songs">Top Songs</string>
+    <string name="top_albums">Top Albums</string>
 </resources>
