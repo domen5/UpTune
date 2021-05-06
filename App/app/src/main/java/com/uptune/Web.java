@@ -59,12 +59,14 @@ public class Web {
         return obj.getJSONObject("categories").getJSONArray("items");
     }
 
-    public static JSONArray getCategories(String type) throws IOException, JSONException {
-        URL url = new URL("https://api.spotify.com/v1/search?query=" + type + "&type=album&offset=1&limit=50");
+    public static JSONArray getAllCategories() throws IOException, JSONException {
+        URL url = new URL("https://api.spotify.com/v1/browse/categories?&limit=50&country=US&offset=1");
         JSONObject obj = getJsonFromUrl(url);
-        return obj.getJSONObject("albums").getJSONArray("items");
+        return obj.getJSONObject("categories").getJSONArray("items");
     }
-    public static JSONArray getCategories(String type, int n) throws IOException, JSONException {
+
+
+    public static JSONArray getCategoriesLastFm(String type) throws IOException, JSONException {
         URL url = new URL("https://ws.audioscrobbler.com/2.0/?method=tag.gettopalbums&tag="+type+"&api_key=030333446fe36a7c6b24368071dd1579&format=json");
         JSONObject obj = getJsonFromLastFm(url);
       //  Log.i("TOKEN", obj.toString());

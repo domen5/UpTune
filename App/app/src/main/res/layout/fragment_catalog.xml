@@ -90,7 +90,7 @@
                     </com.google.android.material.circularreveal.CircularRevealLinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/bestCateg"
+                        android:id="@+id/view_new_release"
                         android:layout_width="match_parent"
                         android:layout_height="300dp"
                         android:layout_toRightOf="@+id/Left" />
@@ -114,23 +114,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/brandon_grotesque_black"
-                            android:text="Most listened"
+                            android:text="Recommend artist"
                             android:textAllCaps="true"
                             android:textSize="20dp" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginTop="10dp"
-                            android:fontFamily="@font/antic"
-                            android:text="View all"
-                            android:textAllCaps="true"
-                            android:textSize="11dp" />
                     </RelativeLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/mostList"
+                        android:id="@+id/view_artist"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
@@ -164,12 +155,15 @@
                             android:fontFamily="@font/antic"
                             android:text="View all categories"
                             android:textAllCaps="true"
+                            android:onClick="onClick"
+                            android:clickable="true"
+                            android:id="@+id/show_more"
                             android:textSize="11dp" />
                     </RelativeLayout>
 
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/mostList2"
+                        android:id="@+id/view_categories"
                         android:layout_width="match_parent"
                         android:layout_gravity="center"
                         android:layout_height="wrap_content" />

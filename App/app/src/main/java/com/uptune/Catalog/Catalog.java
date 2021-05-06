@@ -3,7 +3,10 @@ package com.uptune.Catalog;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.uptune.Adapter.CardAdapter;
 import com.uptune.Helper.CardContainer;
@@ -26,8 +30,9 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class Catalog extends Fragment {
-    RecyclerView bestCateg, mostList, mostList2;
+    RecyclerView newRelease, artist, bestCat;
     RecyclerView.Adapter adapter;
+    TextView showMoreCat;
     boolean firstOpen = false;
     ArrayList<CardContainer> setBestCat = new ArrayList<>();
     ArrayList<CardContainer> setArtistCard = new ArrayList<>();
@@ -53,9 +58,20 @@ public class Catalog extends Fragment {
             getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
         }
 
-        bestCateg = view.findViewById(R.id.bestCateg);
-        mostList = view.findViewById(R.id.mostList);
-        mostList2 = view.findViewById(R.id.mostList2);
+        showMoreCat = view.findViewById(R.id.show_more);
+
+        showMoreCat.setOnClickListener(v -> {
+            Fragment fr = new GetAllCategories();
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction transaction = fm.beginTransaction();
+            transaction.replace(R.id.catalog, fr);
+            transaction.addToBackStack("a");
+            transaction.commit();
+        });
+
+        newRelease = view.findViewById(R.id.view_new_release);
+        artist = view.findViewById(R.id.view_artist);
+        bestCat = view.findViewById(R.id.view_categories);
         if (firstOpen)
             renderCards();
         else
@@ -109,19 +125,19 @@ public class Catalog extends Fragment {
     }
 
     private void renderCards() {
-        bestCateg.setHasFixedSize(true);
-        bestCateg.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        mostList.setHasFixedSize(true);
-        mostList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        mostList2.setHasFixedSize(true);
-        mostList2.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        newRelease.setHasFixedSize(true);
+        newRelease.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        artist.setHasFixedSize(true);
+        artist.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        bestCat.setHasFixedSize(true);
+        bestCat.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         adapter = new CardAdapter(setArtistCard, 0);
-        this.bestCateg.setAdapter(adapter);
+        this.newRelease.setAdapter(adapter);
         adapter = new CardAdapter(setNewRelease, 1);
-        this.mostList.setAdapter(adapter);
+        this.artist.setAdapter(adapter);
         adapter = new CardAdapter(setBestCat, 2);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
-        this.mostList2.setLayoutManager(gridLayoutManager);
-        this.mostList2.setAdapter(adapter);
+        this.bestCat.setLayoutManager(gridLayoutManager);
+        this.bestCat.setAdapter(adapter);
     }
 }

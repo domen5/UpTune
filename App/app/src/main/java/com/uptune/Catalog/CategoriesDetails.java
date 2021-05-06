@@ -61,7 +61,7 @@ public class CategoriesDetails extends Fragment {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
         ArrayList<CardContainer> setData = new ArrayList<>();
         try {
-            JSONArray arr = Web.getCategories(title, 0);
+            JSONArray arr = Web.getCategoriesLastFm(title);
             for (int i = 0; i < arr.length(); i++) {
                 JSONObject current = arr.getJSONObject(i);
                 String name = current.getString("name");
