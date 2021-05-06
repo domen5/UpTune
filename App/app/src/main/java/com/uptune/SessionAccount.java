@@ -1,10 +1,10 @@
 package com.uptune;
 
 public class SessionAccount {
-    private String mail;
-    private String name;
-    private String username;
-    private String phone;
+    private static String mail;
+    private static String name;
+    private static String username;
+    private static String phone;
 
     public SessionAccount() {
         this.mail = null;
@@ -20,7 +20,7 @@ public class SessionAccount {
         this.phone = phone;
     }
 
-    public String getMail() {
+    public static String getMail() {
         return mail;
     }
 
@@ -28,7 +28,7 @@ public class SessionAccount {
         this.mail = mail;
     }
 
-    public String getName() {
+    public static String getName() {
         return name;
     }
 
@@ -36,7 +36,7 @@ public class SessionAccount {
         this.name = name;
     }
 
-    public String getUsername() {
+    public static String getUsername() {
         return username;
     }
 

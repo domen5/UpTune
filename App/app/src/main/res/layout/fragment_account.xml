@@ -10,7 +10,7 @@
 
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/account_background_img"
         android:layout_width="491dp"
         android:layout_height="233dp"
         android:src="@drawable/top_header"
@@ -36,7 +36,7 @@
         app:layout_constraintVertical_bias="0.023" />
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/changeImg"
+        android:id="@+id/account_change_img"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginStart="32dp"
@@ -54,12 +54,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="@+id/changeImg"
-        app:layout_constraintStart_toEndOf="@+id/changeImg"
-        app:layout_constraintTop_toTopOf="@+id/changeImg">
+        app:layout_constraintBottom_toBottomOf="@+id/account_change_img"
+        app:layout_constraintStart_toEndOf="@+id/account_change_img"
+        app:layout_constraintTop_toTopOf="@+id/account_change_img">
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/account_username_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -69,7 +69,7 @@
             android:textSize="36sp" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/account_mail_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

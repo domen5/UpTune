@@ -61,7 +61,7 @@ public class Login extends AppCompatActivity {
             if (!isConnected(this)) {
                 noInternetDialog();
                 try {
-                    Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+                    Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
                     Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
                     r.play();
                 } catch (Exception e) {
@@ -95,8 +95,7 @@ public class Login extends AppCompatActivity {
                             intent.putExtra("username", username);
                             intent.putExtra("email", mail);
                             intent.putExtra("phone", phone);
-                            SessionAccount sessionAccount= new SessionAccount(name, username, mail, phone);
-
+                            SessionAccount sessionAccount= new SessionAccount(mail,name, username, phone);
                             startActivity(intent);
                         } else {
                             password.setError("Wrong password");
