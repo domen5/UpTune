@@ -28,6 +28,10 @@ import java.util.ArrayList;
 public class Catalog extends Fragment {
     RecyclerView bestCateg, mostList, mostList2;
     RecyclerView.Adapter adapter;
+    boolean firstOpen = false;
+    ArrayList<CardContainer> setBestCat = new ArrayList<>();
+    ArrayList<CardContainer> setArtistCard = new ArrayList<>();
+    ArrayList<CardContainer> setNewRelease = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,20 +56,14 @@ public class Catalog extends Fragment {
         bestCateg = view.findViewById(R.id.bestCateg);
         mostList = view.findViewById(R.id.mostList);
         mostList2 = view.findViewById(R.id.mostList2);
-        renderBestCateg();
+        if (firstOpen)
+            renderCards();
+        else
+            renderBestCateg();
+
     }
 
     private void renderBestCateg() {
-        bestCateg.setHasFixedSize(true);
-        bestCateg.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        mostList.setHasFixedSize(true);
-        mostList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        mostList2.setHasFixedSize(true);
-        mostList2.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        ArrayList<CardContainer> setBestCat = new ArrayList<>();
-        ArrayList<CardContainer> setArtistCard = new ArrayList<>();
-        ArrayList<CardContainer> setNewRelease = new ArrayList<>();
-
         try {
             JSONArray arr = Web.getCategories();
             for (int i = 0; i < arr.length(); i++) {
@@ -106,14 +104,24 @@ public class Catalog extends Fragment {
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
-        adapter = new CardAdapter(setArtistCard, 0);
-        bestCateg.setAdapter(adapter);
-        adapter = new CardAdapter(setNewRelease, 1);
-        mostList.setAdapter(adapter);
-        adapter = new CardAdapter(setBestCat, 2);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
-        mostList2.setLayoutManager(gridLayoutManager);
-        mostList2.setAdapter(adapter);
+        renderCards();
+        firstOpen = true;
     }
 
+    private void renderCards() {
+        bestCateg.setHasFixedSize(true);
+        bestCateg.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        mostList.setHasFixedSize(true);
+        mostList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        mostList2.setHasFixedSize(true);
+        mostList2.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        adapter = new CardAdapter(setArtistCard, 0);
+        this.bestCateg.setAdapter(adapter);
+        adapter = new CardAdapter(setNewRelease, 1);
+        this.mostList.setAdapter(adapter);
+        adapter = new CardAdapter(setBestCat, 2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
+        this.mostList2.setLayoutManager(gridLayoutManager);
+        this.mostList2.setAdapter(adapter);
+    }
 }
