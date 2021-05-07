@@ -82,7 +82,13 @@ public class Web {
     public static String getArtistSummaryLastFm(String name) throws IOException, JSONException {
         URL url = new URL("https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=" + name + "&api_key=030333446fe36a7c6b24368071dd1579&format=json");
         JSONObject obj = getJsonFromLastFm(url);
-        return obj.getJSONObject("artist").getJSONObject("bio").getString("summary");
+        String artistBio = obj.getJSONObject("artist").getJSONObject("bio").getString("summary");
+        int iend = artistBio.indexOf("<a href");
+        String subString = "";
+        if (iend != -1) {
+            subString = artistBio.substring(0, iend); //this will give abc
+        }
+        return subString;
     }
 
     public static String getArtistContentLastFm(String name) throws IOException, JSONException {

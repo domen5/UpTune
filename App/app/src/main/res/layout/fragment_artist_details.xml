@@ -22,10 +22,10 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginBottom="20dp"
             app:expandedTitleMarginStart="15dp"
             app:expandedTitleTextAppearance="@color/zxing_transparent"
-            app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
 
 
@@ -46,8 +46,8 @@
                 android:id="@+id/toolbar_artist_det"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
-                app:layout_collapseMode="pin"
                 android:background="@android:color/transparent"
+                app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.ActionBar"
                 app:title="search result" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -59,14 +59,38 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:textSize="18dp"
+                android:fontFamily="@font/brandon_grotesque_black"
+                android:text="Artist bio:"
+                />
+           <TextView
+               android:padding="15dp"
+               android:textSize="13dp"
+               android:fontFamily="@font/antic"
+               android:id="@+id/artist_details_bio"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:text="sadasds" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/artist_object"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:overScrollMode="never"
-            android:padding="10dp"
-            app:layout_behavior="com.google.material.appbar.AppBarLayout$ScrollingViewBehavior" />
-    </androidx.core.widget.NestedScrollView>
+           <androidx.recyclerview.widget.RecyclerView
+               android:id="@+id/artist_object"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:overScrollMode="never"
+               android:padding="10dp"
+               app:layout_behavior="com.google.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+
+       </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

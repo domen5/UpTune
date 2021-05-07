@@ -3,7 +3,6 @@ package com.uptune.Catalog;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -16,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.uptune.Adapter.Card.CardArtistAdapter;
 import com.uptune.Adapter.Card.NewReleaseAdapter;
 import com.uptune.Adapter.CardAdapter;
 import com.uptune.Helper.CardContainer;
@@ -36,8 +36,8 @@ public class Catalog extends Fragment {
     TextView showMoreCat;
     boolean firstOpen = false;
     ArrayList<CardContainer> setBestCat = new ArrayList<>();
-    ArrayList<CardContainer> setArtistCard = new ArrayList<>();
     ArrayList<CardContainer> setNewRelease = new ArrayList<>();
+    ArrayList<CardContainer> setArtist = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,7 +60,6 @@ public class Catalog extends Fragment {
         }
 
         showMoreCat = view.findViewById(R.id.show_more);
-
         showMoreCat.setOnClickListener(v -> {
             Fragment fr = new GetAllCategories();
             FragmentManager fm = getFragmentManager();
@@ -69,7 +68,6 @@ public class Catalog extends Fragment {
             transaction.addToBackStack("a");
             transaction.commit();
         });
-
         newRelease = view.findViewById(R.id.view_new_release);
         artist = view.findViewById(R.id.view_artist);
         bestCat = view.findViewById(R.id.view_categories);
@@ -104,7 +102,7 @@ public class Catalog extends Fragment {
                 String name = artist.getString("name");
                 String popularity = artist.getString("popularity");
                 URL img = new URL(artist.getJSONArray("images").getJSONObject(0).getString("url"));
-                setNewRelease.add(new CardContainer(name, img, id, popularity));
+                setArtist.add(new CardContainer(name, img, id, popularity));
             }
         } catch (IOException | JSONException e) {
             e.printStackTrace();
@@ -119,7 +117,7 @@ public class Catalog extends Fragment {
                 String date = current.getString("release_date");
                 String artist = current.getJSONArray("artists").getJSONObject(0).getString("name");
                 String tracks = current.getString("total_tracks");
-                setArtistCard.add(new CardContainer(name, img, id, artist, date, tracks));
+                setNewRelease.add(new CardContainer(name, img, id, artist, date, tracks));
             }
         } catch (IOException | JSONException e) {
             e.printStackTrace();
@@ -135,9 +133,9 @@ public class Catalog extends Fragment {
         artist.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         bestCat.setHasFixedSize(true);
         bestCat.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        adapter = new NewReleaseAdapter(setArtistCard);
+        adapter = new NewReleaseAdapter(setNewRelease);
         this.newRelease.setAdapter(adapter);
-        adapter = new CardAdapter(setNewRelease, 1);
+        adapter = new CardArtistAdapter(setArtist);
         this.artist.setAdapter(adapter);
         adapter = new CardAdapter(setBestCat, 2);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);

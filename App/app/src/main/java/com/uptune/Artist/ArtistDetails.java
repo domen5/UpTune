@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.uptune.Adapter.ArtistAdapter;
 import com.uptune.Artist.ArtistStuff;
@@ -29,14 +30,15 @@ import java.util.ArrayList;
 
 
 public class ArtistDetails extends Fragment {
-    private String id, title;
+    private String id, title, bio;
     RecyclerView artistStuff;
     RecyclerView.Adapter adapter;
     URL img;
 
-    public ArtistDetails(String title, URL img, String id) {
+    public ArtistDetails(String title, URL img, String id, String bio) {
         this.id = id;
         this.title = title;
+        this.bio = bio;
         this.img = img;
     }
 
@@ -52,6 +54,11 @@ public class ArtistDetails extends Fragment {
         androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.toolbar_artist_det);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
+
+        toolbar.setTitle(title);
+
+        TextView bio = view.findViewById(R.id.artist_details_bio);
+        bio.setText(this.bio);
 
         ImageView imgView = view.findViewById(R.id.details_artist_img);
         try {

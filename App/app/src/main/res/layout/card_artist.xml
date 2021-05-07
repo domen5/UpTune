@@ -17,7 +17,7 @@
         android:padding="10dp">
 
         <ImageView
-            android:id="@+id/img"
+            android:id="@+id/card_artist_img"
             android:layout_width="100dp"
             android:layout_height="150dp"
             android:scaleType="centerCrop"
@@ -25,11 +25,11 @@
 
         <TextView
 
-            android:id="@+id/catTitle"
+            android:id="@+id/card_artist_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/img"
+            android:layout_toRightOf="@id/card_artist_img"
             android:fontFamily="@font/baloo"
             android:text="Some text"
             android:textColor="@color/white"
@@ -45,9 +45,9 @@
             style="@style/Widget.AppCompat.RatingBar.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/catTitle"
+            android:layout_below="@id/card_artist_name"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/img"
+            android:layout_toRightOf="@id/card_artist_img"
             android:rating="4" />
 
         <TextView
@@ -55,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/artist_rating"
-            android:layout_toRightOf="@id/img"
+            android:layout_toRightOf="@id/card_artist_img"
             android:fontFamily="@font/antic"
             android:padding="10dp"
             android:text="sdasdasdasdas"

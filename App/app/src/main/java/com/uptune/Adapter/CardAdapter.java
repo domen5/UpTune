@@ -44,44 +44,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.FeatureViewHol
     @Override
     public FeatureViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v;
-        switch (this.type) {
-            case 0:
-                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_new_release, parent, false);
-                break;
-            case 1:
-                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_artist, parent, false);
-                break;
-            case 2:
-            case 3:
-                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_categories, parent, false);
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + this.type);
-        }
+        v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_categories, parent, false);
         FeatureViewHolder fvh = new FeatureViewHolder(v);
         switch (this.type) {
-            case 0:
-                v.setOnClickListener(e -> {
-                    int position = fvh.getAdapterPosition();
-                    AppCompatActivity activity = (AppCompatActivity) v.getContext();
-                    activity.getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.catalog, new CardDetails(location.get(position).getTitle(), location.get(position).getImage(), location.get(position).getID()))
-                            .addToBackStack("a")
-                            .commit();
-                });
-                break;
-            case 1:
-                v.setOnClickListener(e -> {
-                    int position = fvh.getAdapterPosition();
-                    AppCompatActivity activity = (AppCompatActivity) v.getContext();
-                    activity.getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.catalog, new ArtistDetails(location.get(position).getTitle(), location.get(position).getImage(), location.get(position).getID()))
-                            .addToBackStack("a")
-                            .commit();
-                });
-                break;
             case 2:
                 v.setOnClickListener(e -> {
                     int position = fvh.getAdapterPosition();
@@ -114,19 +79,13 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.FeatureViewHol
     @Override
     public void onBindViewHolder(@NonNull FeatureViewHolder holder, int position) {
         holder.itemView.clearAnimation();
-        if (type != 2 && type != 3) {
-            Animation animation = AnimationUtils.loadAnimation(holder.context,
-                    (position > lastPos) ?
-                            R.anim.card_animation_fade_scroll :
-                            R.anim.card_animation_null);
-            holder.itemView.startAnimation(animation);
-        } else {
-            LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(holder.context,
-                    (position > lastPos) ?
-                            R.anim.card_animation_caller :
-                            R.anim.card_animation_null);
-            holder.itemView.startAnimation(animation.getAnimation());
-        }
+
+        LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(holder.context,
+                (position > lastPos) ?
+                        R.anim.card_animation_caller :
+                        R.anim.card_animation_null);
+        holder.itemView.startAnimation(animation.getAnimation());
+
         lastPos = position;
 
         Bitmap image = null;
@@ -138,19 +97,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.FeatureViewHol
         }
         holder.img.setImageBitmap(image);
         holder.title.setText(fetchBest.getTitle());
-
-
-        if (type == 1) {
-            try {
-                holder.desc.setText(Web.getArtistSummaryLastFm(fetchBest.getTitle()));
-                int convertPop = Integer.parseInt(fetchBest.getPopularity()) / 20;
-                holder.popularity.setRating(convertPop);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
 
@@ -173,7 +119,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.FeatureViewHol
             title = itemView.findViewById(R.id.catTitle);
             desc = itemView.findViewById(R.id.artist_desc);
 
-            popularity= itemView.findViewById(R.id.artist_rating);
+            popularity = itemView.findViewById(R.id.artist_rating);
         }
     }
 }
