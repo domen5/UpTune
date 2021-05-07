@@ -4,7 +4,7 @@ import java.net.URL;
 
 public class CardContainer {
     URL image;
-    String title, id, popularity;
+    String title, id, popularity, date, artist, tracks;
 
     public CardContainer(String title, URL image, String id) {
         this.image = image;
@@ -17,6 +17,15 @@ public class CardContainer {
         this.title = title;
         this.id = id;
         this.popularity = popularity;
+    }
+
+    public CardContainer(String title, URL image, String id, String artist, String date, String tracks) {
+        this.image = image;
+        this.title = title;
+        this.id = id;
+        this.artist = artist;
+        this.date = date;
+        this.tracks = tracks;
     }
 
     public URL getImage() {
@@ -51,4 +60,27 @@ public class CardContainer {
         this.popularity = popularity;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getArtist() {
+        return artist;
+    }
+
+    public void setArtist(String artist) {
+        this.artist = artist;
+    }
+
+    public String getTracks() {
+        return tracks;
+    }
+
+    public void setTracks(String tracks) {
+        this.tracks = tracks;
+    }
 }

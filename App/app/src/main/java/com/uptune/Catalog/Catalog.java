@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.uptune.Adapter.Card.NewReleaseAdapter;
 import com.uptune.Adapter.CardAdapter;
 import com.uptune.Helper.CardContainer;
 import com.uptune.R;
@@ -115,8 +116,10 @@ public class Catalog extends Fragment {
                 String name = current.getString("name");
                 String id = current.getString("id");
                 URL img = new URL(current.getJSONArray("images").getJSONObject(0).getString("url"));
-                String date= current.getString("release_date");
-                setArtistCard.add(new CardContainer(name, img, id));
+                String date = current.getString("release_date");
+                String artist = current.getJSONArray("artists").getJSONObject(0).getString("name");
+                String tracks = current.getString("total_tracks");
+                setArtistCard.add(new CardContainer(name, img, id, artist, date, tracks));
             }
         } catch (IOException | JSONException e) {
             e.printStackTrace();
@@ -132,7 +135,7 @@ public class Catalog extends Fragment {
         artist.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         bestCat.setHasFixedSize(true);
         bestCat.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        adapter = new CardAdapter(setArtistCard, 0);
+        adapter = new NewReleaseAdapter(setArtistCard);
         this.newRelease.setAdapter(adapter);
         adapter = new CardAdapter(setNewRelease, 1);
         this.artist.setAdapter(adapter);
