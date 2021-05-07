@@ -13,6 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.uptune.Artist.ArtistStuff;
 import com.uptune.R;
+import com.uptune.Web;
+
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,11 +39,11 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.FeatureVie
 
     @Override
     public void onBindViewHolder(@NonNull FeatureViewHolder holder, int position) {
-        ArtistStuff fetchBest = location.get(position);
-        holder.title.setText(fetchBest.getTitle());
+        ArtistStuff artistStuff = location.get(position);
+        holder.title.setText(artistStuff.getTitle());
         Bitmap image = null;
         try {
-            image = BitmapFactory.decodeStream(fetchBest.getImage().openStream());
+            image = BitmapFactory.decodeStream(artistStuff.getImage().openStream());
         } catch (IOException e) {
             e.printStackTrace();
         }

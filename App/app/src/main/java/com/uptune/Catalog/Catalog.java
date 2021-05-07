@@ -103,7 +103,7 @@ public class Catalog extends Fragment {
                 String name = artist.getString("name");
                 String popularity = artist.getString("popularity");
                 URL img = new URL(artist.getJSONArray("images").getJSONObject(0).getString("url"));
-                setNewRelease.add(new CardContainer(name, img, id));
+                setNewRelease.add(new CardContainer(name, img, id, popularity));
             }
         } catch (IOException | JSONException e) {
             e.printStackTrace();
@@ -115,6 +115,7 @@ public class Catalog extends Fragment {
                 String name = current.getString("name");
                 String id = current.getString("id");
                 URL img = new URL(current.getJSONArray("images").getJSONObject(0).getString("url"));
+                String date= current.getString("release_date");
                 setArtistCard.add(new CardContainer(name, img, id));
             }
         } catch (IOException | JSONException e) {

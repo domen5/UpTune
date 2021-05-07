@@ -2,7 +2,7 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="250dp"
-    android:layout_height="120dp"
+    android:layout_height="160dp"
     android:layout_margin="10dp"
     app:cardCornerRadius="20dp"
     app:cardElevation="8dp"
@@ -24,18 +24,24 @@
             android:src="@drawable/logo2" />
 
         <TextView
+
             android:id="@+id/catTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/img"
             android:fontFamily="@font/baloo"
             android:text="Some text"
             android:textColor="@color/white"
-            android:textSize="20dp" />
+            android:maxLines="1"
+            android:textSize="20sp"
+            app:autoSizeMaxTextSize="20sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform" />
 
         <RatingBar
-            android:id="@+id/catRate"
+            android:id="@+id/artist_rating"
             style="@style/Widget.AppCompat.RatingBar.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,10 +51,10 @@
             android:rating="4" />
 
         <TextView
-            android:id="@+id/catDesc"
+            android:id="@+id/artist_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/catRate"
+            android:layout_below="@id/artist_rating"
             android:layout_toRightOf="@id/img"
             android:fontFamily="@font/antic"
             android:padding="10dp"

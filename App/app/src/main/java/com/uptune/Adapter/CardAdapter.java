@@ -22,6 +22,9 @@ import com.uptune.Catalog.CardDetails;
 import com.uptune.Catalog.CategoriesDetails;
 import com.uptune.Helper.CardContainer;
 import com.uptune.R;
+import com.uptune.Web;
+
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -117,7 +120,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.FeatureViewHol
                             R.anim.card_animation_fade_scroll :
                             R.anim.card_animation_null);
             holder.itemView.startAnimation(animation);
-
         } else {
             LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(holder.context,
                     (position > lastPos) ?
@@ -136,6 +138,19 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.FeatureViewHol
         }
         holder.img.setImageBitmap(image);
         holder.title.setText(fetchBest.getTitle());
+
+
+        if (type == 1) {
+            try {
+                holder.desc.setText(Web.getArtistSummaryLastFm(fetchBest.getTitle()));
+                int convertPop = Integer.parseInt(fetchBest.getPopularity()) / 20;
+                holder.popularity.setRating(convertPop);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 
@@ -156,7 +171,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.FeatureViewHol
             context = itemView.getContext();
             img = itemView.findViewById(R.id.img);
             title = itemView.findViewById(R.id.catTitle);
-            desc = itemView.findViewById(R.id.catDesc);
+            desc = itemView.findViewById(R.id.artist_desc);
+
+            popularity= itemView.findViewById(R.id.artist_rating);
         }
     }
 }

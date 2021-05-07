@@ -12,11 +12,11 @@ public class CardContainer {
         this.id = id;
     }
 
-    public CardContainer(String title, URL image, String id,String popularity) {
+    public CardContainer(String title, URL image, String id, String popularity) {
         this.image = image;
         this.title = title;
         this.id = id;
-        this.popularity= popularity;
+        this.popularity = popularity;
     }
 
     public URL getImage() {
@@ -44,11 +44,11 @@ public class CardContainer {
     }
 
     public String getPopularity() {
-        return id;
+        return popularity;
     }
 
-    public void setPopularity(String title) {
-        this.id = id;
+    public void setPopularity(String popularity) {
+        this.popularity = popularity;
     }
 
 }

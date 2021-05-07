@@ -76,8 +76,19 @@ public class Web {
     public static JSONArray getCategoriesLastFm(String type) throws IOException, JSONException {
         URL url = new URL("https://ws.audioscrobbler.com/2.0/?method=tag.gettopalbums&tag=" + type + "&api_key=030333446fe36a7c6b24368071dd1579&format=json");
         JSONObject obj = getJsonFromLastFm(url);
-        //  Log.i("TOKEN", obj.toString());
         return obj.getJSONObject("albums").getJSONArray("album");
+    }
+
+    public static String getArtistSummaryLastFm(String name) throws IOException, JSONException {
+        URL url = new URL("https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=" + name + "&api_key=030333446fe36a7c6b24368071dd1579&format=json");
+        JSONObject obj = getJsonFromLastFm(url);
+        return obj.getJSONObject("artist").getJSONObject("bio").getString("summary");
+    }
+
+    public static String getArtistContentLastFm(String name) throws IOException, JSONException {
+        URL url = new URL("https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=" + name + "&api_key=030333446fe36a7c6b24368071dd1579&format=json");
+        JSONObject obj = getJsonFromLastFm(url);
+        return obj.getJSONObject("artist").getJSONObject("bio").getString("content");
     }
 
     public static void initialize() {
