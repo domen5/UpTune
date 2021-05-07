@@ -29,7 +29,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.FeatureVie
     @Override
     public FeatureViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v;
-        v = LayoutInflater.from(parent.getContext()).inflate(R.layout.artist_details, parent, false);
+        v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_artist_details, parent, false);
         FeatureViewHolder fvh = new FeatureViewHolder(v);
         return fvh;
     }

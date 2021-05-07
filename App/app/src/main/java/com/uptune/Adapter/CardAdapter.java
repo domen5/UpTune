@@ -1,10 +1,14 @@
 package com.uptune.Adapter;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -26,6 +30,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.FeatureViewHol
 
     ArrayList<CardContainer> location;
     int type;
+    int lastPos = -1;
 
     public CardAdapter(ArrayList<CardContainer> location, int type) {
         this.type = type;
@@ -38,14 +43,14 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.FeatureViewHol
         View v;
         switch (this.type) {
             case 0:
-                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.best_cat_layout, parent, false);
+                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_new_release, parent, false);
                 break;
             case 1:
-                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.most_listen_card, parent, false);
+                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_artist, parent, false);
                 break;
             case 2:
             case 3:
-                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.categories_card, parent, false);
+                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_categories, parent, false);
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + this.type);
@@ -102,8 +107,26 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.FeatureViewHol
         return fvh;
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull FeatureViewHolder holder, int position) {
+        holder.itemView.clearAnimation();
+        if (type != 2 && type != 3) {
+            Animation animation = AnimationUtils.loadAnimation(holder.context,
+                    (position > lastPos) ?
+                            R.anim.card_animation_fade_scroll :
+                            R.anim.card_animation_null);
+            holder.itemView.startAnimation(animation);
+
+        } else {
+            LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(holder.context,
+                    (position > lastPos) ?
+                            R.anim.card_animation_caller :
+                            R.anim.card_animation_null);
+            holder.itemView.startAnimation(animation.getAnimation());
+        }
+        lastPos = position;
+
         Bitmap image = null;
         CardContainer fetchBest = location.get(position);
         try {
@@ -115,6 +138,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.FeatureViewHol
         holder.title.setText(fetchBest.getTitle());
     }
 
+
     @Override
     public int getItemCount() {
         return location.size();
@@ -125,9 +149,11 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.FeatureViewHol
         ImageView img;
         TextView title, desc;
         RatingBar popularity;
+        Context context;
 
         public FeatureViewHolder(@NonNull View itemView) {
             super(itemView);
+            context = itemView.getContext();
             img = itemView.findViewById(R.id.img);
             title = itemView.findViewById(R.id.catTitle);
             desc = itemView.findViewById(R.id.catDesc);
