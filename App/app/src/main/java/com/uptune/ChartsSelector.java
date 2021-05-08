@@ -10,12 +10,12 @@ import android.view.ViewGroup;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link charts_selector#newInstance} factory method to
+ * Use the {@link ChartsSelector#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class charts_selector extends Fragment {
+public class ChartsSelector extends Fragment {
 
-    public charts_selector() {
+    public ChartsSelector() {
         // Required empty public constructor
     }
 
@@ -28,8 +28,8 @@ public class charts_selector extends Fragment {
      * @return A new instance of fragment charts_selector.
      */
     // TODO: Rename and change types and number of parameters
-    public static charts_selector newInstance(String param1, String param2) {
-        charts_selector fragment = new charts_selector();
+    public static ChartsSelector newInstance(String param1, String param2) {
+        ChartsSelector fragment = new ChartsSelector();
 //        Bundle args = new Bundle();
 //        args.putString(ARG_PARAM1, param1);
 //        args.putString(ARG_PARAM2, param2);

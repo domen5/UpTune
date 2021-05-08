@@ -154,21 +154,8 @@ public class Web {
         }
     }
 
-    public static JSONArray getTopTracksGlobal() throws IOException, JSONException {
-        URL url = new URL("https://api.spotify.com/v1/playlists/37i9dQZEVXbNG2KDcFcKOF");
-        HttpURLConnection http = (HttpURLConnection) url.openConnection();
-        http.setRequestProperty("Accept", "application/json");
-        http.setRequestProperty("Content-Type", "application/json");
-        http.setRequestProperty("Authorization", "Bearer " + token);
-
-        BufferedReader br = new BufferedReader(new InputStreamReader(http.getInputStream()));
-        String msg = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            msg = br.lines().collect(Collectors.joining());
-        }
-        JSONArray arr = new JSONObject(msg).getJSONObject("tracks").getJSONArray("items");
-        http.disconnect();
-        return arr;
+    public static List<ChartItem> getTopTracksGlobal() {
+        return bestSongsGlobal;
     }
 
     public static JSONArray getTopTracksItaly() throws IOException, JSONException {

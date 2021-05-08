@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class ChartAdapter extends RecyclerView.Adapter<ChartAdapter.ViewHolder> {
-    private List<ChartItem> items;
+    private final List<ChartItem> items;
 
     public ChartAdapter(List<ChartItem> items) {
         this.items = items;
@@ -29,9 +29,9 @@ public class ChartAdapter extends RecyclerView.Adapter<ChartAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // Create a new view, which defines the UI of the list item
-           View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.charts_card, parent, false);
-            return new ViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.charts_card, parent, false);
+        return new ViewHolder(view);
     }
 
     // Replace the contents of a view (invoked by the layout manager)
@@ -44,17 +44,8 @@ public class ChartAdapter extends RecyclerView.Adapter<ChartAdapter.ViewHolder> 
         viewHolder.getTrackNameView().setText(item.getName());
         viewHolder.getTrackArtistView().setText(item.getArtistsString());
 
-        // Retrieve image from url
-        try {
-            Bitmap bmp = null;
-            bmp = BitmapFactory.decodeStream(item.getImage().openConnection().getInputStream());
-            viewHolder.getCoverImageView().setImageBitmap(bmp);
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e("ERROR", e.getMessage());
-            viewHolder.getCoverImageView().setImageResource(R.drawable.ic_user);
-        }
-
+        // image was already retrieved from url
+        viewHolder.getCoverImageView().setImageBitmap(item.getImageFile());
     }
 
     @Override
@@ -62,10 +53,10 @@ public class ChartAdapter extends RecyclerView.Adapter<ChartAdapter.ViewHolder> 
         return this.items.size();
     }
 
-    public static  class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView trackNameView;
-        private  final TextView trackArtistView;
-        private  final ImageView coverImageView;
+        private final TextView trackArtistView;
+        private final ImageView coverImageView;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -75,10 +66,16 @@ public class ChartAdapter extends RecyclerView.Adapter<ChartAdapter.ViewHolder> 
             this.coverImageView = itemView.findViewById(R.id.coverImageView);
         }
 
-        public TextView getTrackNameView() { return this.trackNameView; }
+        public TextView getTrackNameView() {
+            return this.trackNameView;
+        }
 
-        public TextView getTrackArtistView() { return trackArtistView; }
+        public TextView getTrackArtistView() {
+            return trackArtistView;
+        }
 
-        public ImageView getCoverImageView() { return this.coverImageView; }
+        public ImageView getCoverImageView() {
+            return this.coverImageView;
+        }
     }
 }

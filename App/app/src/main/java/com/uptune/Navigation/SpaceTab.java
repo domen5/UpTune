@@ -10,6 +10,7 @@ import com.uptune.Catalog.Catalog;
 import com.uptune.Chart.Chart;
 import com.uptune.Login.Welcome.fragment_welcome3;
 import com.uptune.R;
+import com.uptune.Web;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,7 @@ public class SpaceTab extends AppCompatActivity {
         tabLayout.initialize(viewPager, getSupportFragmentManager(),
                 fragmentList, savedInstanceState);
         tabLayout.setTabFourIcon(R.drawable.ic_user);
+        Web.initialize();
     }
 
     //we need the outState to save the position
