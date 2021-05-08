@@ -5,9 +5,9 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".ChartsSelector">
+    tools:context=".ChartsSelector"
+    android:id="@+id/chart_selector">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content">
 
             <ImageButton
-                android:id="@+id/buttonTopTracksGloblal"
+                android:id="@+id/btnTopTracksGloblal"
                 android:layout_width="160dp"
                 android:layout_height="160dp"
                 android:adjustViewBounds="true"
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content">
 
             <ImageButton
-                android:id="@+id/buttonTopTracksItaly"
+                android:id="@+id/btnTopTracksItaly"
                 android:layout_width="160dp"
                 android:layout_height="160dp"
                 android:adjustViewBounds="true"
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content">
 
             <ImageButton
-                android:id="@+id/buttonTopAlbumsGloblal"
+                android:id="@+id/btnTopAlbumsGloblal"
                 android:layout_width="160dp"
                 android:layout_height="160dp"
                 android:adjustViewBounds="true"
@@ -78,7 +78,7 @@
             android:layout_height="wrap_content">
 
             <ImageButton
-                android:id="@+id/buttonTopAlbumsItaly"
+                android:id="@+id/btnTopAlbumsItaly"
                 android:layout_width="160dp"
                 android:layout_height="160dp"
                 android:adjustViewBounds="true"

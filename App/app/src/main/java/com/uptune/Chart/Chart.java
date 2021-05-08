@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.uptune.ChartsSelector;
 import com.uptune.Helper.CaptureAct;
 import com.uptune.MainActivity;
 import com.uptune.R;
@@ -52,6 +53,8 @@ import retrofit.client.UrlConnectionClient;
 
 public class Chart extends Fragment {
     private RecyclerView rwTopTracksGlobal;
+    private String title;
+    private String playlistUrl;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,6 +72,32 @@ public class Chart extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+    }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            this.title = getArguments().getString("title");
+            this.playlistUrl = getArguments().getString("url");
+        }
+    }
+
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param title Title of the chart.
+     * @param url Url of the playlist.
+     * @return A new instance of fragment charts_selector.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static Chart newInstance(String title, String url) {
+        Chart fragment = new Chart();
+        Bundle args = new Bundle();
+        args.putString("title", title);
+        args.putString("url", url);
+        fragment.setArguments(args);
+        return fragment;
     }
 }

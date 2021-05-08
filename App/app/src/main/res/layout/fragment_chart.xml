@@ -17,6 +17,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+            <TextView
+                android:id="@+id/chartsTitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="@string/top_songs"
+                android:textColor="@color/black" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/topTracksGlobal"
