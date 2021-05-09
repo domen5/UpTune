@@ -1,8 +1,10 @@
 package com.uptune.Catalog;
 
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -11,14 +13,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.uptune.Adapter.Card.CardArtistAdapter;
 import com.uptune.Adapter.Card.NewReleaseAdapter;
 import com.uptune.Adapter.CardAdapter;
 import com.uptune.Helper.CardContainer;
+import com.uptune.Helper.RadioButtonClass;
 import com.uptune.R;
 import com.uptune.Web;
 
@@ -38,6 +47,8 @@ public class Catalog extends Fragment {
     ArrayList<CardContainer> setBestCat = new ArrayList<>();
     ArrayList<CardContainer> setNewRelease = new ArrayList<>();
     ArrayList<CardContainer> setArtist = new ArrayList<>();
+    RadioButtonClass rdb1, rdb2, rdb3;
+    Button btnSearch;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -75,6 +86,24 @@ public class Catalog extends Fragment {
             renderCards();
         else
             renderBestCateg();
+
+        rdb1 = view.findViewById(R.id.rdb_album);
+        rdb2 = view.findViewById(R.id.rdb_artist);
+        rdb3 = view.findViewById(R.id.rdb_track);
+        setPopUpList();
+        btnSearch = view.findViewById(R.id.btn_search_catalog);
+        btnSearch.setOnClickListener(v -> Toast.makeText(getContext(), "aaaaaaa", Toast.LENGTH_SHORT).show());
+
+    }
+
+    private void setPopUpList() {
+        setRadiosListener();
+    }
+
+    private void setRadiosListener() {
+        rdb1.setOwnChachedChangeListener((buttonView, isChecked) -> Toast.makeText(getContext(), "ok", Toast.LENGTH_SHORT).show());
+        rdb2.setOwnChachedChangeListener((buttonView, isChecked) -> Toast.makeText(getContext(), "ok1", Toast.LENGTH_SHORT).show());
+        rdb3.setOwnChachedChangeListener((buttonView, isChecked) -> Toast.makeText(getContext(), "ok2", Toast.LENGTH_SHORT).show());
 
     }
 

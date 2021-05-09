@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/catalog"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/catalog"
     android:background="@color/blue_light">
 
     <ScrollView
@@ -33,7 +33,6 @@
                     android:text="UpTune Store"
                     android:textAlignment="center"
                     android:textSize="32dp"
-                    app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -42,7 +41,7 @@
                     android:id="@+id/button_back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginTop="16dp"
                     android:src="@drawable/ic_boombox"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -50,15 +49,98 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:tint="@color/white" />
 
+                <LinearLayout
+                    android:id="@+id/Lnv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:layout_gravity="center"
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:layout_width="320dp"
+                                android:layout_height="wrap_content"
+                                android:inputType="text"
+                                android:background="@drawable/search_style"
+                                android:text="Search"
+                                android:padding="10dp"
+                                android:ems="10"
+                                android:textColor="@color/black" />
+
+                            <Button
+                                android:id="@+id/btn_search_catalog"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:gravity="center"
+                                android:backgroundTint="@color/white"
+                                android:background="@drawable/ic_search"/>
+                        </LinearLayout>
+
+                        <RadioGroup
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="12dp"
+                            android:paddingLeft="22dp"
+                            android:paddingRight="22dp"
+                            android:orientation="horizontal">
+
+                            <com.uptune.Helper.RadioButtonClass
+                                android:id="@+id/rdb_album"
+                                style="@style/MyCustomRadioButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_weight="1"
+                                android:drawableTop="@drawable/ic_music_folder"
+                                android:text="Album"
+                                android:textAlignment="center" />
+
+                            <com.uptune.Helper.RadioButtonClass
+                                android:id="@+id/rdb_artist"
+                                style="@style/MyCustomRadioButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:drawableTop="@drawable/ic_microphone"
+                                android:text="Artist"
+                                android:textAlignment="center" />
+
+                            <com.uptune.Helper.RadioButtonClass
+
+                                android:id="@+id/rdb_track"
+                                style="@style/MyCustomRadioButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:drawableTop="@drawable/ic_cd"
+                                android:text="Tracks"
+                                android:textAlignment="center" />
+                        </RadioGroup>
+                    </LinearLayout>
+                </LinearLayout>
 
                 <RelativeLayout
                     android:id="@+id/relativeLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="70dp"
+                    android:layout_marginTop="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toBottomOf="@+id/Lnv">
 
 
                     <com.google.android.material.circularreveal.CircularRevealLinearLayout
@@ -118,10 +200,10 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                           android:padding="10dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/brandon_grotesque_black"
+                            android:padding="10dp"
                             android:text="Recommend artist"
                             android:textAllCaps="true"
                             android:textSize="20dp" />
@@ -156,16 +238,16 @@
                             android:textSize="20dp" />
 
                         <TextView
+                            android:id="@+id/show_more"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_marginTop="10dp"
+                            android:clickable="true"
                             android:fontFamily="@font/antic"
+                            android:onClick="onClick"
                             android:text="View all categories"
                             android:textAllCaps="true"
-                            android:onClick="onClick"
-                            android:clickable="true"
-                            android:id="@+id/show_more"
                             android:textSize="11dp" />
                     </RelativeLayout>
 
@@ -173,8 +255,8 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/view_categories"
                         android:layout_width="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center" />
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </RelativeLayout>
