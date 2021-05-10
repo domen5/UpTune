@@ -76,26 +76,44 @@ public class ArtistDetails extends Fragment {
             JSONArray arr = Web.getArtistStuff(id);
             JSONObject current = new JSONObject();
             //GET ALBUMS
-            for (int i = 0; i < 8; i++) {
+            ArrayList<String> setted = new ArrayList<String>(6);
+            int inserted = 0;
+
+            for (int i = 0; i < arr.getJSONArray(0).length(); i++) {
                 current = arr.getJSONArray(0).getJSONObject(i);
-                Log.i("TOKEN2", arr.getJSONArray(0).getJSONObject(i).toString());
-                String id = current.getString("id");
+                //  Log.i("TOKEN2", arr.getJSONArray(0).getJSONObject(i).toString());
                 String name = current.getString("name");
+                if (setted.contains(name)) {
+                    continue;
+                }
+                inserted++;
+                setted.add(name);
+                String id = current.getString("id");
                 URL img = new URL(current.getJSONArray("images").getJSONObject(0).getString("url"));
                 //popularity
                 //release date
                 //total_tracks
                 setData.add(new ArtistStuff(name, id, img));
+                if (inserted == 6)
+                    break;
             }
             //GET Tracks
-            for (int i = 0; i < 8; i++) {
-                Log.i("TOKEN3", arr.getJSONArray(1).getJSONObject(i).toString());
+            setted = new ArrayList<String>(6);
+            inserted = 0;
+            for (int i = 0; i < arr.getJSONArray(1).length(); i++) {
                 current = arr.getJSONArray(1).getJSONObject(i);
                 URL img = new URL(current.getJSONObject("album").getJSONArray("images").getJSONObject(0).getString("url"));
                 //preview_url a volte null!
-                String id = current.getString("id");
                 String name = current.getString("name");
+                if (setted.contains(name)) {
+                    continue;
+                }
+                inserted++;
+                setted.add(name);
+                String id = current.getString("id");
                 setData.add(new ArtistStuff(name, id, img));
+                if (inserted == 6)
+                    break;
             }
         } catch (IOException | JSONException e) {
             e.printStackTrace();

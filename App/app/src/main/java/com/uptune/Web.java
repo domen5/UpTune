@@ -223,9 +223,9 @@ public class Web {
 
 
     public static JSONArray getArtistStuff(String id) throws IOException, JSONException {
-        URL urlTracks = new URL("https://api.spotify.com/v1/artists/" + id + "/top-tracks?market=US");
+        URL urlTracks = new URL("https://api.spotify.com/v1/artists/" + id + "/top-tracks?market=US&limit=20");
         JSONObject obj2 = getJsonFromUrl(urlTracks);
-        URL urlAlbum = new URL("https://api.spotify.com/v1/artists/" + id + "/albums?market=US&limit=10");
+        URL urlAlbum = new URL("https://api.spotify.com/v1/artists/" + id + "/albums?market=US&limit=20");
         JSONObject obj = getJsonFromUrl(urlAlbum);
         JSONArray arr = new JSONArray();
         //album
