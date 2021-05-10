@@ -214,7 +214,6 @@ public class Web {
             }
         }
         arr.put(list1);
-        //Log.i("TOKEN", arr.toString());
         return arr;
     }
 
@@ -242,6 +241,24 @@ public class Web {
         URL url = new URL("https://api.spotify.com/v1/search?query=" + URLEncoder.encode(type, String.valueOf(StandardCharsets.UTF_8)) + "&type=album&limit=1");
         JSONObject obj = getJsonFromUrl(url);
         return obj.getJSONObject("albums").getJSONArray("items").getJSONObject(0).getString("id");
+    }
+
+    public static JSONArray getTracksFromName(String type) throws IOException, JSONException {
+        URL url = new URL("https://api.spotify.com/v1/search?query=" + URLEncoder.encode(type, String.valueOf(StandardCharsets.UTF_8)) + "&type=track&limit=20");
+        JSONObject obj = getJsonFromUrl(url);
+        return obj.getJSONObject("tracks").getJSONArray("items");
+    }
+
+    public static JSONArray getAlbumsFromName(String type) throws IOException, JSONException {
+        URL url = new URL("https://api.spotify.com/v1/search?query=" + URLEncoder.encode(type, String.valueOf(StandardCharsets.UTF_8)) + "&type=album&limit=20");
+        JSONObject obj = getJsonFromUrl(url);
+        return obj.getJSONObject("albums").getJSONArray("items");
+    }
+
+    public static JSONArray getSingerFromName(String type) throws IOException, JSONException {
+        URL url = new URL("https://api.spotify.com/v1/search?query=" + URLEncoder.encode(type, String.valueOf(StandardCharsets.UTF_8)) + "&type=artist&limit=20");
+        JSONObject obj = getJsonFromUrl(url);
+        return obj.getJSONObject("tracks").getJSONArray("items");
     }
 
     public static JSONObject getJsonFromUrl(URL url) throws IOException {

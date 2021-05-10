@@ -34,6 +34,7 @@ import com.uptune.Adapter.CardAdapter;
 import com.uptune.Helper.CardContainer;
 import com.uptune.Helper.RadioButtonClass;
 import com.uptune.R;
+import com.uptune.Search.SearchAlbum;
 import com.uptune.Web;
 
 import org.json.JSONArray;
@@ -55,7 +56,6 @@ public class Catalog extends Fragment {
     RadioButtonClass rdb1, rdb2, rdb3;
     ImageButton btnSearch;
     TextInputLayout textSearch;
-    int type = -1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -102,15 +102,24 @@ public class Catalog extends Fragment {
         textSearch = view.findViewById(R.id.search_text);
 
         btnSearch.setOnClickListener(v -> {
+
             if (textSearch.getEditText().getText().toString().matches("")) {
                 textSearch.setError("Search field is empty!");
                 return;
             }
-            if (rdb1.isChecked())
+            String name = textSearch.getEditText().getText().toString();
+            if (rdb1.isChecked()) {
                 Toast.makeText(getContext(), "Album" + textSearch.getEditText().getText().toString(), Toast.LENGTH_SHORT).show();
-            else if (rdb2.isChecked())
-                Toast.makeText(getContext(), "Artist", Toast.LENGTH_SHORT).show();
-            else if (rdb3.isChecked())
+                Fragment fr = new SearchAlbum(name);
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction transaction = fm.beginTransaction();
+                transaction.replace(R.id.catalog, fr);
+                transaction.addToBackStack("a");
+                transaction.commit();
+
+            } else if (rdb2.isChecked()) {
+
+            } else if (rdb3.isChecked())
                 Toast.makeText(getContext(), "Tracks", Toast.LENGTH_SHORT).show();
             else {
                 textSearch.setError("Select a categories below!");

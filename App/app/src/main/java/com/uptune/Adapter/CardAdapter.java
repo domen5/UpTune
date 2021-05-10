@@ -70,24 +70,30 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.FeatureViewHol
                             .commit();
                 });
                 break;
-
+            case 4:
+                v.setOnClickListener(e -> {
+                    int position = fvh.getAdapterPosition();
+                    AppCompatActivity activity = (AppCompatActivity) v.getContext();
+                    activity.getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.catalog, new CardDetails(location.get(position).getTitle(), location.get(position).getImage(), location.get(position).getID()))
+                            .addToBackStack("a")
+                            .commit();
+                });
+                break;
         }
         return fvh;
     }
 
-
     @Override
     public void onBindViewHolder(@NonNull FeatureViewHolder holder, int position) {
         holder.itemView.clearAnimation();
-
         LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(holder.context,
                 (position > lastPos) ?
                         R.anim.card_animation_caller :
                         R.anim.card_animation_null);
         holder.itemView.startAnimation(animation.getAnimation());
-
         lastPos = position;
-
         Bitmap image = null;
         CardContainer fetchBest = location.get(position);
         try {
@@ -99,26 +105,22 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.FeatureViewHol
         holder.title.setText(fetchBest.getTitle());
     }
 
-
     @Override
     public int getItemCount() {
         return location.size();
     }
-
 
     public static class FeatureViewHolder extends RecyclerView.ViewHolder {
         ImageView img;
         TextView title, desc;
         RatingBar popularity;
         Context context;
-
         public FeatureViewHolder(@NonNull View itemView) {
             super(itemView);
             context = itemView.getContext();
             img = itemView.findViewById(R.id.img);
             title = itemView.findViewById(R.id.catTitle);
             desc = itemView.findViewById(R.id.artist_desc);
-
             popularity = itemView.findViewById(R.id.artist_rating);
         }
     }
