@@ -64,29 +64,48 @@
                         android:orientation="vertical">
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="10dp"
                             android:layout_gravity="center"
-                            android:orientation="horizontal">
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:padding="10dp">
 
-                            <EditText
-                                android:layout_width="320dp"
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:layout_width="300dp"
                                 android:layout_height="wrap_content"
-                                android:inputType="text"
-                                android:background="@drawable/search_style"
-                                android:text="Search"
-                                android:padding="10dp"
-                                android:ems="10"
-                                android:textColor="@color/black" />
+                                android:background="@drawable/rounded_button"
+                                android:forceDarkAllowed="true"
+                                android:textColor="@color/black"
+                                app:boxStrokeColor="@color/black"
+                                app:boxStrokeWidth="0dp"
+                                app:boxStrokeWidthFocused="0dp"
+                                app:endIconMode="clear_text"
+                                app:errorTextAppearance="@color/black"
+                                android:id="@+id/search_text"
+                                app:hintTextColor="@color/black">
 
-                            <Button
+                                <com.google.android.material.textfield.TextInputEditText
+
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/rounded_button"
+                                    android:forceDarkAllowed="true"
+                                    android:hint="Search"
+                                    android:textColor="@color/black"
+                                    app:endIconMode="clear_text" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <ImageButton
                                 android:id="@+id/btn_search_catalog"
-                                android:layout_width="35dp"
-                                android:layout_height="35dp"
-                                android:gravity="center"
+                                android:layout_width="34dp"
+                                android:layout_height="34dp"
+                                android:layout_marginLeft="3dp"
+                                android:background="@drawable/rounded_button"
                                 android:backgroundTint="@color/white"
-                                android:background="@drawable/ic_search"/>
+                                android:gravity="center"
+                                android:src="@drawable/ic_search" />
                         </LinearLayout>
 
                         <RadioGroup
@@ -94,9 +113,9 @@
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="12dp"
+                            android:orientation="horizontal"
                             android:paddingLeft="22dp"
-                            android:paddingRight="22dp"
-                            android:orientation="horizontal">
+                            android:paddingRight="22dp">
 
                             <com.uptune.Helper.RadioButtonClass
                                 android:id="@+id/rdb_album"

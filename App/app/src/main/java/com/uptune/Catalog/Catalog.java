@@ -12,17 +12,22 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.uptune.Adapter.Card.CardArtistAdapter;
 import com.uptune.Adapter.Card.NewReleaseAdapter;
 import com.uptune.Adapter.CardAdapter;
@@ -48,7 +53,9 @@ public class Catalog extends Fragment {
     ArrayList<CardContainer> setNewRelease = new ArrayList<>();
     ArrayList<CardContainer> setArtist = new ArrayList<>();
     RadioButtonClass rdb1, rdb2, rdb3;
-    Button btnSearch;
+    ImageButton btnSearch;
+    TextInputLayout textSearch;
+    int type = -1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -92,7 +99,23 @@ public class Catalog extends Fragment {
         rdb3 = view.findViewById(R.id.rdb_track);
         setPopUpList();
         btnSearch = view.findViewById(R.id.btn_search_catalog);
-        btnSearch.setOnClickListener(v -> Toast.makeText(getContext(), "aaaaaaa", Toast.LENGTH_SHORT).show());
+        textSearch = view.findViewById(R.id.search_text);
+
+        btnSearch.setOnClickListener(v -> {
+            if (textSearch.getEditText().getText().toString().matches("")) {
+                textSearch.setError("Search field is empty!");
+                return;
+            }
+            if (rdb1.isChecked())
+                Toast.makeText(getContext(), "Album" + textSearch.getEditText().getText().toString(), Toast.LENGTH_SHORT).show();
+            else if (rdb2.isChecked())
+                Toast.makeText(getContext(), "Artist", Toast.LENGTH_SHORT).show();
+            else if (rdb3.isChecked())
+                Toast.makeText(getContext(), "Tracks", Toast.LENGTH_SHORT).show();
+            else {
+                textSearch.setError("Select a categories below!");
+            }
+        });
 
     }
 
@@ -101,9 +124,9 @@ public class Catalog extends Fragment {
     }
 
     private void setRadiosListener() {
-        rdb1.setOwnChachedChangeListener((buttonView, isChecked) -> Toast.makeText(getContext(), "ok", Toast.LENGTH_SHORT).show());
-        rdb2.setOwnChachedChangeListener((buttonView, isChecked) -> Toast.makeText(getContext(), "ok1", Toast.LENGTH_SHORT).show());
-        rdb3.setOwnChachedChangeListener((buttonView, isChecked) -> Toast.makeText(getContext(), "ok2", Toast.LENGTH_SHORT).show());
+        rdb1.setOwnChachedChangeListener((buttonView, isChecked) -> textSearch.setError(null));
+        rdb2.setOwnChachedChangeListener((buttonView, isChecked) -> textSearch.setError(null));
+        rdb3.setOwnChachedChangeListener((buttonView, isChecked) -> textSearch.setError(null));
 
     }
 
