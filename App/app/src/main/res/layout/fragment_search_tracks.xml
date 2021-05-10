@@ -1,14 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/search_tracks"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/blue_light"
+    android:clickable="true"
+    android:elevation="22dp"
+    android:focusable="true"
     tools:context=".Search.SearchTracks">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        app:actionModeCloseDrawable="@style/Theme.UpTune">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleMarginBottom="20dp"
+            app:expandedTitleMarginStart="15dp"
+            app:expandedTitleTextAppearance="@color/zxing_transparent"
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/search_tracks_img"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:background="@drawable/rounded_button"
+                android:src="@drawable/logo2"
+                app:layout_collapseMode="parallax"
+                app:shapeAppearanceOverlay="@style/Circular"
+                app:strokeColor="@color/orange"
+                app:strokeWidth="3dp" />
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/search_tracks_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:background="@android:color/transparent"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.ActionBar"
+                app:title="Our categories" />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-</FrameLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_tracks_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:padding="10dp"
+            app:layout_behavior="com.google.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

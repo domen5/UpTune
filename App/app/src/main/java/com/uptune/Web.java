@@ -138,8 +138,6 @@ public class Web {
                         .getJSONArray("images")
                         .getJSONObject(0)
                         .getString("url");
-                //Log.d("charts", artistsList.get(0));
-                Log.d("charts", stringUrl);
                 URL image = new URL(stringUrl);
                 ChartItem item = new ChartItem(name, image, artistsList);
 
@@ -255,10 +253,10 @@ public class Web {
         return obj.getJSONObject("albums").getJSONArray("items");
     }
 
-    public static JSONArray getSingerFromName(String type) throws IOException, JSONException {
+    public static JSONArray getArtistFromName(String type) throws IOException, JSONException {
         URL url = new URL("https://api.spotify.com/v1/search?query=" + URLEncoder.encode(type, String.valueOf(StandardCharsets.UTF_8)) + "&type=artist&limit=20");
         JSONObject obj = getJsonFromUrl(url);
-        return obj.getJSONObject("tracks").getJSONArray("items");
+        return obj.getJSONObject("artists").getJSONArray("items");
     }
 
     public static JSONObject getJsonFromUrl(URL url) throws IOException {

@@ -35,6 +35,8 @@ import com.uptune.Helper.CardContainer;
 import com.uptune.Helper.RadioButtonClass;
 import com.uptune.R;
 import com.uptune.Search.SearchAlbum;
+import com.uptune.Search.SearchArtist;
+import com.uptune.Search.SearchTracks;
 import com.uptune.Web;
 
 import org.json.JSONArray;
@@ -102,26 +104,34 @@ public class Catalog extends Fragment {
         textSearch = view.findViewById(R.id.search_text);
 
         btnSearch.setOnClickListener(v -> {
-
             if (textSearch.getEditText().getText().toString().matches("")) {
                 textSearch.setError("Search field is empty!");
                 return;
             }
             String name = textSearch.getEditText().getText().toString();
             if (rdb1.isChecked()) {
-                Toast.makeText(getContext(), "Album" + textSearch.getEditText().getText().toString(), Toast.LENGTH_SHORT).show();
                 Fragment fr = new SearchAlbum(name);
                 FragmentManager fm = getFragmentManager();
                 FragmentTransaction transaction = fm.beginTransaction();
                 transaction.replace(R.id.catalog, fr);
                 transaction.addToBackStack("a");
                 transaction.commit();
-
             } else if (rdb2.isChecked()) {
+                Fragment fr = new SearchArtist(name);
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction transaction = fm.beginTransaction();
+                transaction.replace(R.id.catalog, fr);
+                transaction.addToBackStack("a");
+                transaction.commit();
 
-            } else if (rdb3.isChecked())
-                Toast.makeText(getContext(), "Tracks", Toast.LENGTH_SHORT).show();
-            else {
+            } else if (rdb3.isChecked()) {
+                Fragment fr = new SearchTracks(name);
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction transaction = fm.beginTransaction();
+                transaction.replace(R.id.catalog, fr);
+                transaction.addToBackStack("a");
+                transaction.commit();
+            } else {
                 textSearch.setError("Select a categories below!");
             }
         });

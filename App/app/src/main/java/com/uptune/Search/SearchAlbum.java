@@ -30,7 +30,6 @@ import java.util.ArrayList;
 public class SearchAlbum extends Fragment {
     String name;
     JSONArray arr;
-    String nameTrack;
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     ArrayList<CardContainer> cardContainers = new ArrayList<>();
@@ -45,6 +44,7 @@ public class SearchAlbum extends Fragment {
         androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.search_album_toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
+        toolbar.setTitle("Album result for: "+name);
         renderCards();
         super.onViewCreated(view, savedInstanceState);
     }
