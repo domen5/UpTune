@@ -36,7 +36,6 @@ public class Web {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         URL url = new URL("https://accounts.spotify.com/api/token");
-
         HttpURLConnection http = (HttpURLConnection) url.openConnection();
         http.setRequestMethod("POST");
         http.setDoOutput(true);
@@ -304,8 +303,30 @@ public class Web {
         return obj;
     }
 
-
     public static String getToken() {
         return token;
+    }
+
+    public static JSONObject getBarCodeStuff(String code) throws IOException, JSONException {
+        URL url = new URL("https://api.barcodelookup.com/v2/products?barcode="+code+"&formatted=y&key=wggaht6g74x4b9jlybc5esh31n630w");
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        JSONObject obj = null;
+        String tmp = null;
+        HttpURLConnection http = (HttpURLConnection) url.openConnection();
+        http.setRequestProperty("Authorization", "Bearer " + "wggaht6g74x4b9jlybc5esh31n630w");
+        BufferedReader br = null;
+        br = new BufferedReader(new InputStreamReader(http.getInputStream()));
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            tmp = br.lines().collect(Collectors.joining());
+        }
+        try {
+            obj = new JSONObject(tmp);
+
+        } catch (JSONException err) {
+            Log.d("Error", err.toString());
+        }
+        http.disconnect();
+        return obj.getJSONObject("products");
     }
 }

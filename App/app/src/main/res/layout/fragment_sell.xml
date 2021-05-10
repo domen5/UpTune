@@ -1,15 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/sell"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/blue_light"
     tools:context=".Account.Sell">
 
-    <Button
-        android:id="@+id/scan_album"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:padding="40dp"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fullName"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Album Title"
+            app:boxStrokeColor="@color/white"
+            app:boxStrokeErrorColor="#8E1800"
+            app:errorTextAppearance="@color/white"
+            app:errorTextColor="#8E1800"
+            app:hintTextColor="@color/white"
+            app:startIconDrawable="@drawable/ic_fullname">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fullName2"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Artist Name"
+            app:boxStrokeColor="@color/white"
+            app:boxStrokeErrorColor="#8E1800"
+            app:errorTextAppearance="@color/white"
+            app:errorTextColor="#8E1800"
+            app:hintTextColor="@color/white"
+            app:startIconDrawable="@drawable/ic_fullname">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Label"
+            app:boxStrokeColor="@color/white"
+            app:boxStrokeErrorColor="#8E1800"
+            app:errorTextAppearance="@color/white"
+            app:errorTextColor="#8E1800"
+            app:hintTextColor="@color/white"
+            app:startIconDrawable="@drawable/ic_fullname">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Label"
+            app:boxStrokeColor="@color/white"
+            app:boxStrokeErrorColor="#8E1800"
+            app:errorTextAppearance="@color/white"
+            app:errorTextColor="#8E1800"
+            app:hintTextColor="@color/white"
+            app:startIconDrawable="@drawable/ic_fullname">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Comment"
+            app:boxStrokeColor="@color/white"
+            app:boxStrokeErrorColor="#8E1800"
+            app:errorTextAppearance="@color/white"
+            app:errorTextColor="#8E1800"
+            app:hintTextColor="@color/white"
+            app:startIconDrawable="@drawable/ic_fullname">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:id="@+id/scan_code"
+            android:layout_height="wrap_content"
+            android:text="Scan the bar code" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add photo" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

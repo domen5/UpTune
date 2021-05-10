@@ -37,6 +37,7 @@ import com.uptune.Catalog.Catalog;
 import com.uptune.MainActivity;
 import com.uptune.Navigation.SpaceTab;
 import com.uptune.R;
+import com.uptune.Search.SearchAlbum;
 import com.uptune.SessionAccount;
 
 import java.io.ByteArrayOutputStream;
@@ -94,19 +95,12 @@ public class Account extends Fragment {
             Toast.makeText(getContext(), "2", Toast.LENGTH_SHORT).show();
         });
         btnSearch.setOnClickListener(e -> {
-            Fragment fragment = new Catalog();
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.account_frag, fragment);
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
+            Fragment fr = new Catalog();
+            SwitchFragment(fr);
         });
         btnSell.setOnClickListener(e -> {
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(getId(), new Sell());
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
+            Fragment fr = new Sell();
+            SwitchFragment(fr);
         });
         btnRating.setOnClickListener(e -> {
             Toast.makeText(getContext(), "5", Toast.LENGTH_SHORT).show();
@@ -117,6 +111,14 @@ public class Account extends Fragment {
         logout.setOnClickListener(v -> {
             openLogoutDialog();
         });
+    }
+
+    private void SwitchFragment(Fragment fr) {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.account_frag, fr);
+        transaction.addToBackStack("a");
+        transaction.commit();
     }
 
     private void openFileChooser() {
@@ -144,6 +146,7 @@ public class Account extends Fragment {
 
                     }
                 }
+
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                 }
