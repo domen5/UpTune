@@ -2,6 +2,8 @@ package com.uptune;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -21,7 +23,14 @@ public class ChartsSelector extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_charts_selector, container, false);
+
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_charts_selector, container, false);
+        return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         final ImageButton btn1 = view.findViewById(R.id.btnTopTracksGloblal);
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -30,9 +39,10 @@ public class ChartsSelector extends Fragment {
                         "https://api.spotify.com/v1/playlists/37i9dQZEVXbNG2KDcFcKOF");
                 FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
                 transaction.replace(R.id.chart_selector, someFragment); // give your fragment container id in first parameter
+                transaction.addToBackStack("a");
                 transaction.commit();
             }
         });
-        return view;
+
     }
 }

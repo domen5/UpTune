@@ -56,22 +56,27 @@ public class Chart extends Fragment {
     private String title;
     private String playlistUrl;
 
-    @Override
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_chart, container, false);
-        this.rwTopTracksGlobal = view.findViewById(R.id.topTracksGlobal);
-        this.rwTopTracksGlobal.setHasFixedSize(true);
-        this.rwTopTracksGlobal.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-
-        final List<ChartItem> items = Web.getTopTracksGlobal();
-        this.rwTopTracksGlobal.setAdapter(new ChartAdapter(items));
-
-        return view;
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_chart, container, false);
+        return root;
     }
+
+
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.toolbar_charts);
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setNavigationOnClickListener(v ->getFragmentManager().popBackStack());
+
+        this.rwTopTracksGlobal = view.findViewById(R.id.topTracksGlobal);
+        this.rwTopTracksGlobal.setHasFixedSize(true);
+        this.rwTopTracksGlobal.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        final List<ChartItem> items = Web.getTopTracksGlobal();
+        this.rwTopTracksGlobal.setAdapter(new ChartAdapter(items));
     }
 
     @Override
