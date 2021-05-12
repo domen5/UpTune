@@ -63,18 +63,20 @@ public class Chart extends Fragment {
     }
 
 
-
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.toolbar_charts);
         toolbar.setNavigationIcon(R.drawable.ic_back);
-        toolbar.setNavigationOnClickListener(v ->getFragmentManager().popBackStack());
+        toolbar.setNavigationOnClickListener(v -> getFragmentManager().popBackStack());
 
-        this.rwTopTracksGlobal = view.findViewById(R.id.topTracksGlobal);
-        this.rwTopTracksGlobal.setHasFixedSize(true);
-        this.rwTopTracksGlobal.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        rwTopTracksGlobal = view.findViewById(R.id.topTracksGlobal);
+        rwTopTracksGlobal.setHasFixedSize(true);
+        rwTopTracksGlobal.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        rwTopTracksGlobal.setItemViewCacheSize(20);
+        rwTopTracksGlobal.setDrawingCacheEnabled(true);
+        rwTopTracksGlobal.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         final List<ChartItem> items = Web.getTopTracksGlobal();
         this.rwTopTracksGlobal.setAdapter(new ChartAdapter(items));
     }
@@ -93,7 +95,7 @@ public class Chart extends Fragment {
      * this fragment using the provided parameters.
      *
      * @param title Title of the chart.
-     * @param url Url of the playlist.
+     * @param url   Url of the playlist.
      * @return A new instance of fragment charts_selector.
      */
     // TODO: Rename and change types and number of parameters

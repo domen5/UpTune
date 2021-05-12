@@ -38,9 +38,9 @@ public class SpaceTab extends AppCompatActivity {
         //add the fragments you want to display in a List
         List<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(new Catalog());
+        fragmentList.add(new Account());
         fragmentList.add(new ChartsSelector());
         fragmentList.add(new fragment_welcome3());
-        fragmentList.add(new Account());
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
         tabLayout = (SpaceTabLayout) findViewById(R.id.spaceTabLayout);
@@ -48,7 +48,6 @@ public class SpaceTab extends AppCompatActivity {
         tabLayout.initialize(viewPager, getSupportFragmentManager(),
                 fragmentList, savedInstanceState);
         tabLayout.setTabFourIcon(R.drawable.ic_user);
-        Web.initialize();
     }
 
     //we need the outState to save the position

@@ -35,6 +35,8 @@ public class CategoriesDetails extends Fragment {
     RecyclerView.Adapter adapter;
     URL img;
 
+    public CategoriesDetails(){};
+
     public CategoriesDetails(String title, URL img, String id) {
         this.id = id;
         this.title = title;

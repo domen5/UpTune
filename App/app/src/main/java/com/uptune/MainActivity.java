@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity  {
         } else {
             try {
                 Web.httpCall();
+                Web.initialize();
             } catch (IOException e) {
                 e.printStackTrace();
             }
