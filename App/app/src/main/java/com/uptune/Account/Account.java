@@ -99,8 +99,8 @@ public class Account extends Fragment {
             SwitchFragment(fr);
         });
         btnSell.setOnClickListener(e -> {
-            Fragment fr = new Sell();
-            SwitchFragment(fr);
+            Intent intent = new Intent(getActivity(), SellActivity.class);
+            startActivity(intent);
         });
         btnRating.setOnClickListener(e -> {
             Toast.makeText(getContext(), "5", Toast.LENGTH_SHORT).show();
