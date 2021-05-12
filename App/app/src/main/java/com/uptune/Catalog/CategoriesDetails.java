@@ -58,6 +58,9 @@ public class CategoriesDetails extends Fragment {
         }
         bestCateg = view.findViewById(R.id.categ_details);
         bestCateg.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        bestCateg.setItemViewCacheSize(20);
+        bestCateg.setDrawingCacheEnabled(true);
+        bestCateg.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
         ArrayList<CardContainer> setData = new ArrayList<>();
         try {

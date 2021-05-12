@@ -204,6 +204,18 @@ public class Catalog extends Fragment {
         artist.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         bestCat.setHasFixedSize(true);
         bestCat.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        artist.setItemViewCacheSize(20);
+        artist.setDrawingCacheEnabled(true);
+        artist.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+
+        newRelease.setItemViewCacheSize(20);
+        newRelease.setDrawingCacheEnabled(true);
+        newRelease.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+
+        bestCat.setItemViewCacheSize(20);
+        bestCat.setDrawingCacheEnabled(true);
+        bestCat.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+
         adapter = new NewReleaseAdapter(setNewRelease);
         this.newRelease.setAdapter(adapter);
         adapter = new CardArtistAdapter(setArtist);
