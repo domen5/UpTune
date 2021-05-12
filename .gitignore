@@ -85,3 +85,4 @@ lint/tmp/
 # lint/reports/
 App/.idea/markdown-navigator-enh.xml
 App/.idea/markdown-navigator.xml
+App/.idea/runConfigurations.xml

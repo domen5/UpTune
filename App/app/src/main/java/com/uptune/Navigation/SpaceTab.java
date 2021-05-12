@@ -1,25 +1,16 @@
 package com.uptune.Navigation;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 import com.uptune.Account.Account;
 import com.uptune.Catalog.Catalog;
-import com.uptune.Chart.Chart;
-import com.uptune.ChartsSelector;
-import com.uptune.Helper.CaptureAct;
+import com.uptune.Chart.ChartsSelector;
 import com.uptune.Login.Welcome.fragment_welcome3;
 import com.uptune.R;
-import com.uptune.Web;
 
 import java.util.ArrayList;
 import java.util.List;

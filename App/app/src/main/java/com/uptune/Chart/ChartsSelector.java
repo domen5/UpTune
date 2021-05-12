@@ -1,4 +1,4 @@
-package com.uptune;
+package com.uptune.Chart;
 
 import android.os.Bundle;
 
@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.uptune.Chart.Chart;
+import com.uptune.R;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,11 +33,23 @@ public class ChartsSelector extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final ImageButton btn1 = view.findViewById(R.id.btnTopTracksGloblal);
+        final ImageButton btn2 = view.findViewById(R.id.btnTopTracksItaly);
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Chart someFragment = Chart.newInstance("Top Songs Global",
-                        "https://api.spotify.com/v1/playlists/37i9dQZEVXbNG2KDcFcKOF");
+                        "37i9dQZEVXbNG2KDcFcKOF");
+                FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+                transaction.replace(R.id.chart_selector, someFragment); // give your fragment container id in first parameter
+                transaction.addToBackStack("a");
+                transaction.commit();
+            }
+        });
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Chart someFragment = Chart.newInstance("Top Songs Italy",
+                        "37i9dQZEVXbJUPkgaWZcWG");
                 FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
                 transaction.replace(R.id.chart_selector, someFragment); // give your fragment container id in first parameter
                 transaction.addToBackStack("a");

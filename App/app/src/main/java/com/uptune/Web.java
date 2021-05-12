@@ -13,7 +13,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -100,8 +99,8 @@ public class Web {
         try {
             bestSongsGlobal = new ArrayList<>();
             fetchItems(new URL("https://api.spotify.com/v1/playlists/37i9dQZEVXbNG2KDcFcKOF"), bestSongsGlobal);
-//            bestSongsItaly = new ArrayList<>();
-//            fetchItems(new URL("https://api.spotify.com/v1/playlists/37i9dQZEVXbNG2KDcFcKOF"), bestSongsGlobal);
+            bestSongsItaly = new ArrayList<>();
+            fetchItems(new URL("https://api.spotify.com/v1/playlists/37i9dQZEVXbIQnj7RRhdSX"), bestSongsItaly);
 //            bestAlbumsGlobal = new ArrayList<>();
 //            fetchItems(new URL("https://api.spotify.com/v1/playlists/37i9dQZEVXbNG2KDcFcKOF"), bestSongsGlobal);
 //            bestAlbumsItaly = new ArrayList<>();
@@ -109,6 +108,16 @@ public class Web {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static List<ChartItem> getCachedPlaylist(String id) {
+        if(id == "37i9dQZEVXbNG2KDcFcKOF") {
+            return getTopTracksGlobal();
+        }
+        if(id == "37i9dQZEVXbJUPkgaWZcWG") {
+            return getTopTracksItaly();
+        }
+        return null;
     }
 
     public static void fetchItems(URL url, List<ChartItem> items) {
@@ -155,14 +164,7 @@ public class Web {
         return bestSongsGlobal;
     }
 
-    public static JSONArray getTopTracksItaly() throws IOException, JSONException {
-        URL url = new URL("https://api.spotify.com/v1/playlists/37i9dQZEVXbJUPkgaWZcWG");
-        JSONArray arr = getJsonFromUrl(url)
-                .getJSONObject("tracks")
-                .getJSONArray("items");
-        return arr;
-
-    }
+    public static List<ChartItem> getTopTracksItaly() { return bestSongsItaly; }
 
     public static JSONArray getTopAlbumsGlobal() throws IOException, JSONException {
         URL url = new URL("https://api.spotify.com/v1/playlists/37i9dQZEVXbNG2KDcFcKOF");

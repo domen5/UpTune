@@ -9,7 +9,7 @@
     android:clickable="true"
     android:elevation="22dp"
     android:focusable="true"
-    tools:context=".ChartsSelector">
+    tools:context=".Chart.ChartsSelector">
 
 
     <LinearLayout
