@@ -307,7 +307,7 @@ public class Web {
         return token;
     }
 
-    public static JSONObject getBarCodeStuff(String code) throws IOException, JSONException {
+    public static JSONArray getBarCodeStuff(String code) throws IOException, JSONException {
         URL url = new URL("https://api.barcodelookup.com/v2/products?barcode="+code+"&formatted=y&key=wggaht6g74x4b9jlybc5esh31n630w");
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -322,11 +322,10 @@ public class Web {
         }
         try {
             obj = new JSONObject(tmp);
-
         } catch (JSONException err) {
             Log.d("Error", err.toString());
         }
         http.disconnect();
-        return obj.getJSONObject("products");
+        return obj.getJSONArray("products");
     }
 }
