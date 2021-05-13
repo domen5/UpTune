@@ -74,8 +74,4 @@ public class Chart extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
-    private void switchChart(View view) {
-
-    }
 }

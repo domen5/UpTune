@@ -23,6 +23,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import kaaes.spotify.webapi.android.SpotifyApi;
+import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.Track;
+import retrofit.RequestInterceptor;
+import retrofit.RestAdapter;
+
 public class Web {
 
     private static String token = "";
@@ -111,10 +117,10 @@ public class Web {
     }
 
     public static List<ChartItem> getCachedPlaylist(String id) {
-        if(id == "37i9dQZEVXbNG2KDcFcKOF") {
+        if (id == "37i9dQZEVXbNG2KDcFcKOF") {
             return getTopTracksGlobal();
         }
-        if(id == "37i9dQZEVXbJUPkgaWZcWG") {
+        if (id == "37i9dQZEVXbJUPkgaWZcWG") {
             return getTopTracksItaly();
         }
         return null;
@@ -164,7 +170,9 @@ public class Web {
         return bestSongsGlobal;
     }
 
-    public static List<ChartItem> getTopTracksItaly() { return bestSongsItaly; }
+    public static List<ChartItem> getTopTracksItaly() {
+        return bestSongsItaly;
+    }
 
     public static JSONArray getTopAlbumsGlobal() throws IOException, JSONException {
         URL url = new URL("https://api.spotify.com/v1/playlists/37i9dQZEVXbNG2KDcFcKOF");
@@ -220,6 +228,23 @@ public class Web {
         URL url = new URL("https://api.spotify.com/v1/artists/" + id);
         JSONObject obj = getJsonFromUrl(url);
         return obj;
+    }
+
+    public static Track getSong(String id) {
+        final RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint(SpotifyApi.SPOTIFY_WEB_API_ENDPOINT)
+                .setRequestInterceptor(new RequestInterceptor() {
+                    @Override
+                    public void intercept(RequestFacade request) {
+                        request.addHeader("Authorization", "Bearer " + token);
+                    }
+                })
+                .build();
+
+        final SpotifyService spotify = restAdapter.create(SpotifyService.class);
+        final Track track = spotify.getTrack(id);
+
+        return track;
     }
 
 
@@ -310,7 +335,7 @@ public class Web {
     }
 
     public static JSONArray getBarCodeStuff(String code) throws IOException, JSONException {
-        URL url = new URL("https://api.barcodelookup.com/v2/products?barcode="+code+"&formatted=y&key=wggaht6g74x4b9jlybc5esh31n630w");
+        URL url = new URL("https://api.barcodelookup.com/v2/products?barcode=" + code + "&formatted=y&key=wggaht6g74x4b9jlybc5esh31n630w");
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         JSONObject obj = null;
