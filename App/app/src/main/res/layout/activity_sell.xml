@@ -7,14 +7,26 @@
     android:background="@color/blue_light"
     tools:context=".Account.SellActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_sell"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@android:color/transparent"
+        app:layout_collapseMode="pin"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.ActionBar" />
+
     <LinearLayout
+        android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/toolbar_sell">
+
 
         <TextView
             android:layout_width="match_parent"
@@ -112,7 +124,7 @@
             app:errorTextAppearance="@color/white"
             app:errorTextColor="#8E1800"
             app:hintTextColor="@color/white"
-            app:startIconDrawable="@drawable/ic_fullname">
+            app:startIconDrawable="@drawable/ic_rate">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -123,29 +135,29 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="22dp"
             android:gravity="center"
             android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_weight="1"
                 android:id="@+id/sell_price"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:hint="Price"
                 app:boxStrokeColor="@color/white"
                 app:boxStrokeErrorColor="#8E1800"
                 app:errorTextAppearance="@color/white"
                 app:errorTextColor="#8E1800"
                 app:hintTextColor="@color/white"
-                app:startIconDrawable="@drawable/ic_money">
+                app:prefixText="€">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
-
 
 
             <com.google.android.material.button.MaterialButton
@@ -155,22 +167,35 @@
                 android:layout_weight="1"
                 android:background="@drawable/rounded_button"
                 android:text="Add photo" />
-
         </LinearLayout>
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/sell_add_img"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="left"
+            android:background="@color/white"
+            android:src="@drawable/logo2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/Circular"
+            app:strokeColor="@color/orange"
+            app:strokeWidth="3dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/scan_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:textSize="12dp"
             android:background="@drawable/rounded_button"
-            android:text="Scan the bar code to fill the form" />
+            android:text="Scan the bar code to fill the form"
+            android:textSize="12dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_sell_now"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="Sell now!" />
 
     </LinearLayout>
