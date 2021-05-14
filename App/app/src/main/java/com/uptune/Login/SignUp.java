@@ -92,7 +92,6 @@ public class SignUp extends AppCompatActivity {
             rootNode = FirebaseDatabase.getInstance();
             reference = rootNode.getReference("user");
             UserHelper helper = new UserHelper(name, username, mail, phone, password);
-
             reference.child(username.getEditText().getText().toString()).setValue(helper);
             Intent intent = new Intent(SignUp.this, FirstLogin.class);
             startActivity(intent);

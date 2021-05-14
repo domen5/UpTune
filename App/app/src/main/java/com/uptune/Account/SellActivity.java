@@ -17,11 +17,20 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.JsonArray;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.uptune.Helper.CaptureAct;
+import com.uptune.Helper.LookupSell;
+import com.uptune.Helper.SellHelper;
+import com.uptune.Helper.UserHelper;
+import com.uptune.Login.FirstLogin;
+import com.uptune.Login.SignUp;
 import com.uptune.R;
+import com.uptune.SessionAccount;
 import com.uptune.Web;
 
 import org.json.JSONArray;
@@ -38,6 +47,9 @@ public class SellActivity extends AppCompatActivity {
     MaterialButton scan, sell;
     TextInputLayout album, artist, label, manufacturer, comment, price;
     ShapeableImageView img;
+    DatabaseReference reference;
+    FirebaseAuth auth;
+    URL productImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +76,22 @@ public class SellActivity extends AppCompatActivity {
 
         sell = findViewById(R.id.btn_sell_now);
         sell.setOnClickListener(v -> {
-
+            auth = FirebaseAuth.getInstance();
+            reference = FirebaseDatabase.getInstance().getReference("used");
+            String name = album.getEditText().getText().toString();
+            String label = this.label.getEditText().getText().toString();
+            String artist = this.artist.getEditText().getText().toString();
+            String desc = this.comment.getEditText().getText().toString();
+            String manuf = this.manufacturer.getEditText().getText().toString();
+            String price = this.price.getEditText().getText().toString();
+            String img = productImg.toString();
+            SellHelper sellHelper = new SellHelper(name, label, artist, desc, manuf, price, img);
+            reference.push().setValue(sellHelper);
+            String key = reference.push().getKey();
+            Toast.makeText(this, key, Toast.LENGTH_LONG).show();
+            LookupSell lookupSell= new LookupSell("SessionAccount.getUsername()", key);
+            reference = FirebaseDatabase.getInstance().getReference("lookupUsed");
+            reference.child("leleshady").push().setValue(lookupSell);
         });
     }
 
@@ -100,7 +127,7 @@ public class SellActivity extends AppCompatActivity {
                         String productArtist = current.getString("artist");
                         String productDescription = current.getString("description");
                         String productManufacturer = current.getString("manufacturer");
-                        URL productImg = new URL(current.getJSONArray("images").getString(0));
+                        productImg = new URL(current.getJSONArray("images").getString(0));
                         String price = current.getJSONArray("stores").getJSONObject(0).getString("store_price");
                         setSellTexts(productName, productLabel, productArtist, productDescription, productManufacturer, price, productImg);
                     }

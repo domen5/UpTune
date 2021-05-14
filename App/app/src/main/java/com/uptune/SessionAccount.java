@@ -9,7 +9,7 @@ public class SessionAccount {
     public SessionAccount() {
         this.mail = null;
         this.name = null;
-        this.username = null;
+        this.username = "leleshady";
         this.phone = null;
     }
 
