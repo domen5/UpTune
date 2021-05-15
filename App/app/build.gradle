@@ -44,6 +44,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.navigation:navigation-fragment:2.2.2'
     implementation 'androidx.navigation:navigation-ui:2.2.2'
+    implementation 'androidx.preference:preference:1.1.1'
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

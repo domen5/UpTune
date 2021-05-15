@@ -92,7 +92,8 @@ public class Account extends Fragment {
             Toast.makeText(getContext(), "1", Toast.LENGTH_SHORT).show();
         });
         btnSettings.setOnClickListener(e -> {
-            Toast.makeText(getContext(), "2", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getActivity(), SettingsActivity.class);
+            startActivity(intent);
         });
         btnSearch.setOnClickListener(e -> {
             Fragment fr = new Catalog();
