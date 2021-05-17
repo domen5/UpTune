@@ -17,9 +17,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.UpTune">
+        <activity android:name=".Account.MyFiles"></activity>
         <activity
             android:name=".Account.SettingsActivity"
-            android:label="@string/title_activity_settings"></activity>
+            android:label="@string/title_activity_settings" />
         <activity android:name=".Account.SellActivity" />
         <activity
             android:name=".Navigation.SpaceTab"

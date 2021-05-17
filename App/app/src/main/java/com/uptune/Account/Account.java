@@ -89,7 +89,8 @@ public class Account extends Fragment {
 
         //button event
         btnMyFiles.setOnClickListener(e -> {
-            Toast.makeText(getContext(), "1", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getActivity(), MyFiles.class);
+            startActivity(intent);
         });
         btnSettings.setOnClickListener(e -> {
             Intent intent = new Intent(getActivity(), SettingsActivity.class);
@@ -116,10 +117,7 @@ public class Account extends Fragment {
 
     private void SwitchFragment(Fragment fr) {
         FragmentManager fm = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.account_frag, fr);
-        transaction.addToBackStack("a");
-        transaction.commit();
+        fm.beginTransaction().replace(R.id.account_frag, fr).commit();
     }
 
     private void openFileChooser() {
