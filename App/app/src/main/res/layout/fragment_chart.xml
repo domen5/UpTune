@@ -66,21 +66,6 @@
                 android:padding="10dp"
                 app:layout_behavior="com.google.material.appbar.AppBarLayout$ScrollingViewBehavior" />
     </androidx.core.widget.NestedScrollView>
-
-        <!--
-                <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/topTracksItaly"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </androidx.recyclerview.widget.RecyclerView>
-        <LinearLayout
-            android:id="@+id/topTracksGlobal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-        </LinearLayout>
-        -->
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 

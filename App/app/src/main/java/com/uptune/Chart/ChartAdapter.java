@@ -27,12 +27,10 @@ import java.util.List;
 
 public class ChartAdapter extends RecyclerView.Adapter<ChartAdapter.ViewHolder> {
     private final List<ChartItem> items;
-    private FragmentManager fragmentManager;
     private  int fragmentId;
 
-    public ChartAdapter(List<ChartItem> items, FragmentManager fragmentManager, int fragmentId) {
+    public ChartAdapter(List<ChartItem> items, int fragmentId) {
         this.items = items;
-        this.fragmentManager = fragmentManager;
         this.fragmentId = fragmentId;
     }
 
@@ -55,8 +53,6 @@ public class ChartAdapter extends RecyclerView.Adapter<ChartAdapter.ViewHolder> 
 
         viewHolder.getTrackNameView().setText(item.getName());
         viewHolder.getTrackArtistView().setText(item.getArtistsString());
-
-        // image was already retrieved from url
         viewHolder.getCoverImageView().setImageBitmap(item.getImageFile());
 
         viewHolder.getCardView().setOnClickListener(new View.OnClickListener() {

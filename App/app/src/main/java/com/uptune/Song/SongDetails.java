@@ -51,18 +51,18 @@ public class SongDetails extends Fragment {
             @Override
             public void success(Track track, Response response) {
                 Log.d("song", track.name);
-////                toolbar.setTitle(track.name);
-//                try {
-//                    final String imagePath = track.album.images.get(0).url;
-//                    final URL imageUrl = new URL(imagePath);
-//                    Bitmap image = BitmapFactory.decodeStream(imageUrl.openConnection().getInputStream());
-//                    //
-//                    //  *********   SET IMAGE INTO IMAGE VIEW   *********
-//                    //
-//                } catch (Exception e) {
-//                    Log.e("ERROR", "No image found " + e.getMessage());
-//                    e.printStackTrace();
-//                }
+                toolbar.setTitle(track.name);
+                try {
+                    final String imagePath = track.album.images.get(0).url;
+                    final URL imageUrl = new URL(imagePath);
+                    Bitmap image = BitmapFactory.decodeStream(imageUrl.openConnection().getInputStream());
+                    //
+                    //  *********   SET IMAGE INTO IMAGE VIEW   *********
+                    //
+                } catch (Exception e) {
+                    Log.e("ERROR", "No image found " + e.getMessage());
+                    e.printStackTrace();
+                }
             }
 
             @Override
