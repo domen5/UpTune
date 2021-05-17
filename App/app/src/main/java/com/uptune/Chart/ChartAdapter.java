@@ -1,27 +1,39 @@
 package com.uptune.Chart;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.card.MaterialCardView;
 import com.uptune.R;
+import com.uptune.Song.SongDetails;
 
 import java.io.IOException;
 import java.util.List;
 
 public class ChartAdapter extends RecyclerView.Adapter<ChartAdapter.ViewHolder> {
     private final List<ChartItem> items;
+    private FragmentManager fragmentManager;
+    private  int fragmentId;
 
-    public ChartAdapter(List<ChartItem> items) {
+    public ChartAdapter(List<ChartItem> items, FragmentManager fragmentManager, int fragmentId) {
         this.items = items;
+        this.fragmentManager = fragmentManager;
+        this.fragmentId = fragmentId;
     }
 
     // Create new views (invoked by the layout manager)
@@ -46,6 +58,20 @@ public class ChartAdapter extends RecyclerView.Adapter<ChartAdapter.ViewHolder> 
 
         // image was already retrieved from url
         viewHolder.getCoverImageView().setImageBitmap(item.getImageFile());
+
+        viewHolder.getCardView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("called","Card n# " + item.getId());
+                SongDetails details = SongDetails.newInstance(item.getId());
+                AppCompatActivity activity = (AppCompatActivity) v.getContext();
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(fragmentId, details)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
     }
 
     @Override
@@ -57,13 +83,14 @@ public class ChartAdapter extends RecyclerView.Adapter<ChartAdapter.ViewHolder> 
         private final TextView trackNameView;
         private final TextView trackArtistView;
         private final ImageView coverImageView;
-
+        private final MaterialCardView cardView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             this.trackNameView = itemView.findViewById(R.id.trackNameView);
             this.trackArtistView = itemView.findViewById(R.id.trackArtistView);
             this.coverImageView = itemView.findViewById(R.id.coverImageView);
+            this.cardView = itemView.findViewById(R.id.chart_card_view);
         }
 
         public TextView getTrackNameView() {
@@ -77,5 +104,7 @@ public class ChartAdapter extends RecyclerView.Adapter<ChartAdapter.ViewHolder> 
         public ImageView getCoverImageView() {
             return this.coverImageView;
         }
+
+        public MaterialCardView getCardView() { return this.cardView; }
     }
 }

@@ -19,14 +19,19 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
+import kaaes.spotify.webapi.android.SpotifyApi;
+import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.Album;
 import kaaes.spotify.webapi.android.models.Track;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class SongDetails extends Fragment {
-    private String title;
     private String id;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_chart, container, false);
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_song_details, container, false);
         return root;
     }
 
@@ -38,31 +43,41 @@ public class SongDetails extends Fragment {
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(v -> getFragmentManager().popBackStack());
 
-        final Track track = Web.getSong(id);
-        toolbar.setTitle(track.name);
+        final SpotifyApi api = new SpotifyApi();
+        api.setAccessToken(Web.getToken());
 
-        try {
-            final String imagePath = track.album.images.get(0).url;
-            final URL imageUrl = new URL(imagePath);
-            Bitmap image = BitmapFactory.decodeStream(imageUrl.openConnection().getInputStream());
-            //
-            //  *********   SET IMAGE INTO IMAGE VIEW   *********
-            //
-        } catch (MalformedURLException e) {
-            Log.e("ERROR", "No image found " + e.getMessage());
-            e.printStackTrace();
-        } catch (IOException e) {
-            Log.e("ERROR", "No image found " + e.getMessage());
-            e.printStackTrace();
-        }
+        final SpotifyService spotify = api.getService();
+        spotify.getTrack(this.id, new Callback<Track>() {
+            @Override
+            public void success(Track track, Response response) {
+                Log.d("song", track.name);
+////                toolbar.setTitle(track.name);
+//                try {
+//                    final String imagePath = track.album.images.get(0).url;
+//                    final URL imageUrl = new URL(imagePath);
+//                    Bitmap image = BitmapFactory.decodeStream(imageUrl.openConnection().getInputStream());
+//                    //
+//                    //  *********   SET IMAGE INTO IMAGE VIEW   *********
+//                    //
+//                } catch (Exception e) {
+//                    Log.e("ERROR", "No image found " + e.getMessage());
+//                    e.printStackTrace();
+//                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e("ERROR", error.getMessage());
+            }
+        });
+
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            this.title = getArguments().getString("title");
-            this.id = getArguments().getString("url");
+            this.id = getArguments().getString("id");
         }
     }
 
@@ -70,15 +85,13 @@ public class SongDetails extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param title Title of the chart.
      * @param id   Url of the playlist.
      * @return A new instance of fragment charts_selector.
      */
     // TODO: Rename and change types and number of parameters
-    public static SongDetails newInstance(String title, String id) {
+    public static SongDetails newInstance(String id) {
         SongDetails fragment = new SongDetails();
         Bundle args = new Bundle();
-        args.putString("title", title);
         args.putString("id", id);
         fragment.setArguments(args);
         return fragment;

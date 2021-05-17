@@ -14,12 +14,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ChartItem {
+    private String id;
     private String name;
     private List<String> artists;
     private URL imageUrl;
     private Bitmap imageFile;
 
-    public ChartItem(String name, URL image, String...artists) {
+    public ChartItem(String id, String name, URL image, String...artists) {
+        this.id = id;
         this.name = name;
         this.imageUrl = image;
         this.artists = new ArrayList<String>();
@@ -28,7 +30,8 @@ public class ChartItem {
         }
     }
 
-    public ChartItem(String name, URL image, List<String> artists) {
+    public ChartItem(String id, String name, URL image, List<String> artists) {
+        this.id = id;
         this.name = name;
         this.imageUrl = image;
         this.artists = artists;
@@ -37,6 +40,8 @@ public class ChartItem {
     public void fetchImage() throws IOException {
         this.imageFile = BitmapFactory.decodeStream(this.imageUrl.openConnection().getInputStream());
     }
+
+    public String getId() { return  this.id; }
 
     public Bitmap getImageFile() { return imageFile; }
 

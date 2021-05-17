@@ -43,9 +43,7 @@ public class Chart extends Fragment {
         recyclerView.setDrawingCacheEnabled(true);
         recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         final List<ChartItem> items = Web.getCachedPlaylist(this.playlistUrl);
-        this.recyclerView.setAdapter(new ChartAdapter(items));
-
-
+        this.recyclerView.setAdapter(new ChartAdapter(items, getChildFragmentManager(), R.id.topTracksGlobal));
     }
 
     @Override

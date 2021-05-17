@@ -136,11 +136,14 @@ public class Web {
             for (int i = 0; i < arr.length(); i++) {
                 JSONObject current = arr.getJSONObject(i).getJSONObject("track");
 
+                // Id
+                String id = current.getString("id");
+
                 // name
                 String name = current.getString("name");
-                JSONArray artists = current.getJSONArray("artists");
 
                 // artists
+                JSONArray artists = current.getJSONArray("artists");
                 List<String> artistsList = new ArrayList<>();
                 for (int a = 0; a < artists.length(); a++) {
                     String currentArtist = artists.getJSONObject(a).getString("name");
@@ -153,7 +156,7 @@ public class Web {
                         .getJSONObject(0)
                         .getString("url");
                 URL image = new URL(stringUrl);
-                ChartItem item = new ChartItem(name, image, artistsList);
+                ChartItem item = new ChartItem(id, name, image, artistsList);
 
                 // download image
                 item.fetchImage();
@@ -243,6 +246,7 @@ public class Web {
 
         final SpotifyService spotify = restAdapter.create(SpotifyService.class);
         final Track track = spotify.getTrack(id);
+
 
         return track;
     }
