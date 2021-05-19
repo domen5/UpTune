@@ -16,6 +16,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/user_songs_recycler"
+            android:layout_width="match_parent"
+            app:layout_behavior="com.google.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            android:layout_height="wrap_content">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
         <Button
             android:id="@+id/btn_download"
             android:layout_width="wrap_content"
@@ -35,13 +43,6 @@
                 android:layout_margin="30dp"
                 android:text="Play" />
 
-            <Button
-                android:id="@+id/btn_stop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="30dp"
-                android:text="Stop" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -57,10 +58,11 @@
                 android:text="0:00" />
 
             <SeekBar
-                android:layout_width="match_parent"
-                android:layout_weight="1"
                 android:id="@+id/player_seek"
-                android:layout_height="wrap_content" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
             <TextView
                 android:id="@+id/total_time"
                 android:layout_width="wrap_content"
