@@ -86,10 +86,13 @@ public class SellActivity extends AppCompatActivity {
             String price = this.price.getEditText().getText().toString();
             String img = productImg.toString();
             SellHelper sellHelper = new SellHelper(name, label, artist, desc, manuf, price, img);
-            reference.push().setValue(sellHelper);
-            String key = reference.push().getKey();
+
+            DatabaseReference ref = reference.push();
+            ref.setValue(sellHelper);
+            String key = ref.getKey();
+
             Toast.makeText(this, key, Toast.LENGTH_LONG).show();
-            LookupSell lookupSell= new LookupSell("SessionAccount.getUsername()", key);
+            LookupSell lookupSell = new LookupSell("SessionAccount.getUsername()", key);
             reference = FirebaseDatabase.getInstance().getReference("lookupUsed");
             reference.child("leleshady").push().setValue(lookupSell);
         });
