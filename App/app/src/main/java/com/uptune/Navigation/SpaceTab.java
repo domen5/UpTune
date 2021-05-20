@@ -11,6 +11,7 @@ import com.uptune.Catalog.Catalog;
 import com.uptune.Chart.ChartsSelector;
 import com.uptune.Login.Welcome.fragment_welcome3;
 import com.uptune.R;
+import com.uptune.Used.Used;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +32,14 @@ public class SpaceTab extends AppCompatActivity {
         fragmentList.add(new Catalog());
         fragmentList.add(new Account());
         fragmentList.add(new ChartsSelector());
-        fragmentList.add(new fragment_welcome3());
+        fragmentList.add(new Used());
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
         tabLayout = (SpaceTabLayout) findViewById(R.id.spaceTabLayout);
         //we need the savedInstanceState to get the position
         tabLayout.initialize(viewPager, getSupportFragmentManager(),
                 fragmentList, savedInstanceState);
-        tabLayout.setTabFourIcon(R.drawable.ic_user);
+        tabLayout.setTabFourIcon(R.drawable.ic_recycle);
     }
 
     //we need the outState to save the position
