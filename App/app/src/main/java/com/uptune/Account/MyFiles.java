@@ -53,21 +53,19 @@ public class MyFiles extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         rootNode = FirebaseDatabase.getInstance();
         reference = rootNode.getReference("owned").child("leleshady");
-     //String a= reference.child();
+        //String a= reference.child();
 
 
         ArrayList<SongList> setSongOwned = new ArrayList<>();
         setSongOwned.add(new SongList("Intro", "1"));
         setSongOwned.add(new SongList("Shoot", "2"));
 
-        androidx.recyclerview.widget.RecyclerView rv = findViewById(R.id.user_songs_recycler);
+        RecyclerView rv = findViewById(R.id.user_songs_recycler);
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         adapter = new UserSongAdapter(setSongOwned, this);
         rv.setAdapter(adapter);
     }
-
-
 
     private void download() {
         storageReference = firebaseStorage.getInstance().getReference("Shoot the stars aim for the moon/");

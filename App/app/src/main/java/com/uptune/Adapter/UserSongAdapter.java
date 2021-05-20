@@ -42,6 +42,7 @@ public class UserSongAdapter extends RecyclerView.Adapter<UserSongAdapter.Featur
     MediaPlayer mediaPlayer;
     int state = -1;
     private Handler handler = new Handler();
+    FeatureViewHolder playingHolder;
 
     public UserSongAdapter(ArrayList<SongList> location, Context context) {
         this.location = location;
@@ -62,23 +63,70 @@ public class UserSongAdapter extends RecyclerView.Adapter<UserSongAdapter.Featur
     public void onBindViewHolder(@NonNull FeatureViewHolder holder, int position) {
         SongList songList = location.get(position);
         holder.title.setText(songList.getTitle());
+
         holder.btnPlay.setOnClickListener(v -> {
-            if (mediaPlayer.isPlaying()) {
+
+            // PAUSE
+            if (mediaPlayer.isPlaying() && (state == position)) {
+                Log.d("media", "PAUSE");
                 handler.removeCallbacksAndMessages(null);
                 mediaPlayer.pause();
                 holder.btnPlay.setImageResource(R.drawable.ic_music_play);
-            } else {
-                if (state != position) {
-                    try {
-                        prepare(holder);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                return;
+            }
+
+            // PLAY
+            if (!mediaPlayer.isPlaying() && (state != position)) {
+                Log.d("media", "PLAY");
+                if (playingHolder != null) {
+                    // playingHolder.makeStopPlayeing()
+                    Log.d("media", "CHANGE");
+
                 }
+
+                try {
+                    prepare(holder);
+                    mediaPlayer.start();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                playingHolder = holder;
                 state = position;
-                mediaPlayer.start();
                 updateSeek(holder);
                 holder.btnPlay.setImageResource(R.drawable.ic_music_pause);
+                return;
+            }
+
+            // RESUME
+            if(!mediaPlayer.isPlaying() && (state == position)) {
+                Log.d("media", "RESUME");
+                int pos = mediaPlayer.getDuration() / 100 * holder.seekBar.getProgress();
+                holder.currentTime.setText(millisToTimer(mediaPlayer.getCurrentPosition()));
+                mediaPlayer.start();
+                mediaPlayer.seekTo(pos);
+                holder.btnPlay.setImageResource(R.drawable.ic_music_pause);
+//                updateSeek(holder);
+                return;
+            }
+
+            // CHANGE
+            if(mediaPlayer.isPlaying() && state != position) {
+                Log.d("media", "CHANGE");
+                mediaPlayer.reset();
+                playingHolder.btnPlay.setImageResource(R.drawable.ic_music_play);
+                playingHolder.seekBar.setProgress(0);
+
+                try {
+                    prepare(holder);
+                    mediaPlayer.start();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                playingHolder = holder;
+                state = position;
+                updateSeek(holder);
+                holder.btnPlay.setImageResource(R.drawable.ic_music_pause);
+                return;
             }
         });
         holder.seekBar.setOnTouchListener((v, event) -> {
@@ -89,6 +137,7 @@ public class UserSongAdapter extends RecyclerView.Adapter<UserSongAdapter.Featur
             return false;
         });
         holder.btnDownload.setOnClickListener(v -> download());
+
     }
 
     private void updateSeek(FeatureViewHolder holder) {
