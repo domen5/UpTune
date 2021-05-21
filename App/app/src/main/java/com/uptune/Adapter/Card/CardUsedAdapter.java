@@ -46,6 +46,8 @@ public class CardUsedAdapter extends RecyclerView.Adapter<com.uptune.Adapter.Car
         }
         holder.img.setImageBitmap(image);
         holder.name.setText(usedElement.getName());
+        holder.price.setText(usedElement.getPrice());
+        holder.user.setText(usedElement.getUser());
         Log.i("USED", usedElement.getName());
     }
 

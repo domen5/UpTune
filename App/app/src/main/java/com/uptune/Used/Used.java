@@ -28,8 +28,6 @@ import java.util.ArrayList;
 public class Used extends Fragment {
 
     ArrayList<UsedElement> setCards = new ArrayList<>();
-    FirebaseDatabase rootNode = FirebaseDatabase.getInstance();
-    DatabaseReference reference = rootNode.getReference("used");
 
     RecyclerView usedCardsRecycler;
     RecyclerView.Adapter adapter;
@@ -42,7 +40,6 @@ public class Used extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_used, container, false);
     }
 
@@ -50,16 +47,22 @@ public class Used extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         usedCardsRecycler = view.findViewById(R.id.used_catalog_recycler);
+        getData();
+        usedCardsRecycler.setHasFixedSize(true);
+        usedCardsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        adapter = new CardUsedAdapter(setCards);
+        this.usedCardsRecycler.setAdapter(adapter);
+    }
 
-
+    private void getData() {
+        FirebaseDatabase rootNode = FirebaseDatabase.getInstance();
+        DatabaseReference reference = rootNode.getReference("used");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                setCards = new ArrayList<>();
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     UsedElement ele = d.getValue(UsedElement.class);
-
-
-                    Log.i("Used", ele.toString());
                     setCards.add(ele);
                 }
             }
@@ -68,9 +71,5 @@ public class Used extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-        usedCardsRecycler.setHasFixedSize(true);
-        usedCardsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        adapter = new CardUsedAdapter(setCards);
-        this.usedCardsRecycler.setAdapter(adapter);
     }
 }

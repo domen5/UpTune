@@ -4,13 +4,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class UsedElement {
-    String artist, description, label, manuf, name, price;
+    String artist, description, label, manuf, name, price, user;
     URL img;
 
     public UsedElement() {
     }
 
-    public UsedElement(String artist, String description, String img, String label, String manuf, String name, String price) throws MalformedURLException {
+    public UsedElement(String artist, String description, String img, String label, String manuf, String name, String price, String user) throws MalformedURLException {
         this.artist = artist;
         this.description = description;
         this.label = label;
@@ -18,6 +18,15 @@ public class UsedElement {
         this.name = name;
         this.price = price;
         this.img = new URL(img);
+        this.user = user;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 
     public String getArtist() {

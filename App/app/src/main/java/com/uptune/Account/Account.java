@@ -2,6 +2,8 @@ package com.uptune.Account;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -19,11 +21,13 @@ import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.database.DataSnapshot;
@@ -32,6 +36,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.uptune.Catalog.Catalog;
 import com.uptune.MainActivity;
@@ -49,7 +57,8 @@ public class Account extends Fragment {
     TextView accountName, accountMail;
     ShapeableImageView accountImg;
     Uri tmpImg;
-
+    StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+    DatabaseReference root = FirebaseDatabase.getInstance().getReference("user");
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,18 +83,11 @@ public class Account extends Fragment {
         accountName = view.findViewById(R.id.account_username_txt);
         accountMail = view.findViewById(R.id.account_mail_txt);
 
-
         //Set account data
         accountName.setText(SessionAccount.getName());
         accountMail.setText(SessionAccount.getMail());
-
         //change img
-        accountImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openFileChooser();
-            }
-        });
+        accountImg.setOnClickListener(v -> openFileChooser());
 
         //button event
         btnMyFiles.setOnClickListener(e -> {
@@ -141,18 +143,38 @@ public class Account extends Fragment {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
                         String name = dataSnapshot.child(SessionAccount.getUsername()).child("img").getValue(String.class);
-
-
                     }
                 }
-
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                 }
             });
             //Upload img view
             Picasso.get().load(tmpImg).into(accountImg);
+            //Upload in DB
+            final ProgressDialog progressDialog = new ProgressDialog(getContext());
+            progressDialog.setTitle("Uploading...");
+            progressDialog.show();
+
+            StorageReference ref = storageReference.child(System.currentTimeMillis() + "." + getFilesExtension(tmpImg));
+            ref.putFile(tmpImg).addOnSuccessListener(taskSnapshot -> {
+                Model model = new Model(tmpImg.toString());
+                String id = root.push().getKey();
+                root.child(id).setValue(model);
+                progressDialog.dismiss();
+                Toast.makeText(getContext(), "Uploaded", Toast.LENGTH_LONG).show();
+            }).addOnProgressListener(snapshot -> {
+                double progress = (100.0 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
+                progressDialog.setMessage("Loading" + progress + "%");
+            });
         }
+    }
+
+    private String getFilesExtension(Uri tmpImg) {
+        ContentResolver cr = getContext().getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cr.getType(tmpImg));
+
     }
 
     private void openLogoutDialog() {
@@ -172,4 +194,24 @@ public class Account extends Fragment {
         dialog.show();
     }
 
+}
+
+class Model {
+    private String imgUrl;
+
+    public Model() {
+
+    }
+
+    public Model(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
 }
