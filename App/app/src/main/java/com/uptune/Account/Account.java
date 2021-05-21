@@ -147,6 +147,7 @@ public class Account extends Fragment {
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Toast.makeText(getContext(), "DB PROBLEM", Toast.LENGTH_LONG).show();
                 }
             });
             //Upload img view
@@ -156,7 +157,8 @@ public class Account extends Fragment {
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
 
-            StorageReference ref = storageReference.child(System.currentTimeMillis() + "." + getFilesExtension(tmpImg));
+            StorageReference ref = storageReference.child("upload/" +
+                    "").child(System.currentTimeMillis() + "." + getFilesExtension(tmpImg));
             ref.putFile(tmpImg).addOnSuccessListener(taskSnapshot -> {
                 Model model = new Model(tmpImg.toString());
                 String id = root.push().getKey();

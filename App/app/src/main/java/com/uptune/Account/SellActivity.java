@@ -1,12 +1,17 @@
 package com.uptune.Account;
 
 import android.Manifest;
+import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,12 +21,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.auth.api.signin.internal.Storage;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -36,6 +44,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 public class SellActivity extends AppCompatActivity {
@@ -135,7 +144,34 @@ public class SellActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == IMAGE_PICK_CODE) {
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+            DatabaseReference root = FirebaseDatabase.getInstance().getReference("img");
             img.setImageURI(data.getData());
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Uploading...");
+            progressDialog.show();
+            StorageReference ref = storageReference.child("upload/" +
+                    "").child(System.currentTimeMillis() + "." + getFilesExtension(data.getData()));
+            ref.putFile(data.getData()).addOnSuccessListener(taskSnapshot -> {
+                Model model = new Model(data.getData().toString());
+                String id = root.push().getKey();
+                root.child(id).setValue(model);
+                Task<Uri> result = taskSnapshot.getStorage().getDownloadUrl();
+                result.addOnSuccessListener(uri -> {
+                    try {
+                        Log.i("URLI", uri.toString());
+                        productImg = new URL(uri.toString());
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+                });
+
+                progressDialog.dismiss();
+                Toast.makeText(this, "Uploaded", Toast.LENGTH_LONG).show();
+            }).addOnProgressListener(snapshot -> {
+                double progress = (100.0 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
+                progressDialog.setMessage("Loading" + progress + "%");
+            });
         } else {
             IntentResult res = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
             if (res != null) {
@@ -186,4 +222,11 @@ public class SellActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+    private String getFilesExtension(Uri tmpImg) {
+        ContentResolver cr = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cr.getType(tmpImg));
+    }
+
 }
