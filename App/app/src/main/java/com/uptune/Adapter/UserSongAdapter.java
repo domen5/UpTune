@@ -72,6 +72,28 @@ public class UserSongAdapter extends RecyclerView.Adapter<UserSongAdapter.Featur
 
         holder.btnPlay.setOnClickListener(v -> {
 
+            // PLAY
+            if (!mediaPlayer.isPlaying() && (state != position)) {
+                Log.d("media", "PLAY");
+                if (playingHolder != null) {
+                    // playingHolder.makeStopPlayeing()
+                    playingHolder.btnPlay.setImageResource(R.drawable.ic_music_play);
+                    Log.d("media", "CHANGE");
+                }
+                playingHolder = holder;
+                state = position;
+
+                try {
+                    prepare(holder);
+                    mediaPlayer.start();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                updateSeek();
+                holder.btnPlay.setImageResource(R.drawable.ic_music_pause);
+                return;
+            }
+
             // PAUSE
             if (mediaPlayer.isPlaying() && (state == position)) {
                 Log.d("media", "PAUSE");
@@ -81,42 +103,20 @@ public class UserSongAdapter extends RecyclerView.Adapter<UserSongAdapter.Featur
                 return;
             }
 
-            // PLAY
-            if (!mediaPlayer.isPlaying() && (state != position)) {
-                Log.d("media", "PLAY");
-                if (playingHolder != null) {
-                    // playingHolder.makeStopPlayeing()
-                    playingHolder.btnPlay.setImageResource(R.drawable.ic_music_play);
-                    Log.d("media", "CHANGE");
-                }
-
-                try {
-                    prepare(holder);
-                    mediaPlayer.start();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                playingHolder = holder;
-                state = position;
-                updateSeek(holder);
-                holder.btnPlay.setImageResource(R.drawable.ic_music_pause);
-                return;
-            }
-
             // RESUME
-            if(!mediaPlayer.isPlaying() && (state == position)) {
+            if (!mediaPlayer.isPlaying() && (state == position)) {
                 Log.d("media", "RESUME");
                 int pos = mediaPlayer.getDuration() / 100 * holder.seekBar.getProgress();
                 holder.currentTime.setText(millisToTimer(mediaPlayer.getCurrentPosition()));
                 mediaPlayer.start();
                 mediaPlayer.seekTo(pos);
                 holder.btnPlay.setImageResource(R.drawable.ic_music_pause);
-//                updateSeek(holder);
+                updateSeek();
                 return;
             }
 
             // CHANGE
-            if(mediaPlayer.isPlaying() && state != position) {
+            if (mediaPlayer.isPlaying() && state != position) {
                 Log.d("media", "CHANGE");
                 mediaPlayer.reset();
                 playingHolder.btnPlay.setImageResource(R.drawable.ic_music_play);
@@ -130,18 +130,17 @@ public class UserSongAdapter extends RecyclerView.Adapter<UserSongAdapter.Featur
                 }
                 playingHolder = holder;
                 state = position;
-                updateSeek(holder);
+//                updateSeek();
                 holder.btnPlay.setImageResource(R.drawable.ic_music_pause);
                 return;
             }
         });
 
-        final FeatureViewHolder myHolder = holder;
         holder.seekBar.setOnTouchListener((v, event) -> {
             SeekBar seekBar = (SeekBar) v;
             int pos = mediaPlayer.getDuration() / 100 * seekBar.getProgress();
-            myHolder.currentTime.setText(millisToTimer(mediaPlayer.getCurrentPosition()));
-            if(myHolder == playingHolder) {
+            holder.currentTime.setText(millisToTimer(mediaPlayer.getCurrentPosition()));
+            if (holder == playingHolder) {
                 mediaPlayer.seekTo(pos);
             }
             return false;
@@ -153,14 +152,22 @@ public class UserSongAdapter extends RecyclerView.Adapter<UserSongAdapter.Featur
         this.mediaPlayer.release();
     }
 
-    private void updateSeek(FeatureViewHolder holder) {
-        if (mediaPlayer.isPlaying()) {
-            holder.seekBar.setProgress((int) (((float) mediaPlayer.getCurrentPosition() / mediaPlayer.getDuration()) * 100));
-            handler.postDelayed(() -> {
+    private void updateSeek() {
+        Runnable mUpdateTimeTask = new Runnable() {
+            public void run() {
+                long totalDuration = mediaPlayer.getDuration();
                 long currentDuration = mediaPlayer.getCurrentPosition();
-                holder.currentTime.setText(millisToTimer(currentDuration));
-            }, 1000);
-        }
+
+                // Updating progress bar
+                int progress = (int) (currentDuration * 100l / totalDuration);
+                //Log.d("Progress", ""+progress);
+                playingHolder.seekBar.setProgress(progress);
+
+                // Running this thread after 100 milliseconds
+                handler.postDelayed(this, 1000);
+            }
+        };
+        handler.postDelayed(mUpdateTimeTask, 1000);
     }
 
     private String millisToTimer(long millis) {
@@ -185,7 +192,6 @@ public class UserSongAdapter extends RecyclerView.Adapter<UserSongAdapter.Featur
         mediaPlayer.setDataSource("https://firebasestorage.googleapis.com/v0/b/uptune-2d37c.appspot.com/o/Shoot%20the%20stars%20aim%20for%20the%20moon%2F01%20Bad%20Bitch%20from%20Tokyo%20(Intro).m4a?alt=media&token=5417b3b9-be65-4776-896d-09d4f9790f8d");
         mediaPlayer.prepare();
         holder.totalTime.setText(millisToTimer(mediaPlayer.getDuration()));
-        updateSeek(holder);
     }
 
     private void download() {
