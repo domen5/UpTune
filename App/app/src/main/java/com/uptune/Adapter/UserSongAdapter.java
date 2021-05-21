@@ -48,6 +48,12 @@ public class UserSongAdapter extends RecyclerView.Adapter<UserSongAdapter.Featur
         this.location = location;
         this.context = context;
         mediaPlayer = new MediaPlayer();
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                playingHolder.btnPlay.setImageResource(R.drawable.ic_music_play);
+            }
+        });
     }
 
     @NonNull
@@ -80,8 +86,8 @@ public class UserSongAdapter extends RecyclerView.Adapter<UserSongAdapter.Featur
                 Log.d("media", "PLAY");
                 if (playingHolder != null) {
                     // playingHolder.makeStopPlayeing()
+                    playingHolder.btnPlay.setImageResource(R.drawable.ic_music_play);
                     Log.d("media", "CHANGE");
-
                 }
 
                 try {
@@ -129,15 +135,22 @@ public class UserSongAdapter extends RecyclerView.Adapter<UserSongAdapter.Featur
                 return;
             }
         });
+
+        final FeatureViewHolder myHolder = holder;
         holder.seekBar.setOnTouchListener((v, event) -> {
             SeekBar seekBar = (SeekBar) v;
             int pos = mediaPlayer.getDuration() / 100 * seekBar.getProgress();
-            mediaPlayer.seekTo(pos);
-            holder.currentTime.setText(millisToTimer(mediaPlayer.getCurrentPosition()));
+            myHolder.currentTime.setText(millisToTimer(mediaPlayer.getCurrentPosition()));
+            if(myHolder == playingHolder) {
+                mediaPlayer.seekTo(pos);
+            }
             return false;
         });
         holder.btnDownload.setOnClickListener(v -> download());
+    }
 
+    public void releaseMediaPlayer() {
+        this.mediaPlayer.release();
     }
 
     private void updateSeek(FeatureViewHolder holder) {

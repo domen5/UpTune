@@ -39,7 +39,7 @@ public class MyFiles extends AppCompatActivity {
     FirebaseStorage firebaseStorage;
     StorageReference storageReference;
     StorageReference ref;
-    RecyclerView.Adapter adapter;
+    UserSongAdapter adapter;
     FirebaseDatabase rootNode;
     DatabaseReference reference;
     FirebaseAuth auth;
@@ -85,5 +85,11 @@ public class MyFiles extends AppCompatActivity {
         req.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         req.setDestinationInExternalFilesDir(context, dest, fileName + ext);
         downloadManager.enqueue(req);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        this.adapter.releaseMediaPlayer();
     }
 }
