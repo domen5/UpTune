@@ -4,7 +4,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class UsedElement {
-    String artist, description, label, manuf, name, price, user;
+    String artist, description, label, manuf, name, price, user, id;
     URL img;
 
     public UsedElement() {
@@ -19,6 +19,14 @@ public class UsedElement {
         this.price = price;
         this.img = new URL(img);
         this.user = user;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getUser() {

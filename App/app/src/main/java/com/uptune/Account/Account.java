@@ -137,14 +137,17 @@ public class Account extends Fragment {
             //set data in db
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("user");
             Query checkUser = reference.orderByChild("username").equalTo(SessionAccount.getUsername());
-
             checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
+                        Model model = new Model(tmpImg.toString());
                         String name = dataSnapshot.child(SessionAccount.getUsername()).child("img").getValue(String.class);
+                        String id = root.child("leleshady").push().getKey();
+                        root.child(id).setValue(model);
                     }
                 }
+
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                     Toast.makeText(getContext(), "DB PROBLEM", Toast.LENGTH_LONG).show();

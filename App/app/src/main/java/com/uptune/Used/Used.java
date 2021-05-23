@@ -63,6 +63,7 @@ public class Used extends Fragment {
                 setCards = new ArrayList<>();
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     UsedElement ele = d.getValue(UsedElement.class);
+                    ele.setId(d.getKey());
                     setCards.add(ele);
                 }
             }

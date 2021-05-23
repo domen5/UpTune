@@ -8,10 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.uptune.Buy.BuyUsed;
+import com.uptune.Catalog.CategoriesDetails;
 import com.uptune.R;
 import com.uptune.Used.UsedElement;
 
@@ -48,7 +53,15 @@ public class CardUsedAdapter extends RecyclerView.Adapter<com.uptune.Adapter.Car
         holder.name.setText(usedElement.getName());
         holder.price.setText(usedElement.getPrice());
         holder.user.setText(usedElement.getUser());
-        Log.i("USED", usedElement.getName());
+        holder.card.setOnClickListener(v -> {
+            //    Toast.makeText(v.getContext(), location.get(position).getId() + " ok", Toast.LENGTH_LONG).show()
+            AppCompatActivity activity = (AppCompatActivity) v.getContext();
+            activity.getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.catalog_used, new BuyUsed(location.get(position).getId() ))
+                            .addToBackStack("a")
+                            .commit();
+        });
     }
 
 
@@ -60,6 +73,7 @@ public class CardUsedAdapter extends RecyclerView.Adapter<com.uptune.Adapter.Car
     public static class FeatureViewHolder extends RecyclerView.ViewHolder {
         ImageView img;
         TextView name, price, user;
+        ConstraintLayout card;
 
         public FeatureViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -67,6 +81,7 @@ public class CardUsedAdapter extends RecyclerView.Adapter<com.uptune.Adapter.Car
             name = itemView.findViewById(R.id.used_name);
             price = itemView.findViewById(R.id.used_price);
             user = itemView.findViewById(R.id.used_user);
+            card = itemView.findViewById(R.id.card_used);
         }
     }
 }

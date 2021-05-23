@@ -481,5 +481,17 @@
         </com.google.android.material.circularreveal.CircularRevealGridLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="2dp"
+        android:text="Logout"
+        android:fontFamily="@font/antic"
+        android:textSize="12dp"
+        app:layout_constraintEnd_toStartOf="@+id/btn_logout"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
