@@ -33,26 +33,30 @@ import java.util.ArrayList;
 import static android.os.Environment.DIRECTORY_DOWNLOADS;
 
 public class UserSongAdapter extends RecyclerView.Adapter<UserSongAdapter.FeatureViewHolder> {
-
     Context context;
     ArrayList<SongList> location;
     FirebaseStorage firebaseStorage;
     StorageReference storageReference;
     StorageReference ref;
     MediaPlayer mediaPlayer;
-    int state = -1;
     private Handler handler = new Handler();
+    private Runnable updateSeek;
     FeatureViewHolder playingHolder;
+    int state = -1;
 
     public UserSongAdapter(ArrayList<SongList> location, Context context) {
         this.location = location;
         this.context = context;
         mediaPlayer = new MediaPlayer();
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
+        mediaPlayer.setOnCompletionListener(mp -> {
+            if (this.updateSeek != null)
+                handler.removeCallbacks(this.updateSeek);
+            mp.reset();
+            handler.postDelayed(() -> {
                 playingHolder.btnPlay.setImageResource(R.drawable.ic_music_play);
-            }
+                playingHolder.seekBar.setProgress(0);
+                playingHolder.currentTime.setText(millisToTimer(0));
+            }, 1000);
         });
     }
 
@@ -76,7 +80,6 @@ public class UserSongAdapter extends RecyclerView.Adapter<UserSongAdapter.Featur
             if (!mediaPlayer.isPlaying() && (state != position)) {
                 Log.d("media", "PLAY");
                 if (playingHolder != null) {
-                    // playingHolder.makeStopPlayeing()
                     playingHolder.btnPlay.setImageResource(R.drawable.ic_music_play);
                     Log.d("media", "CHANGE");
                 }
@@ -85,7 +88,9 @@ public class UserSongAdapter extends RecyclerView.Adapter<UserSongAdapter.Featur
 
                 try {
                     prepare(holder);
+                    int pos = mediaPlayer.getDuration() / 100 * holder.seekBar.getProgress();
                     mediaPlayer.start();
+                    mediaPlayer.seekTo(pos);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -120,17 +125,17 @@ public class UserSongAdapter extends RecyclerView.Adapter<UserSongAdapter.Featur
                 Log.d("media", "CHANGE");
                 mediaPlayer.reset();
                 playingHolder.btnPlay.setImageResource(R.drawable.ic_music_play);
-                playingHolder.seekBar.setProgress(0);
 
                 try {
                     prepare(holder);
+                    int pos = mediaPlayer.getDuration() / 100 * holder.seekBar.getProgress();
                     mediaPlayer.start();
+                    mediaPlayer.seekTo(pos);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 playingHolder = holder;
                 state = position;
-//                updateSeek();
                 holder.btnPlay.setImageResource(R.drawable.ic_music_pause);
                 return;
             }
@@ -153,21 +158,22 @@ public class UserSongAdapter extends RecyclerView.Adapter<UserSongAdapter.Featur
     }
 
     private void updateSeek() {
-        Runnable mUpdateTimeTask = new Runnable() {
-            public void run() {
-                long totalDuration = mediaPlayer.getDuration();
-                long currentDuration = mediaPlayer.getCurrentPosition();
+        if (this.updateSeek != null) {
+            handler.removeCallbacks(this.updateSeek);
+        }
+        this.updateSeek = () -> {
+            double totalDuration = mediaPlayer.getDuration();
+            double currentDuration = mediaPlayer.getCurrentPosition();
 
-                // Updating progress bar
-                int progress = (int) (currentDuration * 100l / totalDuration);
-                //Log.d("Progress", ""+progress);
-                playingHolder.seekBar.setProgress(progress);
+            // Updating progress bar
+            int progress = (int) (currentDuration * 100.0 / totalDuration);
+            playingHolder.seekBar.setProgress(progress);
+            playingHolder.currentTime.setText(millisToTimer(mediaPlayer.getCurrentPosition()));
 
-                // Running this thread after 100 milliseconds
-                handler.postDelayed(this, 1000);
-            }
+            // Running this thread after 100 milliseconds
+            handler.postDelayed(updateSeek, 100);
         };
-        handler.postDelayed(mUpdateTimeTask, 1000);
+        handler.postDelayed(this.updateSeek, 100);
     }
 
     private String millisToTimer(long millis) {
@@ -183,7 +189,7 @@ public class UserSongAdapter extends RecyclerView.Adapter<UserSongAdapter.Featur
         else
             secStr = "" + sec;
         time = time + min + ":" + secStr;
-        Log.i("TIME", time);
+        Log.i("timerOne", time);
         return time;
     }
 
@@ -213,7 +219,6 @@ public class UserSongAdapter extends RecyclerView.Adapter<UserSongAdapter.Featur
         req.setDestinationInExternalFilesDir(context, dest, fileName + ext);
         downloadManager.enqueue(req);
     }
-
 
     @Override
     public int getItemCount() {
