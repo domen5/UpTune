@@ -20,8 +20,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.google.android.gms.auth.api.signin.internal.Storage;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
@@ -70,7 +68,7 @@ public class SellActivity extends AppCompatActivity {
         artist = findViewById(R.id.sell_artist_name);
         label = findViewById(R.id.sell_label);
         manufacturer = findViewById(R.id.sell_manufacturer);
-        comment = findViewById(R.id.sell_comment);
+        comment = findViewById(R.id.sell_description);
         price = findViewById(R.id.sell_price);
         img = findViewById(R.id.sell_add_img);
 
