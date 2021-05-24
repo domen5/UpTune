@@ -48,16 +48,13 @@ public class Used extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         usedCardsRecycler = view.findViewById(R.id.used_catalog_recycler);
         getData();
-        usedCardsRecycler.setHasFixedSize(true);
-        usedCardsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        adapter = new CardUsedAdapter(setCards);
-        this.usedCardsRecycler.setAdapter(adapter);
+
     }
 
     private void getData() {
         FirebaseDatabase rootNode = FirebaseDatabase.getInstance();
         DatabaseReference reference = rootNode.getReference("used");
-        reference.addValueEventListener(new ValueEventListener() {
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 setCards = new ArrayList<>();
@@ -65,6 +62,10 @@ public class Used extends Fragment {
                     UsedElement ele = d.getValue(UsedElement.class);
                     ele.setId(d.getKey());
                     setCards.add(ele);
+                    usedCardsRecycler.setHasFixedSize(true);
+                    usedCardsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                    adapter = new CardUsedAdapter(setCards);
+                    usedCardsRecycler.setAdapter(adapter);
                 }
             }
 
