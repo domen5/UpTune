@@ -81,7 +81,6 @@ public class ArtistDetails extends Fragment {
 
             for (int i = 0; i < arr.getJSONArray(0).length(); i++) {
                 current = arr.getJSONArray(0).getJSONObject(i);
-                //  Log.i("TOKEN2", arr.getJSONArray(0).getJSONObject(i).toString());
                 String name = current.getString("name");
                 if (setted.contains(name)) {
                     continue;

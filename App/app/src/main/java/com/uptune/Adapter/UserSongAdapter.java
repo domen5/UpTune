@@ -28,6 +28,7 @@ import com.uptune.Song.SongList;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import static android.os.Environment.DIRECTORY_DOWNLOADS;
@@ -87,7 +88,7 @@ public class UserSongAdapter extends RecyclerView.Adapter<UserSongAdapter.Featur
                 state = position;
 
                 try {
-                    prepare(holder);
+                    prepare(holder, songList.getImg());
                     int pos = mediaPlayer.getDuration() / 100 * holder.seekBar.getProgress();
                     mediaPlayer.start();
                     mediaPlayer.seekTo(pos);
@@ -127,7 +128,7 @@ public class UserSongAdapter extends RecyclerView.Adapter<UserSongAdapter.Featur
                 playingHolder.btnPlay.setImageResource(R.drawable.ic_music_play);
 
                 try {
-                    prepare(holder);
+                    prepare(holder, songList.getImg());
                     int pos = mediaPlayer.getDuration() / 100 * holder.seekBar.getProgress();
                     mediaPlayer.start();
                     mediaPlayer.seekTo(pos);
@@ -150,7 +151,7 @@ public class UserSongAdapter extends RecyclerView.Adapter<UserSongAdapter.Featur
             }
             return false;
         });
-        holder.btnDownload.setOnClickListener(v -> download());
+        holder.btnDownload.setOnClickListener(v -> download(songList.getTitle(), songList.getImg()));
     }
 
     public void releaseMediaPlayer() {
@@ -193,27 +194,21 @@ public class UserSongAdapter extends RecyclerView.Adapter<UserSongAdapter.Featur
         return time;
     }
 
-    private void prepare(FeatureViewHolder holder) throws IOException {
+    private void prepare(FeatureViewHolder holder, URL url) throws IOException {
         mediaPlayer.reset();
-        mediaPlayer.setDataSource("https://firebasestorage.googleapis.com/v0/b/uptune-2d37c.appspot.com/o/Shoot%20the%20stars%20aim%20for%20the%20moon%2F01%20Bad%20Bitch%20from%20Tokyo%20(Intro).m4a?alt=media&token=5417b3b9-be65-4776-896d-09d4f9790f8d");
+        mediaPlayer.setDataSource(url.toString());
         mediaPlayer.prepare();
         holder.totalTime.setText(millisToTimer(mediaPlayer.getDuration()));
     }
 
-    private void download() {
-        storageReference = firebaseStorage.getInstance().getReference("Shoot the stars aim for the moon/");
-        ref = storageReference.child("01 Bad Bitch from Tokyo (Intro).m4a");
-        ref.getDownloadUrl().addOnSuccessListener(uri -> {
-            String url = uri.toString();
-            downloadFiles(this.context, "01 Bad Bitch from Tokyo (Intro)", ".m4a", DIRECTORY_DOWNLOADS, url);
-        }).addOnFailureListener(e -> {
-            Toast.makeText(this.context, "NO", Toast.LENGTH_LONG).show();
-        });
+    private void download(String name, URL url) {
+
+        downloadFiles(this.context, name, ".m4a", DIRECTORY_DOWNLOADS, url);
     }
 
-    private void downloadFiles(Context context, String fileName, String ext, String dest, String url) {
+    private void downloadFiles(Context context, String fileName, String ext, String dest, URL url) {
         DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-        Uri uri = Uri.parse(url);
+        Uri uri = Uri.parse(url.toString());
         DownloadManager.Request req = new DownloadManager.Request(uri);
         req.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         req.setDestinationInExternalFilesDir(context, dest, fileName + ext);

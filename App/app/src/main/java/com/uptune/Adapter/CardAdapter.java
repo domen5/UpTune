@@ -50,7 +50,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.FeatureViewHol
             case 2:
                 v.setOnClickListener(e -> {
                     int position = fvh.getAdapterPosition();
-                    // Toast.makeText(parent.getContext(), "TEST1 " + fvh.getAdapterPosition(), Toast.LENGTH_SHORT).show();
                     AppCompatActivity activity = (AppCompatActivity) v.getContext();
                     activity.getSupportFragmentManager()
                             .beginTransaction()

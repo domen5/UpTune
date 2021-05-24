@@ -19,10 +19,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 import com.uptune.Adapter.CardAdapter;
 import com.uptune.Adapter.UserSongAdapter;
@@ -31,9 +34,12 @@ import com.uptune.R;
 import com.uptune.Song.SongList;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.os.Environment.DIRECTORY_DOWNLOADS;
 
@@ -55,22 +61,32 @@ public class MyFiles extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         rootNode = FirebaseDatabase.getInstance();
         reference = rootNode.getReference("owned").child("leleshady");
-        //String a= reference.child();
-
-
         ArrayList<SongList> setSongOwned = new ArrayList<>();
-        try {
-            setSongOwned.add(new SongList("Intro", "1", new URL("https://firebasestorage.googleapis.com/v0/b/uptune-2d37c.appspot.com/o/user%2F1621847369506.jpg?alt=media&token=36388390-9283-49f2-8390-d62f747e01cc"), ""));
-            setSongOwned.add(new SongList("Shoot", "2", new URL("https://firebasestorage.googleapis.com/v0/b/uptune-2d37c.appspot.com/o/user%2F1621847369506.jpg?alt=media&token=36388390-9283-49f2-8390-d62f747e01cc"), ""));
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
 
-        RecyclerView rv = findViewById(R.id.user_songs_recycler);
-        rv.setHasFixedSize(true);
-        rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        adapter = new UserSongAdapter(setSongOwned, this);
-        rv.setAdapter(adapter);
+
+        storageReference = firebaseStorage.getInstance().getReference("Shoot the stars aim for the moon/");
+        storageReference.listAll().addOnSuccessListener(result -> {
+            for (StorageReference fileRef : result.getItems()) {
+                Task<Uri> urlTask = fileRef.getDownloadUrl();
+                urlTask.addOnSuccessListener(uri -> {
+                    try {
+                        String url = urlTask.getResult().toString();
+                        String tmp = url.substring(url.lastIndexOf('/') + 1);
+                        String fileName = tmp.substring(0, tmp.lastIndexOf('.'));
+                        fileName  = java.net.URLDecoder.decode(fileName, StandardCharsets.UTF_8.name());
+                        fileName=fileName.substring("Shoot the stars aim for the moon/".length()+3);
+                        setSongOwned.add(new SongList(fileName, url, new URL(url), ""));
+                        RecyclerView rv = findViewById(R.id.user_songs_recycler);
+                        rv.setHasFixedSize(true);
+                        rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+                        adapter = new UserSongAdapter(setSongOwned, this);
+                        rv.setAdapter(adapter);
+                    } catch (MalformedURLException | UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
+        }).addOnFailureListener(e -> Toast.makeText(this, "FAIL", Toast.LENGTH_LONG).show());
     }
 
     private void download() {
