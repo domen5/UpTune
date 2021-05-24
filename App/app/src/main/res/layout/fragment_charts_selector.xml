@@ -11,91 +11,114 @@
     android:focusable="true"
     tools:context=".Chart.ChartsSelector">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/brandon_grotesque_black"
+            android:text="Best Songs"
+            android:textSize="22dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/materialCardView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView10">
+
+            <ImageButton
+                android:id="@+id/btnTopTracksGloblal"
+                android:layout_width="180dp"
+                android:layout_height="200dp"
+                android:backgroundTint="@color/white"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                tools:src="@drawable/logo2" />
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/materialCardView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView10">
+
+            <ImageButton
+                android:id="@+id/btnTopTracksItaly"
+                android:layout_width="180dp"
+                android:layout_height="200dp"
+                android:adjustViewBounds="true"
+                android:backgroundTint="@color/white"
+                android:scaleType="fitCenter"
+                tools:src="@drawable/ic_boombox" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/brandon_grotesque_black"
+            android:text="Best Albums"
+            android:textSize="22dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/materialCardView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView11">
+
+            <ImageButton
+                android:id="@+id/btnTopAlbumsGloblal"
+                android:layout_width="180dp"
+                android:layout_height="200dp"
+                android:adjustViewBounds="true"
+                android:backgroundTint="@color/white"
+                android:scaleType="fitCenter"
+                tools:src="@drawable/ic_boombox" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView11">
+
+            <ImageButton
+                android:id="@+id/btnTopAlbumsItaly"
+                android:layout_width="180dp"
+                android:layout_height="200dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:backgroundTint="@color/white"
+                tools:src="@drawable/ic_boombox" />
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/top_songs"
-            android:textColor="@color/black" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageButton
-                    android:id="@+id/btnTopTracksGloblal"
-                    android:layout_width="160dp"
-                    android:layout_height="160dp"
-                    android:adjustViewBounds="true"
-                    android:padding="10dp"
-                    android:scaleType="fitCenter"
-                    tools:src="@drawable/ic_boombox" />
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageButton
-                    android:id="@+id/btnTopTracksItaly"
-                    android:layout_width="160dp"
-                    android:layout_height="160dp"
-                    android:adjustViewBounds="true"
-                    android:padding="10dp"
-                    android:scaleType="fitCenter"
-                    tools:src="@drawable/ic_boombox" />
-            </com.google.android.material.card.MaterialCardView>
-        </LinearLayout>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/top_albums"
-            android:textColor="@color/black" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageButton
-                    android:id="@+id/btnTopAlbumsGloblal"
-                    android:layout_width="160dp"
-                    android:layout_height="160dp"
-                    android:adjustViewBounds="true"
-                    android:padding="10dp"
-                    android:scaleType="fitCenter"
-                    tools:src="@drawable/ic_boombox" />
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageButton
-                    android:id="@+id/btnTopAlbumsItaly"
-                    android:layout_width="160dp"
-                    android:layout_height="160dp"
-                    android:adjustViewBounds="true"
-                    android:padding="10dp"
-                    android:scaleType="fitCenter"
-                    tools:src="@drawable/ic_boombox" />
-            </com.google.android.material.card.MaterialCardView>
-        </LinearLayout>
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

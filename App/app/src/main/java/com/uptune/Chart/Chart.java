@@ -1,5 +1,7 @@
 package com.uptune.Chart;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
@@ -10,15 +12,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+
 import com.uptune.R;
 import com.uptune.Web;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
 
 public class Chart extends Fragment {
     private RecyclerView recyclerView;
     private String title;
     private String playlistUrl;
+    String img;
+    ImageView imgBg;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,7 +44,13 @@ public class Chart extends Fragment {
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(v -> getFragmentManager().popBackStack());
         toolbar.setTitle(this.title);
-
+        imgBg = view.findViewById(R.id.charts_img);
+        try {
+            Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL(img).getContent());
+            imgBg.setImageBitmap(bitmap);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         recyclerView = view.findViewById(R.id.topTracksGlobal);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -55,6 +70,7 @@ public class Chart extends Fragment {
         if (getArguments() != null) {
             this.title = getArguments().getString("title");
             this.playlistUrl = getArguments().getString("url");
+            this.img = getArguments().getString("img");
         }
     }
 
@@ -67,11 +83,13 @@ public class Chart extends Fragment {
      * @return A new instance of fragment charts_selector.
      */
     // TODO: Rename and change types and number of parameters
-    public static Chart newInstance(String title, String url) {
+    public static Chart newInstance(String title, String url, String img) {
         Chart fragment = new Chart();
         Bundle args = new Bundle();
         args.putString("title", title);
         args.putString("url", url);
+        args.putString("img", img);
+
         fragment.setArguments(args);
         return fragment;
     }
