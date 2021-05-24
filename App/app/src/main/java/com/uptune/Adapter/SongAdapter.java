@@ -1,8 +1,11 @@
 package com.uptune.Adapter;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,11 +14,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.uptune.Song.SongList;
 import com.uptune.R;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class SongAdapter extends RecyclerView.Adapter<SongAdapter.FeatureViewHolder> {
 
     ArrayList<SongList> location;
+    URL img;
 
     public SongAdapter(ArrayList<SongList> location) {
         this.location = location;
@@ -32,8 +39,17 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.FeatureViewHol
 
     @Override
     public void onBindViewHolder(@NonNull FeatureViewHolder holder, int position) {
-        SongList fetchBest = location.get(position);
-        holder.title.setText(fetchBest.getTitle());
+        SongList obj = location.get(position);
+        holder.title.setText(obj.getTitle());
+        holder.artist.setText(obj.getArtists());
+        try {
+            if (obj.getImg() != null) {
+                Bitmap bitmap = BitmapFactory.decodeStream((InputStream) obj.getImg().getContent());
+                holder.img.setImageBitmap(bitmap);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -43,11 +59,14 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.FeatureViewHol
 
 
     public static class FeatureViewHolder extends RecyclerView.ViewHolder {
-        TextView title;
+        TextView title, artist;
+        ImageView img;
 
         public FeatureViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.trackNameView);
+            img = itemView.findViewById(R.id.coverImageView);
+            artist = itemView.findViewById(R.id.trackArtistView);
         }
     }
 }

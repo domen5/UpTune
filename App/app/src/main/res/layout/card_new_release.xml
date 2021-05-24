@@ -16,7 +16,8 @@
         android:orientation="vertical"
         android:padding="10dp">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
+            app:shapeAppearanceOverlay="@style/custom_corner"
             android:id="@+id/new_release_img"
             android:layout_width="match_parent"
             android:layout_height="180dp"

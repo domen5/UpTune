@@ -48,6 +48,7 @@ public class CardDetails extends Fragment {
         androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.toolbar_card_details);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
+        toolbar.setTitle(title);
 
         Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(String.valueOf(R.id.categories_details));
         if (fragment != null)
@@ -71,7 +72,16 @@ public class CardDetails extends Fragment {
                 JSONObject current = arr.getJSONObject(i);
                 String name = current.getString("name");
                 String id = current.getString("id");
-                setData.add(new SongList(name, id));
+                String artists = "";
+                for (int j = 0; j < current.getJSONArray("artists").length(); j++) {
+                    String artistName=current.getJSONArray("artists").getJSONObject(j).getString("name");
+                    if (j == current.getJSONArray("artists").length()-1)
+                        artists += artistName;
+                    else
+                        artists +=artistName +", ";
+                }
+
+                setData.add(new SongList(name, id, img, artists));
             }
         } catch (IOException | JSONException e) {
             e.printStackTrace();

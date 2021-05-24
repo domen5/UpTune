@@ -16,10 +16,11 @@
         android:background="@color/orange_200"
         android:padding="10dp">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/card_artist_img"
             android:layout_width="100dp"
             android:layout_height="150dp"
+            app:shapeAppearanceOverlay="@style/custom_corner"
             android:scaleType="centerCrop"
             android:src="@drawable/logo2" />
 

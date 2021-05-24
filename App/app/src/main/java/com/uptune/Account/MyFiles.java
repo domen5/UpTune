@@ -31,6 +31,8 @@ import com.uptune.R;
 import com.uptune.Song.SongList;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import static android.os.Environment.DIRECTORY_DOWNLOADS;
@@ -57,8 +59,12 @@ public class MyFiles extends AppCompatActivity {
 
 
         ArrayList<SongList> setSongOwned = new ArrayList<>();
-        setSongOwned.add(new SongList("Intro", "1"));
-        setSongOwned.add(new SongList("Shoot", "2"));
+        try {
+            setSongOwned.add(new SongList("Intro", "1", new URL("https://firebasestorage.googleapis.com/v0/b/uptune-2d37c.appspot.com/o/user%2F1621847369506.jpg?alt=media&token=36388390-9283-49f2-8390-d62f747e01cc"), ""));
+            setSongOwned.add(new SongList("Shoot", "2", new URL("https://firebasestorage.googleapis.com/v0/b/uptune-2d37c.appspot.com/o/user%2F1621847369506.jpg?alt=media&token=36388390-9283-49f2-8390-d62f747e01cc"), ""));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
 
         RecyclerView rv = findViewById(R.id.user_songs_recycler);
         rv.setHasFixedSize(true);

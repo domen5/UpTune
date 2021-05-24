@@ -40,7 +40,6 @@ public class CardArtistAdapter extends RecyclerView.Adapter<com.uptune.Adapter.C
     @Override
     public com.uptune.Adapter.Card.CardArtistAdapter.FeatureViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v;
-        String bio = "";
         v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_artist, parent, false);
         com.uptune.Adapter.Card.CardArtistAdapter.FeatureViewHolder fvh = new com.uptune.Adapter.Card.CardArtistAdapter.FeatureViewHolder(v);
         v.setOnClickListener(e -> {

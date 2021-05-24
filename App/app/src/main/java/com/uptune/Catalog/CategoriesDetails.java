@@ -50,6 +50,7 @@ public class CategoriesDetails extends Fragment {
         androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.toolbar_cat_det);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(v ->getFragmentManager().popBackStack());
+        toolbar.setTitle(title);
 
         ImageView imgView = view.findViewById(R.id.categ_details_img);
 

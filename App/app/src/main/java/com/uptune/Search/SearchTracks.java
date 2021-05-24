@@ -1,5 +1,7 @@
 package com.uptune.Search;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,9 +11,11 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.uptune.Adapter.ArtistAdapter;
 import com.uptune.Adapter.SongAdapter;
@@ -25,12 +29,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
 public class SearchTracks extends Fragment {
     String name;
+    ImageView bgImg;
     JSONArray arr;
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
@@ -43,10 +49,11 @@ public class SearchTracks extends Fragment {
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         recyclerView = view.findViewById(R.id.search_tracks_list);
+        bgImg = view.findViewById(R.id.search_tracks_img);
         androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.search_tracks_toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
-        toolbar.setTitle("Tracks result for: "+name);
+        toolbar.setTitle(name);
         renderCards();
         super.onViewCreated(view, savedInstanceState);
     }
@@ -54,9 +61,7 @@ public class SearchTracks extends Fragment {
     private void renderCards() {
         try {
             arr = Web.getTracksFromName(name);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
 
@@ -65,9 +70,22 @@ public class SearchTracks extends Fragment {
                 //popularity
                 String name = arr.getJSONObject(i).getString("name");
                 String id = arr.getJSONObject(i).getString("id");
-                cardContainers.add(new SongList(name,id));
+                URL img = new URL(arr.getJSONObject(i).getJSONObject("album").getJSONArray("images").getJSONObject(0).getString("url"));
+                if (i == 0) {
+                    Bitmap bitmap = BitmapFactory.decodeStream((InputStream) img.getContent());
+                    bgImg.setImageBitmap(bitmap);
+                }
+                String artists = "";
+                for (int j = 0; j < arr.getJSONObject(i).getJSONArray("artists").length(); j++) {
+                    String artistName = arr.getJSONObject(i).getJSONArray("artists").getJSONObject(j).getString("name");
+                    if (j == arr.getJSONObject(i).getJSONArray("artists").length() - 1)
+                        artists += artistName;
+                    else
+                        artists += artistName + ", ";
+                }
+                cardContainers.add(new SongList(name, id, img, artists));
             }
-        } catch (JSONException e) {
+        } catch (JSONException | IOException e) {
             e.printStackTrace();
         }
         recyclerView.setHasFixedSize(true);

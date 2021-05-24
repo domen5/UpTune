@@ -28,6 +28,7 @@
                 tools:src="@drawable/ic_user" />
 
             <TextView
+                android:layout_marginTop="10dp"
                 android:id="@+id/trackNameView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -50,7 +51,7 @@
                 android:fontFamily="@font/antic"
                 android:singleLine="false"
                 android:textColor="@color/black"
-                android:textSize="18dp"
+                android:textSize="15dp"
                 tools:text="Artist 1, Artist 2, Artist 3" />
         </RelativeLayout>
 
