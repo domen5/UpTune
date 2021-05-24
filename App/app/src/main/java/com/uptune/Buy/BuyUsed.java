@@ -1,5 +1,6 @@
 package com.uptune.Buy;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -24,7 +25,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.JsonObject;
+import com.uptune.Account.Account;
 import com.uptune.R;
+import com.uptune.SessionAccount;
 import com.uptune.Used.UsedElement;
 import com.uptune.Web;
 
@@ -39,7 +42,7 @@ import java.net.URL;
 public class BuyUsed extends Fragment {
 
     String id;
-    ImageView imgUser, imgArtist, img;
+    ImageView imgUser, imgArtist, img, imgBg;
     TextView title, artist, description, label, manuf;
     FloatingActionButton btnBuy;
     MaterialButton bottomBuy;
@@ -68,7 +71,8 @@ public class BuyUsed extends Fragment {
         Toolbar toolbar = view.findViewById(R.id.toolbar_used);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(v -> getFragmentManager().popBackStack());
-        imgUser = view.findViewById(R.id.used_image_bg);
+        imgBg = view.findViewById(R.id.used_image_bg);
+        imgUser = view.findViewById(R.id.img_buy_profile);
         img = view.findViewById(R.id.buy_img);
         imgArtist = view.findViewById(R.id.buy_artist_img);
         btnBuy = view.findViewById(R.id.buy_now);
@@ -83,10 +87,10 @@ public class BuyUsed extends Fragment {
     }
 
     private void fetchDataAndSetValue(String id) {
-        Toast.makeText(getContext(), id, Toast.LENGTH_LONG).show();
         FirebaseDatabase rootNode = FirebaseDatabase.getInstance();
         DatabaseReference reference = rootNode.getReference("used").child(id);
         reference.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 UsedElement ele = dataSnapshot.getValue(UsedElement.class);
@@ -96,8 +100,8 @@ public class BuyUsed extends Fragment {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                imgUser.setImageBitmap(bitmap);
                 img.setImageBitmap(bitmap);
+                imgBg.setImageBitmap(bitmap);
                 bottomBuy.setText("Buy for " + ele.getPrice() + "€");
                 title.setText(ele.getName());
                 description.setText(ele.getDescription());
@@ -112,6 +116,24 @@ public class BuyUsed extends Fragment {
                     e.printStackTrace();
                 }
                 imgArtist.setImageBitmap(bitmap);
+                DatabaseReference userRef = rootNode.getReference("user").child(ele.getUser());
+                userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        SessionAccount s = dataSnapshot.getValue(SessionAccount.class);
+                        try {
+                            Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL(s.getImg()).getContent());
+                            imgUser.setImageBitmap(bitmap);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
 
             @Override

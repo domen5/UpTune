@@ -1,23 +1,26 @@
 package com.uptune.Account;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
-import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,9 +30,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,18 +41,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 import com.uptune.Catalog.Catalog;
 import com.uptune.MainActivity;
-import com.uptune.Navigation.SpaceTab;
 import com.uptune.R;
-import com.uptune.Search.SearchAlbum;
 import com.uptune.SessionAccount;
 
-import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class Account extends Fragment {
 
@@ -59,6 +61,10 @@ public class Account extends Fragment {
     Uri tmpImg;
     StorageReference storageReference = FirebaseStorage.getInstance().getReference();
     DatabaseReference root = FirebaseDatabase.getInstance().getReference("user");
+
+    private final int PERMISSION_CODE = 1001;
+    private final int IMAGE_PICK_CODE = 1000;
+    private URL userImgUpload;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,8 +92,26 @@ public class Account extends Fragment {
         //Set account data
         accountName.setText(SessionAccount.getName());
         accountMail.setText(SessionAccount.getMail());
+
+     /*   Bitmap bitmap = null;
+        try {
+            if (SessionAccount.getImg() != "" || SessionAccount.getImg() != null) {
+                bitmap = BitmapFactory.decodeStream((InputStream) new URL(SessionAccount.getImg()).getContent());
+                accountImg.setImageBitmap(bitmap);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
         //change img
-        accountImg.setOnClickListener(v -> openFileChooser());
+        accountImg.setOnClickListener(v -> {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (getContext().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                    String[] permission = {Manifest.permission.READ_EXTERNAL_STORAGE};
+                    requestPermissions(permission, PERMISSION_CODE);
+                } else openFileChooser();
+            } else
+                openFileChooser();
+        });
 
         //button event
         btnMyFiles.setOnClickListener(e -> {
@@ -106,15 +130,10 @@ public class Account extends Fragment {
             Intent intent = new Intent(getActivity(), SellActivity.class);
             startActivity(intent);
         });
-        btnRating.setOnClickListener(e -> {
-            Toast.makeText(getContext(), "5", Toast.LENGTH_SHORT).show();
-        });
-
+        btnRating.setOnClickListener(e -> Toast.makeText(getContext(), "5", Toast.LENGTH_SHORT).show());
 
         dialog = new Dialog(getContext());
-        logout.setOnClickListener(v -> {
-            openLogoutDialog();
-        });
+        logout.setOnClickListener(v -> openLogoutDialog());
     }
 
     private void SwitchFragment(Fragment fr) {
@@ -123,49 +142,63 @@ public class Account extends Fragment {
     }
 
     private void openFileChooser() {
-        Intent intent = new Intent();
+        Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, 1);
+        startActivityForResult(intent, IMAGE_PICK_CODE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                openFileChooser();
+            else
+                Toast.makeText(getContext(), "PERMISSION DENIED", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
-            tmpImg = data.getData();
-            //set data in db
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("user");
-            Query checkUser = reference.orderByChild("username").equalTo(SessionAccount.getUsername());
-            checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        Model model = new Model(tmpImg.toString());
-                        String name = dataSnapshot.child(SessionAccount.getUsername()).child("img").getValue(String.class);
-                        String id = root.child("leleshady").push().getKey();
-                        root.child(id).setValue(model);
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Toast.makeText(getContext(), "DB PROBLEM", Toast.LENGTH_LONG).show();
-                }
-            });
-            //Upload img view
-            Picasso.get().load(tmpImg).into(accountImg);
-            //Upload in DB
+        if (requestCode == IMAGE_PICK_CODE && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
+            //TO DELETE
+            new SessionAccount();
+            //
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+            accountImg.setImageURI(data.getData());
             final ProgressDialog progressDialog = new ProgressDialog(getContext());
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
+            StorageReference ref = storageReference.child("user/").child(System.currentTimeMillis() + "." + getFilesExtension(data.getData()));
+            ref.putFile(data.getData()).addOnSuccessListener(taskSnapshot -> {
+                Task<Uri> result = taskSnapshot.getStorage().getDownloadUrl();
+                result.addOnSuccessListener(uri -> {
+                    try {
+                        Log.i("URLI", uri.toString());
+                        userImgUpload = new URL(uri.toString());
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+                    FirebaseAuth auth = FirebaseAuth.getInstance();
+                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("user");
+                    Query checkUser = reference.orderByKey().equalTo(SessionAccount.getUsername());
+                    checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("user").child(SessionAccount.getUsername());
+                                mDatabase.child("img").setValue(userImgUpload.toString());
+                            } else
+                                Toast.makeText(getContext(), "NULL", Toast.LENGTH_LONG).show();
+                        }
 
-            StorageReference ref = storageReference.child("upload/" +
-                    "").child(System.currentTimeMillis() + "." + getFilesExtension(tmpImg));
-            ref.putFile(tmpImg).addOnSuccessListener(taskSnapshot -> {
-                Model model = new Model(tmpImg.toString());
-                String id = root.push().getKey();
-                root.child(id).setValue(model);
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Toast.makeText(getContext(), "DB PROBLEM", Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+                });
                 progressDialog.dismiss();
                 Toast.makeText(getContext(), "Uploaded", Toast.LENGTH_LONG).show();
             }).addOnProgressListener(snapshot -> {
@@ -205,7 +238,6 @@ class Model {
     private String imgUrl;
 
     public Model() {
-
     }
 
     public Model(String imgUrl) {

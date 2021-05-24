@@ -5,12 +5,14 @@ public class SessionAccount {
     private static String name;
     private static String username;
     private static String phone;
+    private static String img;
 
     public SessionAccount() {
         this.mail = null;
         this.name = null;
         this.username = "leleshady";
         this.phone = null;
+        this.img = "";
     }
 
     public SessionAccount(String mail, String name, String username, String phone) {
@@ -18,6 +20,7 @@ public class SessionAccount {
         this.name = name;
         this.username = username;
         this.phone = phone;
+        this.img = "";
     }
 
     public static String getMail() {
@@ -50,5 +53,13 @@ public class SessionAccount {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public  String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
     }
 }
