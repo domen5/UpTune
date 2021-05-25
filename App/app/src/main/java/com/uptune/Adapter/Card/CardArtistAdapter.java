@@ -49,10 +49,8 @@ public class CardArtistAdapter extends RecyclerView.Adapter<com.uptune.Adapter.C
                 activity.getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.catalog, new ArtistDetails(location.get(position).getTitle(), location.get(position).getImage(), location.get(position).getID(), Web.getArtistSummaryLastFm(location.get(position).getTitle()))).addToBackStack("a").commit();
-            } catch (IOException ioException) {
+            } catch (IOException | JSONException ioException) {
                 ioException.printStackTrace();
-            } catch (JSONException jsonException) {
-                jsonException.printStackTrace();
             }
         });
         return fvh;
@@ -81,9 +79,7 @@ public class CardArtistAdapter extends RecyclerView.Adapter<com.uptune.Adapter.C
             holder.desc.setText(Web.getArtistSummaryLastFm(fetchBest.getTitle()));
             int convertPop = Integer.parseInt(fetchBest.getPopularity()) / 20;
             holder.popularity.setRating(convertPop);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
     }

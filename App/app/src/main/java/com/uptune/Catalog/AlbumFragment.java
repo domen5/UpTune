@@ -46,12 +46,9 @@ public class AlbumFragment extends Fragment {
         toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
         toolbar.setTitle(title);
 
-        //******************* Cosa faceva questo pezzo di codice? ******************************************************
-        // l'id non va più bene
-
-//        Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(String.valueOf(R.id.categories_details));
-//        if (fragment != null)
-//            getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+        Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(String.valueOf(R.id.categories_details));
+        if (fragment != null)
+            getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
 
         ImageView imgView = view.findViewById(R.id.album_details_img);
 
@@ -74,11 +71,11 @@ public class AlbumFragment extends Fragment {
                 String id = current.getString("id");
                 String artists = "";
                 for (int j = 0; j < current.getJSONArray("artists").length(); j++) {
-                    String artistName=current.getJSONArray("artists").getJSONObject(j).getString("name");
-                    if (j == current.getJSONArray("artists").length()-1)
+                    String artistName = current.getJSONArray("artists").getJSONObject(j).getString("name");
+                    if (j == current.getJSONArray("artists").length() - 1)
                         artists += artistName;
                     else
-                        artists +=artistName +", ";
+                        artists += artistName + ", ";
                 }
 
                 setData.add(new SongList(name, id, img, artists));

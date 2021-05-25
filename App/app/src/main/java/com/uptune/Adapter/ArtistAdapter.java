@@ -12,12 +12,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.uptune.Artist.ArtistDetails;
 import com.uptune.Artist.ArtistStuff;
 import com.uptune.Catalog.AlbumFragment;
 import com.uptune.Catalog.CardDetails;
 import com.uptune.R;
+import com.uptune.Web;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,25 +29,50 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.FeatureVie
 
     ArrayList<ArtistStuff> albums;
     private final int parentId;
+    int type = 0;
 
     public ArtistAdapter(ArrayList<ArtistStuff> albums, int parentId) {
         this.albums = albums;
         this.parentId = parentId;
     }
 
+    public ArtistAdapter(ArrayList<ArtistStuff> albums, int parentId, int type) {
+        this.albums = albums;
+        this.parentId = parentId;
+        this.type = type;
+    }
+
     @Override
     public FeatureViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_artist_details, parent, false);
         final FeatureViewHolder fvh = new FeatureViewHolder(view);
-        view.setOnClickListener(e -> {
-            int position = fvh.getAdapterPosition();
-            AppCompatActivity activity = (AppCompatActivity) view.getContext();
-            activity.getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(parentId, new AlbumFragment(albums.get(position).getTitle(), albums.get(position).getImage(), albums.get(position).getID()))
-                    .addToBackStack("a")
-                    .commit();
-        });
+        if (type == 0)
+            view.setOnClickListener(e -> {
+                int position = fvh.getAdapterPosition();
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(parentId, new AlbumFragment(albums.get(position).getTitle(), albums.get(position).getImage(), albums.get(position).getID()))
+                        .addToBackStack("a")
+                        .commit();
+            });
+        else
+            view.setOnClickListener(e -> {
+                int position = fvh.getAdapterPosition();
+                String bio = "";
+                try {
+                    bio = Web.getArtistSummaryLastFm(albums.get(position).getTitle());
+                } catch (IOException | JSONException ioException) {
+                    ioException.printStackTrace();
+                }
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(parentId, new ArtistDetails(albums.get(position).getTitle(), albums.get(position).getImage(), albums.get(position).getID(), bio))
+                        .addToBackStack("a")
+                        .commit();
+            });
+
         return fvh;
     }
 
