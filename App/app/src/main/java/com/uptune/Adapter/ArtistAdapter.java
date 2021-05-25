@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.uptune.Artist.ArtistStuff;
+import com.uptune.Catalog.AlbumFragment;
 import com.uptune.Catalog.CardDetails;
 import com.uptune.R;
 
@@ -40,7 +41,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.FeatureVie
             AppCompatActivity activity = (AppCompatActivity) view.getContext();
             activity.getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(parentId, new CardDetails(albums.get(position).getTitle(), albums.get(position).getImage(), albums.get(position).getID()))
+                    .replace(parentId, new AlbumFragment(albums.get(position).getTitle(), albums.get(position).getImage(), albums.get(position).getID()))
                     .addToBackStack("a")
                     .commit();
         });
