@@ -20,7 +20,7 @@
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="300dp"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginBottom="20dp"
@@ -28,18 +28,17 @@
             app:expandedTitleTextAppearance="@color/zxing_transparent"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
 
-            <com.google.android.material.imageview.ShapeableImageView
+            <ImageView
                 android:id="@+id/search_albums_img"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center"
-                android:adjustViewBounds="true"
-                android:background="@drawable/rounded_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center|end"
+                android:contentDescription="@null"
+                android:minHeight="100dp"
+                android:scaleType="centerCrop"
                 android:src="@drawable/logo2"
                 app:layout_collapseMode="parallax"
-                app:shapeAppearanceOverlay="@style/Circular"
-                app:strokeColor="@color/orange"
-                app:strokeWidth="3dp" />
+                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/search_album_toolbar"

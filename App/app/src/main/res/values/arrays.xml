@@ -9,4 +9,13 @@
         <item>reply</item>
         <item>reply_all</item>
     </string-array>
+    <array name="colors">
+        <item name="all" type="color">#827f93</item>
+        <item name="price" type="color">#f4a261</item>
+        <item name="A-Z" type="color">#3b9aee</item>
+        <item name="Z-A" type="color">#c467f4</item>
+        <item name="Vendor" type="color">#1ed2bb</item>
+        <item name="sales" type="color">#20bf55</item>
+    </array>
+
 </resources>

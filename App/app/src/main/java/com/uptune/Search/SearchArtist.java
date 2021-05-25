@@ -1,5 +1,7 @@
 package com.uptune.Search;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.uptune.Adapter.ArtistAdapter;
 import com.uptune.Adapter.CardAdapter;
@@ -25,6 +28,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -32,6 +36,7 @@ import java.util.ArrayList;
 public class SearchArtist extends Fragment {
 
     String name;
+    ImageView img;
     JSONArray arr;
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
@@ -47,7 +52,14 @@ public class SearchArtist extends Fragment {
         androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.search_artist_toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
-        toolbar.setTitle("Artist result for: "+name);
+        toolbar.setTitle(name);
+        img = view.findViewById(R.id.search_artist_img);
+        try {
+            Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL("https://i.ytimg.com/vi/R7ATwxryszU/maxresdefault.jpg").getContent());
+            img.setImageBitmap(bitmap);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         renderCards();
         super.onViewCreated(view, savedInstanceState);
     }
@@ -67,7 +79,7 @@ public class SearchArtist extends Fragment {
                 String name = arr.getJSONObject(i).getString("name");
                 String id = arr.getJSONObject(i).getString("id");
                 URL img = new URL(arr.getJSONObject(i).getJSONArray("images").getJSONObject(0).getString("url"));
-                cardContainers.add(new ArtistStuff(name,id, img));
+                cardContainers.add(new ArtistStuff(name, id, img));
             }
         } catch (JSONException | MalformedURLException e) {
             e.printStackTrace();

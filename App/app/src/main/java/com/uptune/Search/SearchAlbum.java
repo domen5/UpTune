@@ -1,5 +1,7 @@
 package com.uptune.Search;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.uptune.Adapter.CardAdapter;
 import com.uptune.Helper.CardContainer;
@@ -23,12 +26,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
 public class SearchAlbum extends Fragment {
     String name;
+    ImageView img;
     JSONArray arr;
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
@@ -44,7 +49,14 @@ public class SearchAlbum extends Fragment {
         androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.search_album_toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
-        toolbar.setTitle("Album result for: "+name);
+        toolbar.setTitle(name);
+        img=view.findViewById(R.id.search_albums_img);
+        try {
+            Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL("https://images.unsplash.com/photo-1459233313842-cd392ee2c388?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80").getContent());
+            img.setImageBitmap(bitmap);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         renderCards();
         super.onViewCreated(view, savedInstanceState);
     }

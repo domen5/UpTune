@@ -74,4 +74,5 @@ dependencies {
     //img
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
+    compile 'com.github.Yalantis:SearchFilter:v1.0.4'
 }

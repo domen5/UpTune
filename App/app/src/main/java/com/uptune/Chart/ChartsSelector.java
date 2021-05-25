@@ -73,6 +73,6 @@ public class ChartsSelector extends Fragment {
             transaction.addToBackStack("charts_selector");
             transaction.commit();
         });
-        
+
     }
 }
