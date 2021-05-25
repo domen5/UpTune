@@ -9,10 +9,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,12 +31,15 @@ import com.yalantis.filter.widget.FilterItem;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 
 public class Used extends Fragment implements FilterListener<Tag> {
 
     ArrayList<UsedElement> setCards = new ArrayList<>();
+    ArrayList<UsedElement> defaultCards = new ArrayList<>();
 
     private String[] mTitles = {"Default", "Price", "A-Z", "Z-A", "Vendor"};
     private int[] mColors;
@@ -83,8 +88,10 @@ public class Used extends Fragment implements FilterListener<Tag> {
                     usedCardsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
                     adapter = new CardUsedAdapter(setCards);
                     usedCardsRecycler.setAdapter(adapter);
+                    defaultCards= setCards;
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
@@ -99,28 +106,61 @@ public class Used extends Fragment implements FilterListener<Tag> {
     @Override
     public void onFilterSelected(Tag tag) {
         switch (tag.getText()) {
-            case "":
-
+            case "Default":
+                adapter = new CardUsedAdapter(defaultCards);
+                usedCardsRecycler.setAdapter(adapter);
+                mFilter.deselectAll();
+                mFilter.collapse();
+                break;
         }
     }
 
     @Override
     public void onFiltersSelected(@NotNull ArrayList<Tag> arrayList) {
+        for (Tag tag : arrayList) {
+            Log.i("TAPPI", tag.getText());
+            switch (tag.getText()) {
+                case "Default":
+                    mFilter.deselectAll();
+                    mFilter.collapse();
+                    adapter = new CardUsedAdapter(defaultCards);
+                    usedCardsRecycler.setAdapter(adapter);
+                    break;
+                case "Price":
+                    Collections.sort(setCards);
+                    adapter = new CardUsedAdapter(setCards);
+                    usedCardsRecycler.setAdapter(adapter);
+                    break;
+                case "A-Z":
+                    Collections.sort(setCards, UsedElement.comparator);
+                    adapter = new CardUsedAdapter(setCards);
+                    usedCardsRecycler.setAdapter(adapter);
+                    break;
+                case "Z-A":
+                    Collections.sort(setCards, UsedElement.comparatorZ);
+                    adapter = new CardUsedAdapter(setCards);
+                    usedCardsRecycler.setAdapter(adapter);
+                    break;
+                case "Vendor":
+                    Collections.sort(setCards, UsedElement.usercomparator);
+                    adapter = new CardUsedAdapter(setCards);
+                    usedCardsRecycler.setAdapter(adapter);
+                    break;
 
+            }
+        }
     }
 
     @Override
     public void onNothingSelected() {
-
+        adapter = new CardUsedAdapter(defaultCards);
+        usedCardsRecycler.setAdapter(adapter);
     }
 
     private List<Tag> getTags() {
         List<Tag> tags = new ArrayList<>();
-
-        for (int i = 0; i < mTitles.length; ++i) {
+        for (int i = 0; i < mTitles.length; ++i)
             tags.add(new Tag(mTitles[i], mColors[i]));
-        }
-
         return tags;
     }
 

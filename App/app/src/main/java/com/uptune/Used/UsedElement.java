@@ -2,8 +2,9 @@ package com.uptune.Used;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Comparator;
 
-public class UsedElement {
+public class UsedElement implements Comparable<UsedElement> {
     String artist, description, label, manuf, name, price, user, id;
     URL img;
 
@@ -92,4 +93,15 @@ public class UsedElement {
     public void setImg(String img) throws MalformedURLException {
         this.img = new URL(img);
     }
+
+    @Override
+    public int compareTo(UsedElement e) {
+        return (int) Math.round(Double.parseDouble(this.price) - Double.parseDouble(e.getPrice()));
+    }
+
+    public static Comparator<UsedElement> comparator = (o1, o2) -> o1.getName().compareTo(o2.getName());
+    public static Comparator<UsedElement> comparatorZ = (o1, o2) -> o2.getName().compareTo(o1.getName());
+
+    public static Comparator<UsedElement> usercomparator = (o1, o2) -> o1.getUser().compareTo(o2.getUser());
+
 }
