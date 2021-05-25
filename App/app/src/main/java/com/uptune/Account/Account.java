@@ -93,6 +93,26 @@ public class Account extends Fragment {
         accountName.setText(SessionAccount.getName());
         accountMail.setText(SessionAccount.getMail());
 
+
+        root.child("leleshady").addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        SessionAccount account = dataSnapshot.getValue(SessionAccount.class);
+                        String name = account.getImg();
+                        try {
+                            Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL(name).getContent());
+                            accountImg.setImageBitmap(bitmap);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
      /*   Bitmap bitmap = null;
         try {
             if (SessionAccount.getImg() != "" || SessionAccount.getImg() != null) {
