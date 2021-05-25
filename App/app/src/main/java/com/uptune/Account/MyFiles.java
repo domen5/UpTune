@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -51,12 +52,16 @@ public class MyFiles extends AppCompatActivity {
     FirebaseDatabase rootNode;
     DatabaseReference reference;
     FirebaseAuth auth;
+    Toolbar toolbar;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_files);
+        toolbar = findViewById(R.id.toolbar_my_files);
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setNavigationOnClickListener(v -> finish());
         //Get from db
         auth = FirebaseAuth.getInstance();
         rootNode = FirebaseDatabase.getInstance();
@@ -73,8 +78,8 @@ public class MyFiles extends AppCompatActivity {
                         String url = urlTask.getResult().toString();
                         String tmp = url.substring(url.lastIndexOf('/') + 1);
                         String fileName = tmp.substring(0, tmp.lastIndexOf('.'));
-                        fileName  = java.net.URLDecoder.decode(fileName, StandardCharsets.UTF_8.name());
-                        fileName=fileName.substring("Shoot the stars aim for the moon/".length()+3);
+                        fileName = java.net.URLDecoder.decode(fileName, StandardCharsets.UTF_8.name());
+                        fileName = fileName.substring("Shoot the stars aim for the moon/".length() + 3);
                         setSongOwned.add(new SongList(fileName, url, new URL(url), ""));
                         RecyclerView rv = findViewById(R.id.user_songs_recycler);
                         rv.setHasFixedSize(true);

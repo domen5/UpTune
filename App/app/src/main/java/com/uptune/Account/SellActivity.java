@@ -61,7 +61,7 @@ public class SellActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sell);
-        toolbar = (Toolbar) findViewById(R.id.toolbar_sell);
+        toolbar = findViewById(R.id.toolbar_sell);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(v -> finish());
         album = findViewById(R.id.sell_album_name);

@@ -18,7 +18,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.UpTune">
-        <activity android:name=".Buy.BuyCreditCard"></activity>
+        <activity android:name=".Account.MyReviewsActivity"></activity>
+        <activity android:name=".Account.BoughtActivity" />
+        <activity android:name=".Buy.BuyCreditCard" />
         <activity android:name=".Account.MyFiles" />
         <activity
             android:name=".Account.SettingsActivity"

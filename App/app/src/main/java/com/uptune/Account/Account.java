@@ -42,7 +42,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.uptune.Catalog.Catalog;
 import com.uptune.MainActivity;
 import com.uptune.R;
 import com.uptune.SessionAccount;
@@ -55,7 +54,7 @@ import java.net.URL;
 public class Account extends Fragment {
 
     Dialog dialog;
-    MaterialCardView btnSettings, btnSell, btnSearch, btnMyFiles, btnRating;
+    MaterialCardView btnSettings, btnSell, btnBought, btnMyFiles, btnRating;
     TextView accountName, accountMail;
     ShapeableImageView accountImg;
     Uri tmpImg;
@@ -83,16 +82,14 @@ public class Account extends Fragment {
         btnSell = view.findViewById(R.id.btn_sell);
         btnSettings = view.findViewById(R.id.btn_settings);
         btnRating = view.findViewById(R.id.btn_rating);
-        btnSearch = view.findViewById(R.id.btn_search);
+        btnBought = view.findViewById(R.id.btn_search);
         btnMyFiles = view.findViewById(R.id.btn_my_files);
         accountImg = view.findViewById(R.id.account_change_img);
         accountName = view.findViewById(R.id.account_username_txt);
         accountMail = view.findViewById(R.id.account_mail_txt);
-
         //Set account data
         accountName.setText(SessionAccount.getName());
         accountMail.setText(SessionAccount.getMail());
-
 
         root.child("leleshady").addListenerForSingleValueEvent(
                 new ValueEventListener() {
@@ -133,7 +130,7 @@ public class Account extends Fragment {
                 openFileChooser();
         });
 
-        //button event
+        // region button event
         btnMyFiles.setOnClickListener(e -> {
             Intent intent = new Intent(getActivity(), MyFiles.class);
             startActivity(intent);
@@ -142,23 +139,21 @@ public class Account extends Fragment {
             Intent intent = new Intent(getActivity(), SettingsActivity.class);
             startActivity(intent);
         });
-        btnSearch.setOnClickListener(e -> {
-            Fragment fr = new Catalog();
-            SwitchFragment(fr);
+        btnBought.setOnClickListener(e -> {
+            Intent intent = new Intent(getActivity(), BoughtActivity.class);
+            startActivity(intent);
         });
         btnSell.setOnClickListener(e -> {
             Intent intent = new Intent(getActivity(), SellActivity.class);
             startActivity(intent);
         });
-        btnRating.setOnClickListener(e -> Toast.makeText(getContext(), "5", Toast.LENGTH_SHORT).show());
-
+        btnRating.setOnClickListener(e ->{
+            Intent intent = new Intent(getActivity(), MyReviewsActivity.class);
+            startActivity(intent);
+        });
+        //endregion
         dialog = new Dialog(getContext());
         logout.setOnClickListener(v -> openLogoutDialog());
-    }
-
-    private void SwitchFragment(Fragment fr) {
-        FragmentManager fm = getFragmentManager();
-        fm.beginTransaction().replace(R.id.account_frag, fr).commit();
     }
 
     private void openFileChooser() {
