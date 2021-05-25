@@ -51,16 +51,15 @@ public class CardUsedAdapter extends RecyclerView.Adapter<com.uptune.Adapter.Car
         }
         holder.img.setImageBitmap(image);
         holder.name.setText(usedElement.getName());
-        holder.price.setText(usedElement.getPrice()+"€");
+        holder.price.setText(usedElement.getPrice() + "€");
         holder.user.setText(usedElement.getUser());
         holder.card.setOnClickListener(v -> {
-            //    Toast.makeText(v.getContext(), location.get(position).getId() + " ok", Toast.LENGTH_LONG).show()
             AppCompatActivity activity = (AppCompatActivity) v.getContext();
             activity.getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.catalog_used, new BuyUsed(location.get(position).getId() ))
-                            .addToBackStack("a")
-                            .commit();
+                    .replace(R.id.catalog_used, new BuyUsed(location.get(position).getId()))
+                    .addToBackStack("a")
+                    .commit();
         });
     }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/chart_selector"
@@ -7,118 +7,47 @@
     android:layout_height="match_parent"
     android:background="@color/blue_light"
     android:clickable="true"
-    android:elevation="22dp"
     android:focusable="true"
+    android:orientation="vertical"
     tools:context=".Chart.ChartsSelector">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
+
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:padding="10dp">
+        android:layout_height="match_parent"
+        android:layout_weight=".5"
+        android:padding="25dp">
 
-        <TextView
-            android:id="@+id/textView10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/brandon_grotesque_black"
-            android:text="Best Songs"
-            android:textSize="22dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/btnTopTracksGloblal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:clickable="true"
+            android:background="@drawable/button_background"
+            android:scaleType="fitCenter"
+            app:shapeAppearanceOverlay="@style/custom_cut"
+            app:strokeColor="@color/white"
+            app:strokeWidth="4dp" />
+    </RelativeLayout>
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/materialCardView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView10">
-
-            <ImageButton
-                android:id="@+id/btnTopTracksGloblal"
-                android:layout_width="180dp"
-                android:layout_height="200dp"
-                android:backgroundTint="@color/white"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                tools:src="@drawable/logo2" />
-        </com.google.android.material.card.MaterialCardView>
-
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/materialCardView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView10">
-
-            <ImageButton
-                android:id="@+id/btnTopTracksItaly"
-                android:layout_width="180dp"
-                android:layout_height="200dp"
-                android:adjustViewBounds="true"
-                android:backgroundTint="@color/white"
-                android:scaleType="fitCenter"
-                tools:src="@drawable/ic_boombox" />
-        </com.google.android.material.card.MaterialCardView>
-
-        <TextView
-            android:id="@+id/textView11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:fontFamily="@font/brandon_grotesque_black"
-            android:text="Best Albums"
-            android:textSize="22dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/materialCardView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView11">
-
-            <ImageButton
-                android:id="@+id/btnTopAlbumsGloblal"
-                android:layout_width="180dp"
-                android:layout_height="200dp"
-                android:adjustViewBounds="true"
-                android:backgroundTint="@color/white"
-                android:scaleType="fitCenter"
-                tools:src="@drawable/ic_boombox" />
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView11">
-
-            <ImageButton
-                android:id="@+id/btnTopAlbumsItaly"
-                android:layout_width="180dp"
-                android:layout_height="200dp"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:backgroundTint="@color/white"
-                tools:src="@drawable/ic_boombox" />
-        </com.google.android.material.card.MaterialCardView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:layout_weight=".5"
+        android:padding="25dp">
 
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/btnTopTracksItaly"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:background="@drawable/button_background"
+            android:clickable="true"
+            android:scaleType="fitCenter"
+            app:shapeAppearanceOverlay="@style/custom_cut"
+            app:strokeColor="@color/white"
+            app:strokeWidth="4dp" />
+    </RelativeLayout>
 
-    </LinearLayout>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>

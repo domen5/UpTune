@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
@@ -71,6 +72,7 @@ public class BuyUsed extends Fragment {
         Toolbar toolbar = view.findViewById(R.id.toolbar_used);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(v -> getFragmentManager().popBackStack());
+        toolbar.setVisibility(View.VISIBLE);
         imgBg = view.findViewById(R.id.used_image_bg);
         imgUser = view.findViewById(R.id.img_buy_profile);
         img = view.findViewById(R.id.buy_img);

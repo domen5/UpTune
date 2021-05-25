@@ -39,4 +39,11 @@
         <item name="cornerFamilyTopRight">rounded</item>
     </style>
 
+    <style name="custom_cut">
+        <item name="cornerSizeTopRight">155dp</item>
+        <item name="cornerFamilyTopRight">cut</item>
+        <item name="cornerSizeBottomLeft">155dp</item>
+        <item name="cornerFamilyBottomLeft">cut</item>
+    </style>
+
 </resources>
