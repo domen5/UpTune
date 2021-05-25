@@ -34,21 +34,21 @@ repositories {
 
 dependencies {
 
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'com.google.firebase:firebase-database:19.2.1'
-    implementation 'com.google.firebase:firebase-auth:19.3.1'
+    implementation 'com.google.firebase:firebase-database:20.0.0'
+    implementation 'com.google.firebase:firebase-auth:21.0.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.drawerlayout:drawerlayout:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'androidx.navigation:navigation-fragment:2.2.2'
-    implementation 'androidx.navigation:navigation-ui:2.2.2'
+    implementation 'androidx.drawerlayout:drawerlayout:1.1.1'
+    implementation 'androidx.recyclerview:recyclerview:1.2.0'
+    implementation 'androidx.navigation:navigation-fragment:2.3.5'
+    implementation 'androidx.navigation:navigation-ui:2.3.5'
     implementation 'androidx.preference:preference:1.1.1'
-    implementation 'com.google.firebase:firebase-storage:19.2.2'
+    implementation 'com.google.firebase:firebase-storage:20.0.0'
     implementation 'com.google.firebase:firebase-messaging:22.0.0'
 
-    testImplementation 'junit:junit:4.+'
+    testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     // This library handles authentication and authorization
@@ -59,20 +59,22 @@ dependencies {
     implementation "com.google.code.gson:gson:2.8.5"
 
     implementation 'com.cuberto:liquid-swipe:1.0.0'
-    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.core:core-ktx:1.5.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.4.10"
 
     implementation 'com.airbnb.android:lottie:3.7.0'
     implementation 'com.flaviofaria:kenburnsview:1.0.7'
     implementation 'com.jpardogo.materialtabstrip:library:1.1.0'
-    implementation 'com.github.bumptech.glide:glide:4.0.0'
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
     implementation 'com.github.florent37:materialviewpager:1.2.3'
     implementation 'com.jakewharton:butterknife:8.0.1'
     implementation 'eu.long1:spacetablayout:1.0.4'
     implementation("com.squareup.okhttp3:okhttp:4.9.0")
-    implementation 'com.android.volley:volley:1.1.1'
+    implementation 'com.android.volley:volley:1.2.0'
     //img
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
-    compile 'com.github.Yalantis:SearchFilter:v1.0.4'
+    implementation 'com.github.Yalantis:SearchFilter:v1.0.4'
+    implementation 'com.craftman.cardform:cardform:0.0.2'
+
 }

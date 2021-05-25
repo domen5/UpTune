@@ -1,10 +1,11 @@
 package com.uptune.Buy;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
@@ -25,8 +25,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.JsonObject;
-import com.uptune.Account.Account;
 import com.uptune.R;
 import com.uptune.SessionAccount;
 import com.uptune.Used.UsedElement;
@@ -34,7 +32,6 @@ import com.uptune.Web;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,11 +39,11 @@ import java.net.URL;
 
 public class BuyUsed extends Fragment {
 
-    String id;
+    String id, price, imgStr;
     ImageView imgUser, imgArtist, img, imgBg;
     TextView title, artist, description, label, manuf;
     FloatingActionButton btnBuy;
-    MaterialButton bottomBuy;
+    MaterialButton bottonBuy;
 
     public BuyUsed(String id) {
         this.id = id;
@@ -78,14 +75,25 @@ public class BuyUsed extends Fragment {
         img = view.findViewById(R.id.buy_img);
         imgArtist = view.findViewById(R.id.buy_artist_img);
         btnBuy = view.findViewById(R.id.buy_now);
-        bottomBuy = view.findViewById(R.id.bottom_buy);
+        bottonBuy = view.findViewById(R.id.bottom_buy);
         artist = view.findViewById(R.id.buy_title_artist);
         description = view.findViewById(R.id.buy_description);
         manuf = view.findViewById(R.id.buy_manuf);
         label = view.findViewById(R.id.buy_label);
         title = view.findViewById(R.id.buy_title_details);
         fetchDataAndSetValue(id);
-        btnBuy.setOnClickListener(v -> Toast.makeText(getContext(), "COMPRATO", Toast.LENGTH_LONG).show());
+        btnBuy.setOnClickListener(v -> pay());
+        bottonBuy.setOnClickListener(v -> pay());
+    }
+
+    private void pay() {
+        Intent i = new Intent(getActivity(), BuyCreditCard.class);
+        i.putExtra("price", price);
+        i.putExtra("id", price);
+        i.putExtra("img", imgStr);
+        i.putExtra("type", "used");
+        startActivity(i);
+        getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
     }
 
     private void fetchDataAndSetValue(String id) {
@@ -97,6 +105,7 @@ public class BuyUsed extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 UsedElement ele = dataSnapshot.getValue(UsedElement.class);
                 Bitmap bitmap = null;
+                imgStr = ele.getImg().toString();
                 try {
                     bitmap = BitmapFactory.decodeStream((InputStream) (ele.getImg()).getContent());
                 } catch (IOException e) {
@@ -104,7 +113,8 @@ public class BuyUsed extends Fragment {
                 }
                 img.setImageBitmap(bitmap);
                 imgBg.setImageBitmap(bitmap);
-                bottomBuy.setText("Buy for " + ele.getPrice() + "€");
+                price = ele.getPrice();
+                bottonBuy.setText("Buy for " + price + "€");
                 title.setText(ele.getName());
                 description.setText(ele.getDescription());
                 artist.setText(ele.getArtist());

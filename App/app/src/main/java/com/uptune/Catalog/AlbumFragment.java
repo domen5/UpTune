@@ -40,7 +40,6 @@ public class AlbumFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.album_toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
@@ -57,7 +56,6 @@ public class AlbumFragment extends Fragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         songList = view.findViewById(R.id.album_recycler_view);
         songList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 1, GridLayoutManager.VERTICAL, false);
@@ -77,7 +75,6 @@ public class AlbumFragment extends Fragment {
                     else
                         artists += artistName + ", ";
                 }
-
                 setData.add(new SongList(name, id, img, artists));
             }
         } catch (IOException | JSONException e) {
