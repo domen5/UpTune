@@ -17,9 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.uptune.Adapter.ArtistAdapter;
-import com.uptune.Adapter.CardAdapter;
 import com.uptune.Artist.ArtistStuff;
-import com.uptune.Helper.CardContainer;
 import com.uptune.R;
 import com.uptune.Web;
 
@@ -41,6 +39,7 @@ public class SearchArtist extends Fragment {
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     ArrayList<ArtistStuff> cardContainers = new ArrayList<>();
+    private int fragmentId;
 
     public SearchArtist(String name) {
         this.name = name;
@@ -54,6 +53,7 @@ public class SearchArtist extends Fragment {
         toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
         toolbar.setTitle(name);
         img = view.findViewById(R.id.search_artist_img);
+        this.fragmentId = view.getId();
         try {
             Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL("https://i.ytimg.com/vi/R7ATwxryszU/maxresdefault.jpg").getContent());
             img.setImageBitmap(bitmap);
@@ -86,7 +86,7 @@ public class SearchArtist extends Fragment {
         }
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        adapter = new ArtistAdapter(cardContainers);
+        adapter = new ArtistAdapter(cardContainers, this.fragmentId);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
         this.recyclerView.setLayoutManager(gridLayoutManager);
         this.recyclerView.setAdapter(adapter);

@@ -9,37 +9,47 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.uptune.Artist.ArtistStuff;
+import com.uptune.Catalog.CardDetails;
 import com.uptune.R;
-import com.uptune.Web;
 
-import org.json.JSONException;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.FeatureViewHolder> {
 
-    ArrayList<ArtistStuff> location;
+    ArrayList<ArtistStuff> albums;
+    private final int parentId;
 
-    public ArtistAdapter(ArrayList<ArtistStuff> location) {
-        this.location = location;
+    public ArtistAdapter(ArrayList<ArtistStuff> albums, int parentId) {
+        this.albums = albums;
+        this.parentId = parentId;
     }
 
-    @NonNull
     @Override
-    public FeatureViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v;
-        v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_artist_details, parent, false);
-        FeatureViewHolder fvh = new FeatureViewHolder(v);
+    public FeatureViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_artist_details, parent, false);
+        final FeatureViewHolder fvh = new FeatureViewHolder(view);
+        view.setOnClickListener(e -> {
+            int position = fvh.getAdapterPosition();
+            AppCompatActivity activity = (AppCompatActivity) view.getContext();
+            activity.getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(parentId, new CardDetails(albums.get(position).getTitle(), albums.get(position).getImage(), albums.get(position).getID()))
+                    .addToBackStack("a")
+                    .commit();
+        });
         return fvh;
     }
 
     @Override
     public void onBindViewHolder(@NonNull FeatureViewHolder holder, int position) {
-        ArtistStuff artistStuff = location.get(position);
+        ArtistStuff artistStuff = albums.get(position);
         holder.title.setText(artistStuff.getTitle());
         Bitmap image = null;
         try {
@@ -52,7 +62,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.FeatureVie
 
     @Override
     public int getItemCount() {
-        return location.size();
+        return albums.size();
     }
 
 

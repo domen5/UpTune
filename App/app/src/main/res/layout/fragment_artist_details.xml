@@ -9,7 +9,8 @@
     android:clickable="true"
     android:elevation="22dp"
     android:focusable="true"
-    tools:context=".Artist.ArtistDetails">
+    tools:context=".Artist.ArtistDetails"
+    android:layout_above="@+id/fragmentArtistDetails">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"

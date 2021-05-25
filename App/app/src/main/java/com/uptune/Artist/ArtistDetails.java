@@ -30,6 +30,7 @@ import java.util.ArrayList;
 
 
 public class ArtistDetails extends Fragment {
+    private int fragmentId;
     private String id, title, bio;
     RecyclerView artistStuff;
     RecyclerView.Adapter adapter;
@@ -45,6 +46,7 @@ public class ArtistDetails extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        this.fragmentId = view.getId();
 
         Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(String.valueOf(R.id.categories_details));
         if (fragment != null) {
@@ -117,7 +119,7 @@ public class ArtistDetails extends Fragment {
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
-        adapter = new ArtistAdapter(setData);
+        adapter = new ArtistAdapter(setData, getId());
         artistStuff.setLayoutManager(gridLayoutManager);
         artistStuff.setAdapter(adapter);
     }
