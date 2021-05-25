@@ -25,53 +25,29 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.FeatureViewHolder> {
+//abstact for template method
+public abstract class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.FeatureViewHolder> {
 
     ArrayList<ArtistStuff> albums;
-    private final int parentId;
     int type = 0;
 
-    public ArtistAdapter(ArrayList<ArtistStuff> albums, int parentId) {
-        this.albums = albums;
-        this.parentId = parentId;
-    }
+    //template method
+    public abstract void onClick(View view, FeatureViewHolder fvh, ArtistStuff s);
 
-    public ArtistAdapter(ArrayList<ArtistStuff> albums, int parentId, int type) {
+    public ArtistAdapter(ArrayList<ArtistStuff> albums) {
         this.albums = albums;
-        this.parentId = parentId;
-        this.type = type;
     }
 
     @Override
     public FeatureViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_artist_details, parent, false);
         final FeatureViewHolder fvh = new FeatureViewHolder(view);
-        if (type == 0)
-            view.setOnClickListener(e -> {
-                int position = fvh.getAdapterPosition();
-                AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                activity.getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(parentId, new AlbumFragment(albums.get(position).getTitle(), albums.get(position).getImage(), albums.get(position).getID()))
-                        .addToBackStack("a")
-                        .commit();
-            });
-        else
-            view.setOnClickListener(e -> {
-                int position = fvh.getAdapterPosition();
-                String bio = "";
-                try {
-                    bio = Web.getArtistSummaryLastFm(albums.get(position).getTitle());
-                } catch (IOException | JSONException ioException) {
-                    ioException.printStackTrace();
-                }
-                AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                activity.getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(parentId, new ArtistDetails(albums.get(position).getTitle(), albums.get(position).getImage(), albums.get(position).getID(), bio))
-                        .addToBackStack("a")
-                        .commit();
-            });
+
+        view.setOnClickListener(e -> {
+            int position = fvh.getAdapterPosition();
+            ArtistStuff s = albums.get(position);
+            onClick(view, fvh, s);
+        });
 
         return fvh;
     }

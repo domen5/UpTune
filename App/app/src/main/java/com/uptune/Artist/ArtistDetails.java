@@ -3,6 +3,7 @@ package com.uptune.Artist;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 
 import com.uptune.Adapter.ArtistAdapter;
 import com.uptune.Artist.ArtistStuff;
+import com.uptune.Catalog.AlbumFragment;
 import com.uptune.R;
 import com.uptune.Web;
 
@@ -119,7 +121,18 @@ public class ArtistDetails extends Fragment {
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
-        adapter = new ArtistAdapter(setData, getId());
+        adapter = new ArtistAdapter(setData) {
+            @Override
+            public void onClick(View view, FeatureViewHolder fvh, ArtistStuff s) {
+
+                    AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                    activity.getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(getId(), new AlbumFragment(s.getTitle(), s.getImage(), s.getID()))
+                            .addToBackStack("a")
+                            .commit();
+            }
+        };
         artistStuff.setLayoutManager(gridLayoutManager);
         artistStuff.setAdapter(adapter);
     }

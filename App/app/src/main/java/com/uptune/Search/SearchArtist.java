@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,6 +19,7 @@ import android.widget.ImageView;
 
 import com.uptune.Adapter.ArtistAdapter;
 import com.uptune.Adapter.Card.CardArtistAdapter;
+import com.uptune.Artist.ArtistDetails;
 import com.uptune.Artist.ArtistStuff;
 import com.uptune.Helper.CardContainer;
 import com.uptune.R;
@@ -86,7 +88,23 @@ public class SearchArtist extends Fragment {
         }
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        adapter = new ArtistAdapter(cardContainers,fragmentId,1 );
+        adapter = new ArtistAdapter(cardContainers) {
+            @Override
+            public void onClick(View view, FeatureViewHolder fvh, ArtistStuff s) {
+                String bio = "";
+                try {
+                    bio = Web.getArtistSummaryLastFm(s.getTitle());
+                } catch (IOException | JSONException ioException) {
+                    ioException.printStackTrace();
+                }
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(getId(), new ArtistDetails(s.getTitle(), s.getImage(), s.getID(), bio))
+                        .addToBackStack("a")
+                        .commit();
+            }
+        };
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
         this.recyclerView.setLayoutManager(gridLayoutManager);
         this.recyclerView.setAdapter(adapter);
