@@ -9,6 +9,7 @@ public class ArtistStuff {
     private final int type;
     public final static int ALBUM = 0;
     public final static int TRACK = 1;
+    public final static int ARTIST_CARD = 2;
 
     public ArtistStuff(String title, String id, URL img) {
         this(title, id, img, ALBUM);

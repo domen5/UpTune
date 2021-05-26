@@ -219,13 +219,13 @@
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/songDetailsBuyNow"
+        android:id="@+id/songDetailsFabPreview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="30dp"
         android:baselineAlignBottom="false"
         android:clickable="true"
-        android:src="@drawable/ic_music"
+        android:src=<g"@drawable/ic_music_play"
         app:backgroundTint="@color/white"
         app:fabSize="normal"
         app:layout_anchor="@id/appBarLayout"

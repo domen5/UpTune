@@ -7,37 +7,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.uptune.Artist.ArtistDetails;
 import com.uptune.Artist.ArtistStuff;
-import com.uptune.Catalog.AlbumFragment;
-import com.uptune.Catalog.CardDetails;
 import com.uptune.R;
-import com.uptune.Web;
-
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
-//abstact for template method
+//abstract for template method
 public abstract class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.FeatureViewHolder> {
 
-    ArrayList<ArtistStuff> albums;
-    int type = 0;
+    ArrayList<ArtistStuff> items;
 
     //template method
     public abstract void onClick(View view, FeatureViewHolder fvh, ArtistStuff s);
 
-    public ArtistAdapter(ArrayList<ArtistStuff> albums) {
-        this.albums = albums;
+    public ArtistAdapter(ArrayList<ArtistStuff> items) {
+        this.items = items;
     }
 
+    @NotNull
     @Override
     public FeatureViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_artist_details, parent, false);
@@ -45,7 +35,8 @@ public abstract class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.F
 
         view.setOnClickListener(e -> {
             int position = fvh.getAdapterPosition();
-            ArtistStuff s = albums.get(position);
+            ArtistStuff s = items.get(position);
+            // template method actuation
             onClick(view, fvh, s);
         });
 
@@ -54,7 +45,7 @@ public abstract class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.F
 
     @Override
     public void onBindViewHolder(@NonNull FeatureViewHolder holder, int position) {
-        ArtistStuff artistStuff = albums.get(position);
+        ArtistStuff artistStuff = items.get(position);
         holder.title.setText(artistStuff.getTitle());
         Bitmap image = null;
         try {
@@ -67,7 +58,7 @@ public abstract class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.F
 
     @Override
     public int getItemCount() {
-        return albums.size();
+        return items.size();
     }
 
 

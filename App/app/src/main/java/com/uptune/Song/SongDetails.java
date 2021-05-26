@@ -1,25 +1,27 @@
 package com.uptune.Song;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.UrlQuerySanitizer;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
-
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.uptune.R;
 import com.uptune.Web;
-
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -37,12 +39,15 @@ import retrofit.client.Response;
 
 public class SongDetails extends Fragment {
     private String id;
+    private MediaPlayer mediaPlayer;
+    private FloatingActionButton fabPreview;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_song_details, container, false);
         return root;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -51,11 +56,32 @@ public class SongDetails extends Fragment {
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(v -> getFragmentManager().popBackStack());
 
+        this.fabPreview = view.findViewById(R.id.songDetailsFabPreview);
         final ImageView imageView = view.findViewById(R.id.songDetailsImg);
         final ImageView imageView2 = view.findViewById(R.id.songDetailsImgBackground);
         final ImageView imageArtist = view.findViewById(R.id.songDetailsArtistImg);
         final TextView txtProductTitle = view.findViewById(R.id.songDetailsBuyTitleDetails);
         final TextView txtArtist = view.findViewById(R.id.songDetailsTitleArtist);
+
+//        fabPreview.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mediaPlayer.start();
+//            }
+//        });
+
+        fabPreview.setOnTouchListener((v, motionEvent) -> {
+            int action = motionEvent.getAction() & MotionEvent.ACTION_MASK;
+            if(action == MotionEvent.ACTION_DOWN) {
+                mediaPlayer.start();
+            }
+            else if(action == MotionEvent.ACTION_UP) {
+                mediaPlayer.stop();
+                mediaPlayer.prepareAsync();
+            }
+            return false;
+        });
+
 
         final SpotifyApi api = new SpotifyApi();
         api.setAccessToken(Web.getToken());
@@ -65,6 +91,19 @@ public class SongDetails extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void success(Track track, Response response) {
+                try {
+                    mediaPlayer.setDataSource(track.preview_url);
+                    mediaPlayer.prepareAsync();
+                    Log.e("preview", track.preview_url);
+                } catch (IOException | NullPointerException e) {
+                    CoordinatorLayout.LayoutParams p = (CoordinatorLayout.LayoutParams) fabPreview.getLayoutParams();
+                    p.setAnchorId(View.NO_ID);
+                    fabPreview.setLayoutParams(p);
+                    fabPreview.hide();
+                    Log.e("preview", "Prewview non disponibile");
+                    Toast.makeText(getActivity(), "Preview non disponibile", Toast.LENGTH_SHORT);
+                    e.printStackTrace();
+                }
                 Log.d("song", track.name);
                 txtProductTitle.setText(track.name);
                 toolbar.setTitle(track.name);
@@ -72,17 +111,13 @@ public class SongDetails extends Fragment {
                         .map(a -> a.name)
                         .collect(Collectors.joining(", "));
                 txtArtist.setText(artists);
-
                 try {
                     final String imagePath = track.album.images.get(0).url;
                     final URL imageUrl = new URL(imagePath);
                     Bitmap image = BitmapFactory.decodeStream(imageUrl.openConnection().getInputStream());
-                    imageView.setImageBitmap(image);
-                    imageView2.setImageBitmap(image);
+                    imageView.post(() -> imageView.setImageBitmap(image));
+                    imageView2.post(() -> imageView2.setImageBitmap(image));
                     setArtistImage(track, spotify, imageArtist);
-                    //
-                    //  *********   SET IMAGE INTO IMAGE VIEW   *********
-                    //
                 } catch (Exception e) {
                     Log.e("ERROR", "No image found " + e.getMessage());
                     e.printStackTrace();
@@ -94,8 +129,12 @@ public class SongDetails extends Fragment {
                 Log.e("ERROR", error.getMessage());
             }
         });
+    }
 
-
+    @Override
+    public void onStop() {
+        super.onStop();
+        mediaPlayer.release();
     }
 
     private void setArtistImage(Track track, SpotifyService spotify, ImageView imageView) {
@@ -108,9 +147,7 @@ public class SongDetails extends Fragment {
                 try {
                     imageUrl = new URL(artistUrl);
                     Bitmap image = BitmapFactory.decodeStream(imageUrl.openConnection().getInputStream());
-                    imageView.setImageBitmap(image);
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
+                    imageView.post(() -> imageView.setImageBitmap(image));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -129,6 +166,7 @@ public class SongDetails extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             this.id = getArguments().getString("id");
+            this.mediaPlayer = new MediaPlayer();
         }
     }
 
