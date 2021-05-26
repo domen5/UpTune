@@ -20,6 +20,7 @@ import com.uptune.Adapter.ArtistAdapter;
 import com.uptune.Artist.ArtistStuff;
 import com.uptune.Catalog.AlbumFragment;
 import com.uptune.R;
+import com.uptune.Song.SongDetails;
 import com.uptune.Web;
 
 import org.json.JSONArray;
@@ -114,7 +115,7 @@ public class ArtistDetails extends Fragment {
                 inserted++;
                 setted.add(name);
                 String id = current.getString("id");
-                setData.add(new ArtistStuff(name, id, img));
+                setData.add(new ArtistStuff(name, id, img, ArtistStuff.TRACK));
                 if (inserted == 6)
                     break;
             }
@@ -124,13 +125,18 @@ public class ArtistDetails extends Fragment {
         adapter = new ArtistAdapter(setData) {
             @Override
             public void onClick(View view, FeatureViewHolder fvh, ArtistStuff s) {
+                Fragment f = null;
+                if (s.getType() == ArtistStuff.ALBUM)
+                    f = new AlbumFragment(s.getTitle(), s.getImage(), s.getID());
+                else if(s.getType() == ArtistStuff.TRACK)
+                    f = SongDetails.newInstance(s.getID());
 
-                    AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                    activity.getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(getId(), new AlbumFragment(s.getTitle(), s.getImage(), s.getID()))
-                            .addToBackStack("a")
-                            .commit();
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(getId(), f)
+                        .addToBackStack("a")
+                        .commit();
             }
         };
         artistStuff.setLayoutManager(gridLayoutManager);
