@@ -2,7 +2,6 @@ package com.uptune.Adapter.Card;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.uptune.R;
 import com.uptune.Review.ReviewClass;
 
@@ -32,7 +36,6 @@ public class CardReviewAdapter extends RecyclerView.Adapter<com.uptune.Adapter.C
     @Override
     public CardReviewAdapter.FeatureViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v;
-        Log.i("TAPPI", "OK");
         v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_review, parent, false);
         CardReviewAdapter.FeatureViewHolder fvh = new CardReviewAdapter.FeatureViewHolder(v);
         return fvh;
@@ -40,14 +43,27 @@ public class CardReviewAdapter extends RecyclerView.Adapter<com.uptune.Adapter.C
 
     @Override
     public void onBindViewHolder(@NonNull CardReviewAdapter.FeatureViewHolder holder, int position) {
-        Bitmap image = null;
         ReviewClass reviewEl = reviews.get(position);
-        try {
-            image = BitmapFactory.decodeStream(new URL(reviewEl.getImg()).openStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        holder.img.setImageBitmap(image);
+
+        FirebaseDatabase rootNode = FirebaseDatabase.getInstance();
+        DatabaseReference reference = rootNode.getReference("user").child(reviewEl.getName());
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String img = dataSnapshot.child("img").getValue().toString();
+                try {
+                    Bitmap bitmap = BitmapFactory.decodeStream(new URL(img).openStream());
+                    holder.img.setImageBitmap(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
         holder.name.setText(reviewEl.getName());
         holder.date.setText(reviewEl.getDate());
         holder.username.setText(reviewEl.getName());

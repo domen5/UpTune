@@ -167,7 +167,6 @@ public class SongDetails extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
-                    Log.i("TAPPI", d.getValue().toString());
                     ReviewClass ele = d.getValue(ReviewClass.class);
                     setCards.add(ele);
                 }
