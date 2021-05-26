@@ -55,11 +55,12 @@ public class SessionAccount {
         this.phone = phone;
     }
 
-    public  String getImg() {
+    public String getImg() {
         return img;
     }
 
     public void setImg(String img) {
         this.img = img;
     }
+
 }

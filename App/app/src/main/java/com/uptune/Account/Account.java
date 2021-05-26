@@ -1,6 +1,7 @@
 package com.uptune.Account;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -14,12 +15,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +24,10 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.card.MaterialCardView;
@@ -57,6 +56,7 @@ public class Account extends Fragment {
     MaterialCardView btnSettings, btnSell, btnBought, btnMyFiles, btnRating;
     TextView accountName, accountMail;
     ShapeableImageView accountImg;
+    TextView nReview, nBought, nSold;
     Uri tmpImg;
     StorageReference storageReference = FirebaseStorage.getInstance().getReference();
     DatabaseReference root = FirebaseDatabase.getInstance().getReference("user");
@@ -87,9 +87,52 @@ public class Account extends Fragment {
         accountImg = view.findViewById(R.id.account_change_img);
         accountName = view.findViewById(R.id.account_username_txt);
         accountMail = view.findViewById(R.id.account_mail_txt);
+        nReview = view.findViewById(R.id.account_review_written);
+        nBought = view.findViewById(R.id.account_bought);
+        nSold = view.findViewById(R.id.account_sold);
         //Set account data
         accountName.setText(SessionAccount.getName());
         accountMail.setText(SessionAccount.getMail());
+
+
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+
+        DatabaseReference used = rootRef.child("lookupUsed").child("leleshady");
+        DatabaseReference history = rootRef.child("history").child("leleshady");
+        DatabaseReference review = rootRef.child("owned").child("leleshady");
+        history.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                nBought.setText(""+dataSnapshot.getChildrenCount());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+        used.addListenerForSingleValueEvent(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                nSold.setText(""+dataSnapshot.getChildrenCount());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+        review.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                nReview.setText(""+dataSnapshot.getChildrenCount());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
 
         root.child("leleshady").addListenerForSingleValueEvent(
                 new ValueEventListener() {
@@ -104,23 +147,18 @@ public class Account extends Fragment {
                             e.printStackTrace();
                         }
                     }
+
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
 
                     }
                 });
 
-     /*   Bitmap bitmap = null;
-        try {
-            if (SessionAccount.getImg() != "" || SessionAccount.getImg() != null) {
-                bitmap = BitmapFactory.decodeStream((InputStream) new URL(SessionAccount.getImg()).getContent());
-                accountImg.setImageBitmap(bitmap);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
+
         //change img
-        accountImg.setOnClickListener(v -> {
+        accountImg.setOnClickListener(v ->
+
+        {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (getContext().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
                     String[] permission = {Manifest.permission.READ_EXTERNAL_STORAGE};
@@ -131,29 +169,43 @@ public class Account extends Fragment {
         });
 
         // region button event
-        btnMyFiles.setOnClickListener(e -> {
+        btnMyFiles.setOnClickListener(e ->
+
+        {
             Intent intent = new Intent(getActivity(), MyFiles.class);
             startActivity(intent);
         });
-        btnSettings.setOnClickListener(e -> {
+        btnSettings.setOnClickListener(e ->
+
+        {
             Intent intent = new Intent(getActivity(), SettingsActivity.class);
             startActivity(intent);
         });
-        btnBought.setOnClickListener(e -> {
+        btnBought.setOnClickListener(e ->
+
+        {
             Intent intent = new Intent(getActivity(), BoughtActivity.class);
             startActivity(intent);
         });
-        btnSell.setOnClickListener(e -> {
+        btnSell.setOnClickListener(e ->
+
+        {
             Intent intent = new Intent(getActivity(), SellActivity.class);
             startActivity(intent);
         });
-        btnRating.setOnClickListener(e ->{
+        btnRating.setOnClickListener(e ->
+
+        {
             Intent intent = new Intent(getActivity(), MyReviewsActivity.class);
             startActivity(intent);
         });
         //endregion
-        dialog = new Dialog(getContext());
-        logout.setOnClickListener(v -> openLogoutDialog());
+        dialog = new
+
+                Dialog(getContext());
+        logout.setOnClickListener(v ->
+
+                openLogoutDialog());
     }
 
     private void openFileChooser() {

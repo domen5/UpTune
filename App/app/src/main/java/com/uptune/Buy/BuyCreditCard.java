@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -46,17 +45,15 @@ public class BuyCreditCard extends AppCompatActivity {
 
         cardForm.setPayBtnClickListner(card -> {
             //CARD N.O. 4111 1111 4555 1142
-            if (type.equals("used")) {
-                Toast.makeText(getApplicationContext(), "EVENT_USED", Toast.LENGTH_SHORT).show();
-                //Record in db
-                HistoryBought historyBought = new HistoryBought(name, price, img, type);
-                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("history");
-                reference.child("leleshady").push().setValue(historyBought);
+            //Record in db
+            HistoryBought historyBought = new HistoryBought(name, price, img, type);
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("history");
+            reference.child("leleshady").push().setValue(historyBought);
 
-                //Remove record from DB
+            //Remove record from DB
+            if (type.equals("used")) {
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference("used");
                 Query applesQuery = ref.orderByKey().equalTo(id);
-
                 applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -64,17 +61,16 @@ public class BuyCreditCard extends AppCompatActivity {
                             appleSnapshot.getRef().removeValue();
                         }
                     }
-
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                     }
                 });
                 //Create notification & alert
             }
-            Toast.makeText(getApplicationContext(), "EVENT", Toast.LENGTH_SHORT).show();
+
             Intent accountIntent = new Intent(getApplicationContext(), SpaceTab.class);
             startActivity(accountIntent);
-            //Loading view 
+            //Loading view
             this.finish();
         });
     }

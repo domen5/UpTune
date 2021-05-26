@@ -33,7 +33,8 @@
         app:layout_constraintHorizontal_bias="0.99"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023" />
+        app:layout_constraintVertical_bias="0.023"
+        tools:ignore="UseAppTint" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/account_change_img"
@@ -154,6 +155,7 @@
 
 
                     <TextView
+                        android:id="@+id/account_bought"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -191,6 +193,7 @@
 
 
                     <TextView
+                        android:id="@+id/account_sold"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -228,6 +231,7 @@
 
 
                     <TextView
+                        android:id="@+id/account_review_written"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"

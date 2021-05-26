@@ -1,6 +1,7 @@
 package com.uptune.Song;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
@@ -19,18 +20,19 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
+
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.uptune.Buy.BuyCreditCard;
 import com.uptune.R;
 import com.uptune.Web;
+
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
-import kaaes.spotify.webapi.android.models.Album;
 import kaaes.spotify.webapi.android.models.Artist;
 import kaaes.spotify.webapi.android.models.Track;
 import retrofit.Callback;
@@ -38,9 +40,10 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class SongDetails extends Fragment {
-    private String id;
+    private String id, name, imgStr;
     private MediaPlayer mediaPlayer;
     private FloatingActionButton fabPreview;
+    MaterialButton btnBottom;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_song_details, container, false);
@@ -62,6 +65,8 @@ public class SongDetails extends Fragment {
         final ImageView imageArtist = view.findViewById(R.id.songDetailsArtistImg);
         final TextView txtProductTitle = view.findViewById(R.id.songDetailsBuyTitleDetails);
         final TextView txtArtist = view.findViewById(R.id.songDetailsTitleArtist);
+        btnBottom = view.findViewById(R.id.songDetailsBottomBuy);
+        btnBottom.setOnClickListener(v -> pay());
 
 //        fabPreview.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -72,10 +77,9 @@ public class SongDetails extends Fragment {
 
         fabPreview.setOnTouchListener((v, motionEvent) -> {
             int action = motionEvent.getAction() & MotionEvent.ACTION_MASK;
-            if(action == MotionEvent.ACTION_DOWN) {
+            if (action == MotionEvent.ACTION_DOWN) {
                 mediaPlayer.start();
-            }
-            else if(action == MotionEvent.ACTION_UP) {
+            } else if (action == MotionEvent.ACTION_UP) {
                 mediaPlayer.stop();
                 mediaPlayer.prepareAsync();
             }
@@ -107,6 +111,7 @@ public class SongDetails extends Fragment {
                 Log.d("song", track.name);
                 txtProductTitle.setText(track.name);
                 toolbar.setTitle(track.name);
+                name = track.name;
                 String artists = track.artists.stream()
                         .map(a -> a.name)
                         .collect(Collectors.joining(", "));
@@ -114,6 +119,7 @@ public class SongDetails extends Fragment {
                 try {
                     final String imagePath = track.album.images.get(0).url;
                     final URL imageUrl = new URL(imagePath);
+                    imgStr = imagePath;
                     Bitmap image = BitmapFactory.decodeStream(imageUrl.openConnection().getInputStream());
                     imageView.post(() -> imageView.setImageBitmap(image));
                     imageView2.post(() -> imageView2.setImageBitmap(image));
@@ -129,6 +135,17 @@ public class SongDetails extends Fragment {
                 Log.e("ERROR", error.getMessage());
             }
         });
+    }
+
+    private void pay() {
+        Intent i = new Intent(getActivity(), BuyCreditCard.class);
+        i.putExtra("price", "1.99");
+        i.putExtra("img", imgStr);
+        i.putExtra("type", "song");
+        i.putExtra("name", name);
+        i.putExtra("id", id);
+        startActivity(i);
+        getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
     }
 
     @Override
