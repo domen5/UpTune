@@ -27,6 +27,10 @@ public class SessionAccount {
         return mail;
     }
 
+    public static String geImg() {
+        return img;
+    }
+
     public void setMail(String mail) {
         this.mail = mail;
     }

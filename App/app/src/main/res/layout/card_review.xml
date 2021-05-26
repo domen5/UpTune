@@ -2,7 +2,7 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="250dp"
-    android:layout_height="160dp"
+    android:layout_height="wrap_content"
     android:layout_margin="10dp"
     app:cardCornerRadius="20dp"
     app:cardElevation="8dp"
@@ -16,12 +16,12 @@
         android:padding="10dp">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/card_artist_img"
+            android:id="@+id/card_review_img"
             android:layout_width="100dp"
-            android:layout_height="150dp"
-            app:shapeAppearanceOverlay="@style/custom_corner"
+            android:layout_height="100dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/logo2" />
+            android:src="@drawable/logo2"
+            app:shapeAppearanceOverlay="@style/Circular" />
 
         <TextView
 
@@ -29,12 +29,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/card_artist_img"
-            android:fontFamily="@font/baloo"
+            android:layout_toRightOf="@id/card_review_img"
+            android:fontFamily="@font/brandon_grotesque_black"
+            android:maxLines="1"
             android:text="Some text"
             android:textColor="@color/white"
-            android:maxLines="1"
             android:textSize="20sp"
+            app:autoSizeMaxTextSize="20sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform" />
+
+        <TextView
+            android:id="@+id/card_review_date"
+            android:layout_width="match_parent"
+            android:layout_below="@id/card_review_name"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/card_review_img"
+            android:fontFamily="@font/antic"
+            android:maxLines="1"
+            android:text="Some text"
+            android:textColor="@color/white"
+            android:textSize="15sp"
             app:autoSizeMaxTextSize="20sp"
             app:autoSizeMinTextSize="12sp"
             app:autoSizeStepGranularity="2sp"
@@ -45,9 +62,9 @@
             style="@style/Widget.AppCompat.RatingBar.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/card_review_name"
+            android:layout_below="@id/card_review_date"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/card_artist_img"
+            android:layout_toRightOf="@id/card_review_img"
             android:rating="4" />
 
         <TextView
@@ -55,9 +72,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/card_review_rating"
-            android:layout_toRightOf="@id/card_artist_img"
+            android:layout_toRightOf="@id/card_review_img"
             android:fontFamily="@font/antic"
             android:padding="10dp"
+            android:text="sdasdasdasdas"
+            android:textColor="@color/white"
+            android:textSize="10dp" />
+
+        <TextView
+            android:id="@+id/card_review_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/card_review_img"
+            android:layout_marginTop="2dp"
+            android:layout_alignRight="@id/card_review_img"
+            android:layout_alignLeft="@id/card_review_img"
+            android:gravity="center"
+            android:fontFamily="@font/antic"
             android:text="sdasdasdasdas"
             android:textColor="@color/white"
             android:textSize="10dp" />

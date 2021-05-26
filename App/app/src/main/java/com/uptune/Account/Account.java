@@ -57,7 +57,6 @@ public class Account extends Fragment {
     TextView accountName, accountMail;
     ShapeableImageView accountImg;
     TextView nReview, nBought, nSold;
-    Uri tmpImg;
     StorageReference storageReference = FirebaseStorage.getInstance().getReference();
     DatabaseReference root = FirebaseDatabase.getInstance().getReference("user");
 
@@ -110,7 +109,6 @@ public class Account extends Fragment {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-
         used.addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override

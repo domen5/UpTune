@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -100,9 +99,9 @@ public class CardArtistAdapter extends RecyclerView.Adapter<com.uptune.Adapter.C
             super(itemView);
             context = itemView.getContext();
             img = itemView.findViewById(R.id.card_artist_img);
-            name = itemView.findViewById(R.id.card_artist_name);
-            desc = itemView.findViewById(R.id.artist_desc);
-            popularity = itemView.findViewById(R.id.artist_rating);
+            name = itemView.findViewById(R.id.card_review_name);
+            desc = itemView.findViewById(R.id.card_review_desc);
+            popularity = itemView.findViewById(R.id.card_review_rating);
         }
     }
 }

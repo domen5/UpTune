@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.ImageView;
@@ -17,14 +16,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.uptune.Artist.ArtistDetails;
 import com.uptune.Catalog.CardDetails;
 import com.uptune.Catalog.CategoriesDetails;
 import com.uptune.Helper.CardContainer;
 import com.uptune.R;
-import com.uptune.Web;
-
-import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -119,8 +114,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.FeatureViewHol
             context = itemView.getContext();
             img = itemView.findViewById(R.id.img);
             title = itemView.findViewById(R.id.catTitle);
-            desc = itemView.findViewById(R.id.artist_desc);
-            popularity = itemView.findViewById(R.id.artist_rating);
+            desc = itemView.findViewById(R.id.card_review_desc);
+            popularity = itemView.findViewById(R.id.card_review_rating);
         }
     }
 }

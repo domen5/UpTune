@@ -77,4 +77,6 @@ dependencies {
     implementation 'com.github.Yalantis:SearchFilter:v1.0.4'
     implementation 'com.craftman.cardform:cardform:0.0.2'
 
+    implementation 'com.alespero:expandable-cardview:0.8'
+
 }
