@@ -101,6 +101,7 @@
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:src="@drawable/ic_user"
+                    android:scaleType="centerCrop"
                     app:shapeAppearanceOverlay="@style/Circular" />
 
                 <LinearLayout
@@ -158,14 +159,11 @@
                 android:id="@+id/songDetailsRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:layout_marginTop="22dp"
                 android:src="@drawable/ic_user"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/songDetailsDescription"
-                app:layout_constraintVertical_bias="0"
                 app:shapeAppearanceOverlay="@style/Circular" />
 
             <com.google.android.material.button.MaterialButton

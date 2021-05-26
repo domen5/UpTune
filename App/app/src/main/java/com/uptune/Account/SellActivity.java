@@ -35,6 +35,7 @@ import com.uptune.Helper.CaptureAct;
 import com.uptune.Helper.LookupSell;
 import com.uptune.Helper.SellHelper;
 import com.uptune.R;
+import com.uptune.SessionAccount;
 import com.uptune.Web;
 
 import org.json.JSONException;
@@ -88,13 +89,13 @@ public class SellActivity extends AppCompatActivity {
             String manuf = this.manufacturer.getEditText().getText().toString();
             String price = this.price.getEditText().getText().toString();
             String img = productImg.toString();
-            SellHelper sellHelper = new SellHelper(name, label, artist, desc, manuf, price, img, "leleshady"); //"SessionAccount.getUsername()"
+            SellHelper sellHelper = new SellHelper(name, label, artist, desc, manuf, price, img, SessionAccount.getUsername()); //"SessionAccount.getUsername()"
             DatabaseReference ref = reference.push();
             ref.setValue(sellHelper);
             String key = ref.getKey();
-            LookupSell lookupSell = new LookupSell("SessionAccount.getUsername()", key);
+            LookupSell lookupSell = new LookupSell(SessionAccount.getUsername(), key);
             reference = FirebaseDatabase.getInstance().getReference("lookupUsed");
-            reference.child("leleshady").push().setValue(lookupSell);
+            reference.child(SessionAccount.getUsername()).push().setValue(lookupSell);
         });
         addImg = findViewById(R.id.sell_add_img_btn);
         addImg.setOnClickListener(v -> {

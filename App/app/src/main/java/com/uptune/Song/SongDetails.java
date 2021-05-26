@@ -19,16 +19,24 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.uptune.Adapter.Card.CardReviewAdapter;
 import com.uptune.Buy.BuyCreditCard;
+import com.uptune.Helper.LookupSell;
 import com.uptune.R;
 import com.uptune.Review.ReviewClass;
 import com.uptune.SessionAccount;
@@ -36,6 +44,7 @@ import com.uptune.Web;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
@@ -51,6 +60,9 @@ public class SongDetails extends Fragment {
     private MediaPlayer mediaPlayer;
     private FloatingActionButton fabPreview;
     MaterialButton btnBottom;
+    RecyclerView reviewRecycler;
+    RecyclerView.Adapter adapter;
+    ArrayList<ReviewClass> setCards = new ArrayList<>();
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_song_details, container, false);
@@ -77,6 +89,8 @@ public class SongDetails extends Fragment {
         btnBottom.setOnClickListener(v -> pay());
         Button submitReview = view.findViewById(R.id.submit_rev);
         submitReview.setOnClickListener(v -> sendReview(view));
+        reviewRecycler = view.findViewById(R.id.songDetailsRecycler);
+        fetchRecycler();
 
 //        fabPreview.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -146,6 +160,31 @@ public class SongDetails extends Fragment {
         });
     }
 
+    private void fetchRecycler() {
+        FirebaseDatabase rootNode = FirebaseDatabase.getInstance();
+        DatabaseReference reference = rootNode.getReference("review").child(id);
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    Log.i("TAPPI", d.getValue().toString());
+                    ReviewClass ele = d.getValue(ReviewClass.class);
+                    setCards.add(ele);
+                }
+                reviewRecycler.setHasFixedSize(true);
+                reviewRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+                adapter = new CardReviewAdapter(setCards);
+                reviewRecycler.setAdapter(adapter);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+
     private void sendReview(View view) {
         EditText editText = view.findViewById(R.id.review_edit_text);
         RatingBar ratingBar = view.findViewById(R.id.ratingBar);
@@ -155,8 +194,10 @@ public class SongDetails extends Fragment {
         ReviewClass reviewClass = new ReviewClass(username, rate, desc);
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("review");
         reference.child(id).push().setValue(reviewClass);
+        LookupSell lookupSell = new LookupSell(SessionAccount.getUsername(), id);
+        reference = FirebaseDatabase.getInstance().getReference("lookupReview");
+        reference.child(SessionAccount.getUsername()).push().setValue(lookupSell);
         Toast.makeText(getContext(), "OK", Toast.LENGTH_SHORT).show();
-        Log.i("TAPPI", reviewClass.toString());
     }
 
     private void pay() {
