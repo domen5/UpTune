@@ -1,7 +1,6 @@
 package com.uptune.Buy;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,7 +37,7 @@ import java.net.URL;
 
 public class BuyUsed extends Fragment {
 
-    String id, price, imgStr;
+    String id, price, imgStr, name;
     ImageView imgUser, imgArtist, img, imgBg;
     TextView title, artist, description, label, manuf;
     FloatingActionButton btnBuy;
@@ -86,12 +84,19 @@ public class BuyUsed extends Fragment {
         bottonBuy.setOnClickListener(v -> pay());
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        fetchDataAndSetValue(id);
+    }
+
     private void pay() {
         Intent i = new Intent(getActivity(), BuyCreditCard.class);
         i.putExtra("price", price);
-        i.putExtra("id", price);
         i.putExtra("img", imgStr);
         i.putExtra("type", "used");
+        i.putExtra("name", name);
+        i.putExtra("id", id);
         startActivity(i);
         getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
     }
@@ -104,6 +109,8 @@ public class BuyUsed extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 UsedElement ele = dataSnapshot.getValue(UsedElement.class);
+                if(ele==null)
+                    return;
                 Bitmap bitmap = null;
                 imgStr = ele.getImg().toString();
                 try {
@@ -115,11 +122,13 @@ public class BuyUsed extends Fragment {
                 imgBg.setImageBitmap(bitmap);
                 price = ele.getPrice();
                 bottonBuy.setText("Buy for " + price + "€");
+                name = ele.getName();
                 title.setText(ele.getName());
                 description.setText(ele.getDescription());
                 artist.setText(ele.getArtist());
                 label.setText("Label: " + ele.getLabel());
                 manuf.setText("Manufacturing: " + ele.getManuf());
+
                 try {
                     JSONArray data = Web.getArtistFromName(ele.getArtist());
                     String obj = data.getJSONObject(0).getJSONArray("images").getJSONObject(0).getString("url");

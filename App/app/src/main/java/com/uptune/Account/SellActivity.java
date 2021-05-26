@@ -116,6 +116,7 @@ public class SellActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PERMISSION_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 pickImage();
@@ -168,7 +169,7 @@ public class SellActivity extends AppCompatActivity {
                 Toast.makeText(this, "Uploaded", Toast.LENGTH_LONG).show();
             }).addOnProgressListener(snapshot -> {
                 double progress = (100.0 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
-                progressDialog.setMessage("Loading" + progress + "%");
+                progressDialog.setMessage("Loading" + Math.round(progress) + "%");
             });
         } else {
             IntentResult res = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
