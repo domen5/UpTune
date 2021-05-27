@@ -20,17 +20,20 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.uptune.Used.Tag;
 import com.uptune.Used.UsedElement;
 import com.yalantis.filter.adapter.FilterAdapter;
+import com.yalantis.filter.listener.FilterListener;
 import com.yalantis.filter.widget.Filter;
 import com.yalantis.filter.widget.FilterItem;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -47,6 +50,7 @@ public class History extends AppCompatActivity {
     private List<Tag> tags;
     // TODO: transition to List
     private ArrayList<UsedElement> cardItems;
+    ArrayList<UsedElement> defaultCards = new ArrayList<>();
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -65,16 +69,25 @@ public class History extends AppCompatActivity {
         this.tags = IntStream.range(0, mTitles.length)
                 .mapToObj(i -> new Tag(mTitles[i], colors[i]))
                 .collect(Collectors.toList());
+
+        this.recyclerView = findViewById(R.id.historyRecyclerView);
+
+        this.filter = findViewById(R.id.historyFilter);
+        this.filterAdapter = makeFilterAdapter();
+        filter.setAdapter(filterAdapter);
+        filter.setListener(makeFilterListener());
+        filter.setNoSelectedItemText("All Items");
+        filter.build();
+
+        getData();
     }
 
     @Override
     public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
         View view = super.onCreateView(parent, name, context, attrs);
-        this.recyclerView = parent.findViewById(R.id.historyRecyclerView);
-        this.adapter = null;
 
-        this.filterAdapter = makeFilterAdapter();
-        this.filter = null;
+
+
         return view;
     }
 
@@ -97,6 +110,68 @@ public class History extends AppCompatActivity {
         };
     }
 
+    private FilterListener<Tag> makeFilterListener() {
+        return new FilterListener<Tag>() {
+            @Override
+            public void onFiltersSelected(@NotNull ArrayList<Tag> arrayList) {
+                for (Tag tag : arrayList) {
+                    Log.i("TAPPI", tag.getText());
+                    switch (tag.getText()) {
+                        case "Default":
+                            filter.deselectAll();
+                            filter.collapse();
+                            adapter = new CardUsedAdapter(defaultCards);
+                            recyclerView.setAdapter(adapter);
+                            break;
+                        case "Price":
+                            Collections.sort(cardItems);
+                            adapter = new CardUsedAdapter(cardItems);
+                            recyclerView.setAdapter(adapter);
+                            break;
+                        case "A-Z":
+                            Collections.sort(cardItems, UsedElement.comparator);
+                            adapter = new CardUsedAdapter(cardItems);
+                            recyclerView.setAdapter(adapter);
+                            break;
+                        case "Z-A":
+                            Collections.sort(cardItems, UsedElement.comparatorZ);
+                            adapter = new CardUsedAdapter(cardItems);
+                            recyclerView.setAdapter(adapter);
+                            break;
+                        case "Vendor":
+                            Collections.sort(cardItems, UsedElement.usercomparator);
+                            adapter = new CardUsedAdapter(cardItems);
+                            recyclerView.setAdapter(adapter);
+                            break;
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected() {
+                adapter = new CardUsedAdapter(defaultCards);
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFilterSelected(Tag tag) {
+                switch (tag.getText()) {
+                    case "Default":
+                        adapter = new CardUsedAdapter(defaultCards);
+                        recyclerView.setAdapter(adapter);
+                        filter.deselectAll();
+                        filter.collapse();
+                        break;
+                }
+            }
+
+            @Override
+            public void onFilterDeselected(Tag tag) {
+
+            }
+        };
+    }
+
     private void getData() {
         FirebaseDatabase rootNode = FirebaseDatabase.getInstance();
         DatabaseReference reference = rootNode.getReference("history");
@@ -112,7 +187,7 @@ public class History extends AppCompatActivity {
                     recyclerView.setLayoutManager(new LinearLayoutManager(History.this, LinearLayoutManager.VERTICAL, false));
                     adapter = new CardUsedAdapter(cardItems);
                     recyclerView.setAdapter(adapter);
-//                    defaultCards= setCards;
+                    defaultCards = cardItems;
                 }
             }
 
