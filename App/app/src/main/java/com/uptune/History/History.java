@@ -1,12 +1,11 @@
 package com.uptune.History;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.uptune.Adapter.Card.CardUsedAdapter;
-import com.uptune.R;
+import android.content.Context;
+import android.os.Build;
+import android.os.Bundle;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -16,13 +15,14 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
-import android.os.Build;
-import android.os.Bundle;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.view.View;
-
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.uptune.Adapter.Card.CardUsedAdapter;
+import com.uptune.R;
+import com.uptune.SessionAccount;
 import com.uptune.Used.Tag;
 import com.uptune.Used.UsedElement;
 import com.yalantis.filter.adapter.FilterAdapter;
@@ -85,7 +85,6 @@ public class History extends AppCompatActivity {
     @Override
     public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
         View view = super.onCreateView(parent, name, context, attrs);
-
 
 
         return view;
@@ -174,7 +173,7 @@ public class History extends AppCompatActivity {
 
     private void getData() {
         FirebaseDatabase rootNode = FirebaseDatabase.getInstance();
-        DatabaseReference reference = rootNode.getReference("history");
+        DatabaseReference reference = rootNode.getReference("history").child(SessionAccount.getUsername());
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -184,6 +183,9 @@ public class History extends AppCompatActivity {
                     ele.setId(d.getKey());
                     cardItems.add(ele);
                     recyclerView.setHasFixedSize(true);
+                    recyclerView.setItemViewCacheSize(120);
+                    recyclerView.setDrawingCacheEnabled(true);
+                    recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
                     recyclerView.setLayoutManager(new LinearLayoutManager(History.this, LinearLayoutManager.VERTICAL, false));
                     adapter = new CardUsedAdapter(cardItems);
                     recyclerView.setAdapter(adapter);
