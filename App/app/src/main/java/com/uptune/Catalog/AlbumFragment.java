@@ -96,7 +96,9 @@ public class AlbumFragment extends Fragment {
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
-        adapter = new SongAdapter(setData);
+        final int idV = View.generateViewId();
+        view.setId(idV);
+        adapter = new SongAdapter(setData, idV);
         songList.setLayoutManager(gridLayoutManager);
         songList.setAdapter(adapter);
 

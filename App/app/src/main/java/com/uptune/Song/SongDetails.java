@@ -64,6 +64,13 @@ public class SongDetails extends Fragment {
     RecyclerView.Adapter adapter;
     ArrayList<ReviewClass> setCards = new ArrayList<>();
 
+    public SongDetails(String id) {
+        this.id = id;
+    }
+
+    public SongDetails() {
+    }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_song_details, container, false);
         return root;
@@ -118,19 +125,20 @@ public class SongDetails extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void success(Track track, Response response) {
-                try {
-                    mediaPlayer.setDataSource(track.preview_url);
-                    mediaPlayer.prepareAsync();
-                    Log.e("preview", track.preview_url);
-                } catch (IOException | NullPointerException e) {
-                    CoordinatorLayout.LayoutParams p = (CoordinatorLayout.LayoutParams) fabPreview.getLayoutParams();
-                    p.setAnchorId(View.NO_ID);
-                    fabPreview.setLayoutParams(p);
-                    fabPreview.hide();
-                    Log.e("preview", "Prewview non disponibile");
-                    Toast.makeText(getActivity(), "Preview non disponibile", Toast.LENGTH_SHORT);
-                    e.printStackTrace();
-                }
+                if (mediaPlayer != null)
+                    try {
+                        mediaPlayer.setDataSource(track.preview_url);
+                        mediaPlayer.prepareAsync();
+                        Log.e("preview", track.preview_url);
+                    } catch (IOException | NullPointerException e) {
+                        CoordinatorLayout.LayoutParams p = (CoordinatorLayout.LayoutParams) fabPreview.getLayoutParams();
+                        p.setAnchorId(View.NO_ID);
+                        fabPreview.setLayoutParams(p);
+                        fabPreview.hide();
+                        Log.e("preview", "Prewview non disponibile");
+                        Toast.makeText(getActivity(), "Preview non disponibile", Toast.LENGTH_SHORT);
+                        e.printStackTrace();
+                    }
                 Log.d("song", track.name);
                 txtProductTitle.setText(track.name);
                 toolbar.setTitle(track.name);
@@ -212,7 +220,8 @@ public class SongDetails extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        mediaPlayer.release();
+        if (mediaPlayer != null)
+            mediaPlayer.release();
     }
 
     private void setArtistImage(Track track, SpotifyService spotify, ImageView imageView) {

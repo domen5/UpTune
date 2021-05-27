@@ -2,22 +2,19 @@ package com.uptune.Catalog;
 
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.Toolbar;
-
 import com.uptune.Adapter.SongAdapter;
-import com.uptune.Song.SongList;
 import com.uptune.R;
+import com.uptune.Song.SongList;
 import com.uptune.Web;
 
 import org.json.JSONArray;
@@ -86,7 +83,9 @@ public class CardDetails extends Fragment {
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
-        adapter = new SongAdapter(setData);
+        final int idV = View.generateViewId();
+        view.setId(idV);
+        adapter = new SongAdapter(setData, idV);
         songList.setLayoutManager(gridLayoutManager);
         songList.setAdapter(adapter);
     }

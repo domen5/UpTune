@@ -3,6 +3,10 @@ package com.uptune.Search;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,15 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-
-import com.uptune.Adapter.ArtistAdapter;
 import com.uptune.Adapter.SongAdapter;
-import com.uptune.Artist.ArtistStuff;
 import com.uptune.R;
 import com.uptune.Song.SongList;
 import com.uptune.Web;
@@ -30,7 +26,6 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -54,11 +49,11 @@ public class SearchTracks extends Fragment {
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
         toolbar.setTitle(name);
-        renderCards();
+        renderCards(view);
         super.onViewCreated(view, savedInstanceState);
     }
 
-    private void renderCards() {
+    private void renderCards(View v) {
         try {
             arr = Web.getTracksFromName(name);
         } catch (IOException | JSONException e) {
@@ -90,7 +85,9 @@ public class SearchTracks extends Fragment {
         }
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        adapter = new SongAdapter(cardContainers);
+        final int idV = View.generateViewId();
+        v.setId(idV);
+        adapter = new SongAdapter(cardContainers, idV);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 1, GridLayoutManager.VERTICAL, false);
         this.recyclerView.setLayoutManager(gridLayoutManager);
         this.recyclerView.setAdapter(adapter);

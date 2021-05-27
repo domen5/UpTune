@@ -9,10 +9,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.uptune.Song.SongList;
 import com.uptune.R;
+import com.uptune.Song.SongDetails;
+import com.uptune.Song.SongList;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,9 +25,11 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.FeatureViewHol
 
     ArrayList<SongList> location;
     URL img;
+    private int fragmentId;
 
-    public SongAdapter(ArrayList<SongList> location) {
+    public SongAdapter(ArrayList<SongList> location, int fragmentId) {
         this.location = location;
+        this.fragmentId = fragmentId;
     }
 
     @NonNull
@@ -34,6 +38,15 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.FeatureViewHol
         View v;
         v = LayoutInflater.from(parent.getContext()).inflate(R.layout.charts_card, parent, false);
         FeatureViewHolder fvh = new FeatureViewHolder(v);
+        v.setOnClickListener(e -> {
+            int position = fvh.getAdapterPosition();
+            AppCompatActivity activity = (AppCompatActivity) v.getContext();
+            activity.getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(fragmentId, new SongDetails(location.get(position).getId()))
+                    .addToBackStack(null)
+                    .commit();
+        });
         return fvh;
     }
 
