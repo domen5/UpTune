@@ -122,7 +122,7 @@ public class AlbumFragment extends Fragment {
     private void pay() {
         Intent i = new Intent(getActivity(), BuyCreditCard.class);
         i.putExtra("price", price);
-        i.putExtra("img", img);
+        i.putExtra("img", img.toString());
         i.putExtra("type", "album");
         i.putExtra("name", title);
         i.putExtra("id", id);

@@ -12,18 +12,14 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.card.MaterialCardView;
 import com.uptune.Adapter.Card.HistoryElement;
-import com.uptune.Artist.ArtistStuff;
-import com.uptune.History.History;
 import com.uptune.R;
-import com.uptune.Used.Tag;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.net.URL;
 import java.util.List;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.FeatureViewHolder> {
@@ -39,12 +35,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.FeatureV
     public HistoryAdapter(List<HistoryElement> items) {
         this.items = items;
         for (HistoryElement element : items) {
-            try {
-                final Bitmap image = BitmapFactory.decodeStream(element.getImg().openStream());
-                element.setImageBitmap(image);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            String image = element.getImg();
+            element.setImg(image);
         }
     }
 
@@ -72,9 +64,12 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.FeatureV
         holder.date.setText(element.getDate());
         holder.price.setText("€" + element.getPrice());
         holder.constraintLayout.setBackgroundColor(element.getColor());
-
-        holder.img.post(() -> holder.img.setImageBitmap(element.getImageBitmap()));
-
+        try {
+            Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL(element.getImg()).getContent());
+            holder.img.setImageBitmap(bitmap);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

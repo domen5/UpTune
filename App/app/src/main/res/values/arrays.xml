@@ -16,6 +16,7 @@
         <item name="Z-A" type="color">#c467f4</item>
         <item name="Vendor" type="color">#1ed2bb</item>
         <item name="sales" type="color">#20bf55</item>
+        <item name="AA" type="color">#992f65</item>
     </array>
 
 </resources>
