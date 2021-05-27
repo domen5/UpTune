@@ -56,13 +56,65 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/album_recycler_view"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:overScrollMode="never"
-            android:padding="10dp"
-            app:layout_behavior="com.google.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/album_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                android:padding="10dp"
+                app:layout_behavior="com.google.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+
+            <TextView
+                android:id="@+id/songDetailsDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="22dp"
+                android:fontFamily="@font/baloo"
+                android:text="Reviews "
+                android:textSize="32dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/songDetailsImg" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/album_details_recycler_review"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:src="@drawable/ic_user"
+                app:shapeAppearanceOverlay="@style/Circular" />
+
+            <com.alespero.expandablecardview.ExpandableCardView
+                android:id="@+id/profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:padding="20dp"
+                app:animationDuration="300"
+                app:expandOnClick="true"
+                app:icon="@drawable/ic_rate"
+                app:inner_view="@layout/review_form"
+                app:startExpanded="false"
+                app:title="Make a review" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/album_details_buy"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_button"
+                android:fontFamily="@font/baloo"
+                android:text="Buy for 5.99€" />
+        </LinearLayout>
+
+
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

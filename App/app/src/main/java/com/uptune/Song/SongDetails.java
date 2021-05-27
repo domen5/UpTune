@@ -174,7 +174,6 @@ public class SongDetails extends Fragment {
                 reviewRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
                 adapter = new CardReviewAdapter(setCards);
                 reviewRecycler.setAdapter(adapter);
-
             }
 
             @Override

@@ -5,15 +5,29 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.uptune.Adapter.Card.CardReviewAdapter;
 import com.uptune.Adapter.SongAdapter;
+import com.uptune.Helper.LookupSell;
 import com.uptune.R;
+import com.uptune.Review.ReviewClass;
+import com.uptune.SessionAccount;
 import com.uptune.Song.SongList;
 import com.uptune.Web;
 
@@ -29,6 +43,8 @@ public class AlbumFragment extends Fragment {
     private String id, title;
     private RecyclerView songList;
     private RecyclerView.Adapter adapter;
+    RecyclerView reviewRecycler;
+    ArrayList<ReviewClass> setCards = new ArrayList<>();
     private URL img;
 
     public AlbumFragment(String title, URL img, String id) {
@@ -83,6 +99,50 @@ public class AlbumFragment extends Fragment {
         adapter = new SongAdapter(setData);
         songList.setLayoutManager(gridLayoutManager);
         songList.setAdapter(adapter);
+
+        reviewRecycler = view.findViewById(R.id.album_details_recycler_review);
+        fetchRecycler();
+        Button submitReview = view.findViewById(R.id.submit_rev);
+        submitReview.setOnClickListener(v -> sendReview(view));
+
+    }
+
+    private void fetchRecycler() {
+        FirebaseDatabase rootNode = FirebaseDatabase.getInstance();
+        DatabaseReference reference = rootNode.getReference("review").child(id);
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    ReviewClass ele = d.getValue(ReviewClass.class);
+                    setCards.add(ele);
+                }
+                reviewRecycler.setHasFixedSize(true);
+                reviewRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+                adapter = new CardReviewAdapter(setCards);
+                reviewRecycler.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+
+    private void sendReview(View view) {
+        EditText editText = view.findViewById(R.id.review_edit_text);
+        RatingBar ratingBar = view.findViewById(R.id.ratingBar);
+        String username = SessionAccount.getUsername();
+        String desc = editText.getEditableText().toString();
+        String rate = ratingBar.getRating() + "";
+        ReviewClass reviewClass = new ReviewClass(username, rate, desc);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("review");
+        reference.child(id).push().setValue(reviewClass);
+        LookupSell lookupSell = new LookupSell(SessionAccount.getUsername(), id);
+        reference = FirebaseDatabase.getInstance().getReference("lookupReview");
+        reference.child(SessionAccount.getUsername()).push().setValue(lookupSell);
+        Toast.makeText(getContext(), "OK", Toast.LENGTH_SHORT).show();
     }
 
     @Override
