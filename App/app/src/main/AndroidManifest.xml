@@ -19,7 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UpTune">
         <activity android:name=".Account.MyReviewsActivity"></activity>
-        <activity android:name=".Account.BoughtActivity" />
+        <activity android:name=".History.History" />
         <activity android:name=".Buy.BuyCreditCard" />
         <activity android:name=".Account.MyFiles" />
         <activity

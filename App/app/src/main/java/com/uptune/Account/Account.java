@@ -41,6 +41,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.uptune.History.History;
 import com.uptune.MainActivity;
 import com.uptune.R;
 import com.uptune.SessionAccount;
@@ -182,7 +183,7 @@ public class Account extends Fragment {
         btnBought.setOnClickListener(e ->
 
         {
-            Intent intent = new Intent(getActivity(), BoughtActivity.class);
+            Intent intent = new Intent(getActivity(), History.class);
             startActivity(intent);
         });
         btnSell.setOnClickListener(e ->

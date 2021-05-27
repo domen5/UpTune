@@ -5,17 +5,13 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
-
 import com.uptune.Account.Account;
 import com.uptune.Catalog.Catalog;
 import com.uptune.Chart.ChartsSelector;
-import com.uptune.Login.Welcome.fragment_welcome3;
 import com.uptune.R;
 import com.uptune.Used.Used;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import eu.long1.spacetablayout.SpaceTabLayout;
 
 public class SpaceTab extends AppCompatActivity {
