@@ -1,9 +1,7 @@
 package com.uptune.History;
 
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
@@ -20,11 +18,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.uptune.Adapter.Card.CardUsedAdapter;
+import com.uptune.Adapter.Card.HistoryElement;
+import com.uptune.Adapter.HistoryAdapter;
 import com.uptune.R;
 import com.uptune.SessionAccount;
 import com.uptune.Used.Tag;
-import com.uptune.Used.UsedElement;
 import com.yalantis.filter.adapter.FilterAdapter;
 import com.yalantis.filter.listener.FilterListener;
 import com.yalantis.filter.widget.Filter;
@@ -41,16 +39,14 @@ import java.util.stream.IntStream;
 public class History extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
+    private RecyclerView.Adapter rwAdapter;
     private FilterAdapter<Tag> filterAdapter;
     private Filter<Tag> filter;
-
-    private String[] mTitles = {"Digital Album", "Used Album", "Song", "Type 4", "Type 5"};
+    private String[] mTitles = {HistoryElement.USED_ALBUM, HistoryElement.DIGITAL_ALBUM, HistoryElement.SONG};
     private int[] colors;
     private List<Tag> tags;
-    // TODO: transition to List
-    private ArrayList<UsedElement> cardItems;
-    ArrayList<UsedElement> defaultCards = new ArrayList<>();
+    private List<HistoryElement> cardItems;
+    private List<HistoryElement> defaultCards;
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -77,17 +73,10 @@ public class History extends AppCompatActivity {
         filter.setAdapter(filterAdapter);
         filter.setListener(makeFilterListener());
         filter.setNoSelectedItemText("All Items");
+
         filter.build();
 
         getData();
-    }
-
-    @Override
-    public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
-        View view = super.onCreateView(parent, name, context, attrs);
-
-
-        return view;
     }
 
     private FilterAdapter<Tag> makeFilterAdapter() {
@@ -103,7 +92,7 @@ public class History extends AppCompatActivity {
                 filterItem.setColor(ContextCompat.getColor(History.this, android.R.color.white));
                 filterItem.setCheckedColor(colors[position]);
                 filterItem.setText(tag.getText());
-                filterItem.deselect();
+                filterItem.select();
                 return filterItem;
             }
         };
@@ -112,85 +101,89 @@ public class History extends AppCompatActivity {
     private FilterListener<Tag> makeFilterListener() {
         return new FilterListener<Tag>() {
             @Override
-            public void onFiltersSelected(@NotNull ArrayList<Tag> arrayList) {
-                for (Tag tag : arrayList) {
-                    Log.i("TAPPI", tag.getText());
-                    switch (tag.getText()) {
-                        case "Default":
-                            filter.deselectAll();
-                            filter.collapse();
-                            adapter = new CardUsedAdapter(defaultCards);
-                            recyclerView.setAdapter(adapter);
-                            break;
-                        case "Price":
-                            Collections.sort(cardItems);
-                            adapter = new CardUsedAdapter(cardItems);
-                            recyclerView.setAdapter(adapter);
-                            break;
-                        case "A-Z":
-                            Collections.sort(cardItems, UsedElement.comparator);
-                            adapter = new CardUsedAdapter(cardItems);
-                            recyclerView.setAdapter(adapter);
-                            break;
-                        case "Z-A":
-                            Collections.sort(cardItems, UsedElement.comparatorZ);
-                            adapter = new CardUsedAdapter(cardItems);
-                            recyclerView.setAdapter(adapter);
-                            break;
-                        case "Vendor":
-                            Collections.sort(cardItems, UsedElement.usercomparator);
-                            adapter = new CardUsedAdapter(cardItems);
-                            recyclerView.setAdapter(adapter);
-                            break;
-                    }
-                }
+            public void onFiltersSelected(@NotNull ArrayList<Tag> selectedTags) {
+
             }
 
             @Override
             public void onNothingSelected() {
-                adapter = new CardUsedAdapter(defaultCards);
-                recyclerView.setAdapter(adapter);
+
             }
 
             @Override
             public void onFilterSelected(Tag tag) {
-                switch (tag.getText()) {
-                    case "Default":
-                        adapter = new CardUsedAdapter(defaultCards);
-                        recyclerView.setAdapter(adapter);
-                        filter.deselectAll();
-                        filter.collapse();
-                        break;
+                int size = defaultCards.size();
+                String tagName = tag.getText();
+                for (int i = 0; i < size; i++) {
+                    Log.d("type", i + "" + defaultCards.get(i).getName() + " " + defaultCards.get(i).getType());
+                    if (defaultCards.get(i).getType().equalsIgnoreCase(tagName)) {
+                        cardItems.add(defaultCards.get(i));
+                    }
                 }
+                rwAdapter.notifyDataSetChanged();
             }
 
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onFilterDeselected(Tag tag) {
-
+                int size = cardItems.size();
+                String tagName = tag.getText();
+                for (int i = 0; i < size; i++) {
+                    Log.d("type", i + "" + cardItems.get(i).getName() + " " + cardItems.get(i).getType());
+                    if (cardItems.get(i).getType().equalsIgnoreCase(tagName)) {
+                        cardItems.remove(i);
+                        size--;
+                        i--;
+                    }
+                }
+                rwAdapter.notifyDataSetChanged();
             }
         };
     }
+
+//                List<HistoryElement> toDelete = cardItems.stream()
+//                        .filter(i -> !i.getType().equalsIgnoreCase(tag.getText()))
+//                        .collect(Collectors.toList());
+//
+//                for(int i = 0; i < toDelete.size(); i++) {
+//                    int position = cardItems.indexOf(toDelete.get(i));
+//                    cardItems.remove(position);
+//                    recyclerView.removeViewAt(position);
+//                    rwAdapter.notifyItemRemoved(position);
+//                    rwAdapter.notifyItemRangeChanged(position, cardItems.size());
+//                }
+
+//                    rwAdapter.notifyDataSetChanged();
+
 
     private void getData() {
         FirebaseDatabase rootNode = FirebaseDatabase.getInstance();
         DatabaseReference reference = rootNode.getReference("history").child(SessionAccount.getUsername());
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 cardItems = new ArrayList<>();
+                defaultCards = new ArrayList<>();
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
-                    UsedElement ele = d.getValue(UsedElement.class);
+                    HistoryElement ele = d.getValue(HistoryElement.class);
                     ele.setId(d.getKey());
+                    ele.setColor(0);
+                    tags.forEach(t -> {
+                        if (t.getText().equalsIgnoreCase(ele.getType())) {
+                            ele.setColor(t.getColor());
+                        }
+                    });
                     cardItems.add(ele);
-                    recyclerView.setHasFixedSize(true);
-                    recyclerView.setItemViewCacheSize(120);
-                    recyclerView.setDrawingCacheEnabled(true);
-                    recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(History.this, LinearLayoutManager.VERTICAL, false));
-                    adapter = new CardUsedAdapter(cardItems);
-                    recyclerView.setAdapter(adapter);
-                    defaultCards = cardItems;
+                    defaultCards.add(ele);
                 }
+                recyclerView.setLayoutManager(new LinearLayoutManager(History.this, LinearLayoutManager.VERTICAL, false));
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setItemViewCacheSize(120);
+                recyclerView.setDrawingCacheEnabled(true);
+                recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+                rwAdapter = new HistoryAdapter(cardItems);
+                recyclerView.setAdapter(rwAdapter);
             }
 
             @Override
