@@ -110,6 +110,7 @@ public class History extends AppCompatActivity {
 
             }
 
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onFilterSelected(Tag tag) {
                 int size = defaultCards.size();
@@ -120,6 +121,8 @@ public class History extends AppCompatActivity {
                         cardItems.add(defaultCards.get(i));
                     }
                 }
+                //TODO: sort doesn't seem to work
+                cardItems.sort(HistoryElement.dateComparator);
                 rwAdapter.notifyDataSetChanged();
             }
 
@@ -136,6 +139,8 @@ public class History extends AppCompatActivity {
                         i--;
                     }
                 }
+                //TODO: sort doesn't seem to work
+                cardItems.sort(HistoryElement.dateComparator);
                 rwAdapter.notifyDataSetChanged();
             }
         };

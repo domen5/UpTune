@@ -36,7 +36,17 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.FeatureV
 
     }
 
-    public HistoryAdapter(List<HistoryElement> items) { this.items = items; }
+    public HistoryAdapter(List<HistoryElement> items) {
+        this.items = items;
+        for (HistoryElement element : items) {
+            try {
+                final Bitmap image = BitmapFactory.decodeStream(element.getImg().openStream());
+                element.setImageBitmap(image);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     @NotNull
     @Override
@@ -63,12 +73,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.FeatureV
         holder.price.setText("€" + element.getPrice());
         holder.constraintLayout.setBackgroundColor(element.getColor());
 
-        try {
-            final Bitmap image = BitmapFactory.decodeStream(element.getImg().openStream());
-            holder.img.post(() -> holder.img.setImageBitmap(image));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        holder.img.post(() -> holder.img.setImageBitmap(element.getImageBitmap()));
+
     }
 
     @Override

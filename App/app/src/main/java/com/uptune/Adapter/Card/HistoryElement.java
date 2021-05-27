@@ -1,11 +1,24 @@
 package com.uptune.Adapter.Card;
 
+import android.graphics.Bitmap;
+
 import com.uptune.Used.UsedElement;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Comparator;
+import java.util.Date;
+
 public class HistoryElement extends UsedElement {
+    public static final String USED_ALBUM = "used";
+    public static final String DIGITAL_ALBUM = "digital";
+    public static final String SONG = "song";
+
     private String date;
     private String type;
     private int color;
+    private Bitmap imageBitmap;
 
     public void setDate(String date) { this.date = date; }
     public String getDate() { return this.date; }
@@ -15,10 +28,25 @@ public class HistoryElement extends UsedElement {
     public int getColor() { return color; }
     public void setColor(int color) { this.color = color; }
 
-    public static final String USED_ALBUM = "used";
-    public static final String DIGITAL_ALBUM = "digital";
-    public static final String SONG = "song";
+    public Bitmap getImageBitmap() {
+        return imageBitmap;
+    }
 
+    public void setImageBitmap(Bitmap imageBitmap) {
+        this.imageBitmap = imageBitmap;
+    }
+
+    public static Comparator<HistoryElement> dateComparator = (o1, o2) -> {
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            Date d1 = df.parse(o1.getDate());
+            Date d2 = df.parse(o2.getDate());
+            return d1.compareTo(d2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    };
 }
 
 //
