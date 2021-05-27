@@ -8,23 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.uptune.Artist.ArtistDetails;
-import com.uptune.Catalog.CardDetails;
-import com.uptune.Catalog.CategoriesDetails;
+import com.uptune.Catalog.AlbumFragment;
 import com.uptune.Helper.CardContainer;
 import com.uptune.R;
-import com.uptune.Web;
-
-import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,7 +44,7 @@ public class NewReleaseAdapter extends RecyclerView.Adapter<com.uptune.Adapter.C
             AppCompatActivity activity = (AppCompatActivity) v.getContext();
             activity.getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.catalog, new CardDetails(location.get(position).getTitle(), location.get(position).getImage(), location.get(position).getID()))
+                    .replace(R.id.catalog, new AlbumFragment(location.get(position).getTitle(), location.get(position).getImage(), location.get(position).getID()))
                     .addToBackStack("a")
                     .commit();
         });

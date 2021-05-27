@@ -1,5 +1,6 @@
 package com.uptune.Catalog;
 
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.uptune.Adapter.Card.CardReviewAdapter;
 import com.uptune.Adapter.SongAdapter;
+import com.uptune.Buy.BuyCreditCard;
 import com.uptune.Helper.LookupSell;
 import com.uptune.R;
 import com.uptune.Review.ReviewClass;
@@ -40,12 +43,13 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class AlbumFragment extends Fragment {
-    private String id, title;
+    private String id, title, price;
     private RecyclerView songList;
     private RecyclerView.Adapter adapter;
     RecyclerView reviewRecycler;
     ArrayList<ReviewClass> setCards = new ArrayList<>();
     private URL img;
+    MaterialButton buy;
 
     public AlbumFragment(String title, URL img, String id) {
         this.id = id;
@@ -60,6 +64,7 @@ public class AlbumFragment extends Fragment {
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
         toolbar.setTitle(title);
+
 
         Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(String.valueOf(R.id.categories_details));
         if (fragment != null)
@@ -79,6 +84,7 @@ public class AlbumFragment extends Fragment {
 
         try {
             JSONArray arr = Web.getAlbum(id);
+            price = String.format("%.2f", (arr.length() * 0.75));
             for (int i = 0; i < arr.length(); i++) {
                 JSONObject current = arr.getJSONObject(i);
                 String name = current.getString("name");
@@ -107,6 +113,21 @@ public class AlbumFragment extends Fragment {
         Button submitReview = view.findViewById(R.id.submit_rev);
         submitReview.setOnClickListener(v -> sendReview(view));
 
+        buy = view.findViewById(R.id.album_details_buy);
+        buy.setText("Buy for " + price + "€");
+        buy.setOnClickListener(v -> pay());
+
+    }
+
+    private void pay() {
+        Intent i = new Intent(getActivity(), BuyCreditCard.class);
+        i.putExtra("price", price);
+        i.putExtra("img", img);
+        i.putExtra("type", "album");
+        i.putExtra("name", title);
+        i.putExtra("id", id);
+        startActivity(i);
+        getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
     }
 
     private void fetchRecycler() {
