@@ -27,6 +27,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.jorgecastilloprz.FABProgressCircle;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
@@ -85,13 +86,14 @@ public class SongDetails extends Fragment {
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(v -> getFragmentManager().popBackStack());
 
-
         this.fabPreview = view.findViewById(R.id.songDetailsFabPreview);
         final ImageView imageView = view.findViewById(R.id.songDetailsImg);
         final ImageView imageView2 = view.findViewById(R.id.songDetailsImgBackground);
         final ImageView imageArtist = view.findViewById(R.id.songDetailsArtistImg);
         final TextView txtProductTitle = view.findViewById(R.id.songDetailsBuyTitleDetails);
         final TextView txtArtist = view.findViewById(R.id.songDetailsTitleArtist);
+        final FABProgressCircle fabProgressCircle = view.findViewById(R.id.fabProgressCircle);
+
         btnBottom = view.findViewById(R.id.songDetailsBottomBuy);
         btnBottom.setOnClickListener(v -> pay());
         Button submitReview = view.findViewById(R.id.submit_rev);
@@ -99,19 +101,16 @@ public class SongDetails extends Fragment {
         reviewRecycler = view.findViewById(R.id.songDetailsRecycler);
         fetchRecycler();
 
-//        fabPreview.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mediaPlayer.start();
-//            }
-//        });
         fabPreview.setOnTouchListener((v, motionEvent) -> {
             int action = motionEvent.getAction() & MotionEvent.ACTION_MASK;
             if (action == MotionEvent.ACTION_DOWN) {
                 mediaPlayer.start();
-            } else if (action == MotionEvent.ACTION_UP) {
+                fabProgressCircle.show();
+                mediaPlayer.setOnCompletionListener(mp -> fabProgressCircle.hide());
+            } else if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL) {
                 mediaPlayer.stop();
                 mediaPlayer.prepareAsync();
+                fabProgressCircle.hide();
             }
             return false;
         });

@@ -100,8 +100,8 @@
                     android:id="@+id/songDetailsArtistImg"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
-                    android:src="@drawable/ic_user"
                     android:scaleType="centerCrop"
+                    android:src="@drawable/ic_user"
                     app:shapeAppearanceOverlay="@style/Circular" />
 
                 <LinearLayout
@@ -148,8 +148,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="22dp"
-                android:text="Reviews "
                 android:fontFamily="@font/baloo"
+                android:text="Reviews "
                 android:textSize="32dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -187,34 +187,46 @@
                 app:layout_constraintTop_toBottomOf="@id/songDetailsRecycler">
 
                 <com.alespero.expandablecardview.ExpandableCardView
-                    android:padding="20dp"
-                    android:clickable="true"
                     android:id="@+id/profile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:title="Make a review"
+                    android:clickable="true"
+                    android:padding="20dp"
+                    app:animationDuration="300"
+                    app:expandOnClick="true"
                     app:icon="@drawable/ic_rate"
                     app:inner_view="@layout/review_form"
-                    app:expandOnClick="true"
-                    app:animationDuration="300"
-                    app:startExpanded="false"/>
+                    app:startExpanded="false"
+                    app:title="Make a review" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/songDetailsFabPreview"
+    <com.github.jorgecastilloprz.FABProgressCircle
+        android:id="@+id/fabProgressCircle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="30dp"
-        android:baselineAlignBottom="false"
-        android:clickable="true"
-        android:src="@drawable/ic_music_play"
-        app:backgroundTint="@color/white"
-        app:fabSize="normal"
+        app:finalIcon="@drawable/ic_music_play"
+        app:arcColor="#00ffff"
+        app:arcWidth="7dp"
         app:layout_anchor="@id/appBarLayout"
         app:layout_anchorGravity="end|bottom"
-        app:rippleColor="@color/white" />
+        app:reusable="true"
+        app:backgroundTint="@color/white"
+        >
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/songDetailsFabPreview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:baselineAlignBottom="false"
+            android:clickable="true"
+            android:src="@drawable/ic_music_play"
+            app:backgroundTint="@color/white"
+            app:fabSize="normal"
+            app:rippleColor="@color/white" />
+    </com.github.jorgecastilloprz.FABProgressCircle>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
