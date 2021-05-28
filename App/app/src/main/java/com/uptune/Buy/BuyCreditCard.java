@@ -17,6 +17,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.uptune.Navigation.SpaceTab;
 import com.uptune.R;
+import com.uptune.SessionAccount;
 
 public class BuyCreditCard extends AppCompatActivity {
 
@@ -48,7 +49,7 @@ public class BuyCreditCard extends AppCompatActivity {
             //Record in db
             HistoryBought historyBought = new HistoryBought(name, price, img, type);
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("history");
-            reference.child("leleshady").push().setValue(historyBought);
+            reference.child(SessionAccount.getUsername()).push().setValue(historyBought);
 
             //Remove record from DB
             if (type.equals("used")) {

@@ -51,6 +51,7 @@ public class AlbumFragment extends Fragment {
     private URL img;
     MaterialButton buy;
 
+    public AlbumFragment() {}
     public AlbumFragment(String title, URL img, String id) {
         this.id = id;
         this.title = title;

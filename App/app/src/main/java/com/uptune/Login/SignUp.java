@@ -93,6 +93,7 @@ public class SignUp extends AppCompatActivity {
             reference = rootNode.getReference("user");
             UserHelper helper = new UserHelper(name, username, mail, phone, password);
             reference.child(username.getEditText().getText().toString()).setValue(helper);
+            SessionAccount sessionAccount= new SessionAccount(helper.getMail(),helper.getName(), helper.getUsername(), helper.getPhone());
             Intent intent = new Intent(SignUp.this, FirstLogin.class);
             startActivity(intent);
         });

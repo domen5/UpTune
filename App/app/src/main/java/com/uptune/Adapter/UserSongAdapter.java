@@ -155,6 +155,7 @@ public class UserSongAdapter extends RecyclerView.Adapter<UserSongAdapter.Featur
     }
 
     public void releaseMediaPlayer() {
+        this.handler.removeCallbacks(this.updateSeek);
         this.mediaPlayer.release();
     }
 

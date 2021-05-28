@@ -60,6 +60,7 @@ public class Account extends Fragment {
     TextView nReview, nBought, nSold;
     StorageReference storageReference = FirebaseStorage.getInstance().getReference();
     DatabaseReference root = FirebaseDatabase.getInstance().getReference("user");
+    private String username;
 
     private final int PERMISSION_CODE = 1001;
     private final int IMAGE_PICK_CODE = 1000;
@@ -94,12 +95,11 @@ public class Account extends Fragment {
         accountName.setText(SessionAccount.getName());
         accountMail.setText(SessionAccount.getMail());
 
-
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-
-        DatabaseReference used = rootRef.child("lookupUsed").child("leleshady");
-        DatabaseReference history = rootRef.child("history").child("leleshady");
-        DatabaseReference review = rootRef.child("owned").child("leleshady");
+        this.username = SessionAccount.getUsername();
+        DatabaseReference used = rootRef.child("lookupUsed").child(username);
+        DatabaseReference history = rootRef.child("history").child(username);
+        DatabaseReference review = rootRef.child("lookupReview").child(username);
         history.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -133,7 +133,7 @@ public class Account extends Fragment {
             }
         });
 
-        root.child("leleshady").addListenerForSingleValueEvent(
+        root.child(username).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -227,9 +227,6 @@ public class Account extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == IMAGE_PICK_CODE && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
-            //TO DELETE
-            new SessionAccount();
-            //
             StorageReference storageReference = FirebaseStorage.getInstance().getReference();
             accountImg.setImageURI(data.getData());
             final ProgressDialog progressDialog = new ProgressDialog(getContext());
@@ -247,12 +244,12 @@ public class Account extends Fragment {
                     }
                     FirebaseAuth auth = FirebaseAuth.getInstance();
                     DatabaseReference reference = FirebaseDatabase.getInstance().getReference("user");
-                    Query checkUser = reference.orderByKey().equalTo(SessionAccount.getUsername());
+                    Query checkUser = reference.orderByKey().equalTo(username);
                     checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             if (dataSnapshot.exists()) {
-                                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("user").child(SessionAccount.getUsername());
+                                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("user").child(username);
                                 mDatabase.child("img").setValue(userImgUpload.toString());
                             } else
                                 Toast.makeText(getContext(), "NULL", Toast.LENGTH_LONG).show();

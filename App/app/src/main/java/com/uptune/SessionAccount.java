@@ -8,11 +8,6 @@ public class SessionAccount {
     private static String img;
 
     public SessionAccount() {
-        this.mail = null;
-        this.name = null;
-        this.username = "leleshady";
-        this.phone = null;
-        this.img = "";
     }
 
     public SessionAccount(String mail, String name, String username, String phone) {
