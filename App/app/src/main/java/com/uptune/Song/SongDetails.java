@@ -130,11 +130,11 @@ public class SongDetails extends Fragment {
                         mediaPlayer.prepareAsync();
                         Log.e("preview", track.preview_url);
                     } catch (IOException | NullPointerException e) {
-                        CoordinatorLayout.LayoutParams p = (CoordinatorLayout.LayoutParams) fabPreview.getLayoutParams();
-                        p.setAnchorId(View.NO_ID);
-                        fabPreview.setLayoutParams(p);
+//                        CoordinatorLayout.LayoutParams p = (CoordinatorLayout.LayoutParams) fabPreview.getLayoutParams();
+//                        p.setAnchorId(View.NO_ID);
+//                        fabPreview.setLayoutParams(p);
                         fabPreview.hide();
-                        Log.e("preview", "Prewview non disponibile");
+                        Log.e("preview", "Preview non disponibile");
                         Toast.makeText(getActivity(), "Preview non disponibile", Toast.LENGTH_SHORT);
                         e.printStackTrace();
                     }

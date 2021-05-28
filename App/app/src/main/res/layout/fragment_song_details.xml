@@ -209,7 +209,7 @@
         android:layout_marginRight="30dp"
         app:finalIcon="@drawable/ic_music_play"
         app:arcColor="#00ffff"
-        app:arcWidth="7dp"
+        app:arcWidth="4dp"
         app:layout_anchor="@id/appBarLayout"
         app:layout_anchorGravity="end|bottom"
         app:reusable="true"
