@@ -80,7 +80,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.FeatureV
     public static class FeatureViewHolder extends RecyclerView.ViewHolder {
         TextView name, date, price;
         ImageView img;
-        View cardView;
         ConstraintLayout constraintLayout;
 
         public FeatureViewHolder(@NonNull View itemView) {
@@ -90,7 +89,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.FeatureV
             price = itemView.findViewById(R.id.historyPrice);
             img = itemView.findViewById(R.id.historyImg);
             constraintLayout = itemView.findViewById(R.id.historyConstraintLayout1);
-//            cardView = itemView.findViewById(R.id.historyCard);
         }
     }
 }

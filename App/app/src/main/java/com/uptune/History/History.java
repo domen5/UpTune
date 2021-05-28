@@ -129,12 +129,13 @@ public class History extends AppCompatActivity implements FilterListener<Tag> {
                 case "Price":
                     Collections.sort(setCards);
                     break;
-
             }
-            adapter = new HistoryAdapter(setCards);
-            adapter.notifyDataSetChanged();
-            recyclerView.setAdapter(adapter);
         }
+        //TODO: prendi lista tag,
+        // togliere a set card gli elementi che non corripsondono ai tag
+        adapter = new HistoryAdapter(setCards);
+        adapter.notifyDataSetChanged();
+        recyclerView.setAdapter(adapter);
     }
 
     @Override

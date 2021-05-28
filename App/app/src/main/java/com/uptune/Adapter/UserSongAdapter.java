@@ -43,6 +43,7 @@ public class UserSongAdapter extends RecyclerView.Adapter<UserSongAdapter.Featur
     private Handler handler = new Handler();
     private Runnable updateSeek;
     FeatureViewHolder playingHolder;
+
     int state = -1;
 
     public UserSongAdapter(ArrayList<SongList> location, Context context) {
@@ -76,9 +77,10 @@ public class UserSongAdapter extends RecyclerView.Adapter<UserSongAdapter.Featur
         holder.title.setText(songList.getTitle());
 
         holder.btnPlay.setOnClickListener(v -> {
-
+            holder.seekBar.setEnabled(true);
             // PLAY
             if (!mediaPlayer.isPlaying() && (state != position)) {
+
                 Log.d("media", "PLAY");
                 if (playingHolder != null) {
                     playingHolder.btnPlay.setImageResource(R.drawable.ic_music_play);
@@ -151,6 +153,7 @@ public class UserSongAdapter extends RecyclerView.Adapter<UserSongAdapter.Featur
             }
             return false;
         });
+        holder.seekBar.setEnabled(false);
         holder.btnDownload.setOnClickListener(v -> download(songList.getTitle(), songList.getImg()));
     }
 
