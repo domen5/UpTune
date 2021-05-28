@@ -71,7 +71,7 @@ public class HistoryElement implements Comparable<HistoryElement> {
     }
 
     public static Comparator<HistoryElement> dateComparatorNewest = (o1, o2) -> {
-        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         try {
             Date d1 = df.parse(o1.getDate());
             Date d2 = df.parse(o2.getDate());
@@ -83,7 +83,7 @@ public class HistoryElement implements Comparable<HistoryElement> {
     };
 
     public static Comparator<HistoryElement> dateComparatorOldest = (o1, o2) -> {
-        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         try {
             Date d1 = df.parse(o1.getDate());
             Date d2 = df.parse(o2.getDate());
