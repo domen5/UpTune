@@ -10,6 +10,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="white_light">#D8D8D8</color>
     <color name="blue_light">#63BAAB</color>
+    <color name="gray">#d8d8d8</color>
     <color name="green_dark">#005247</color>
     <color name="green">#00765E</color>
     <color name="mtrl_textinput_default_box_stroke_color">#FFFFFFFF</color>

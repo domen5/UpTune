@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.uptune.Adapter.ArtistAdapter;
-import com.uptune.Artist.ArtistStuff;
 import com.uptune.Catalog.AlbumFragment;
 import com.uptune.R;
 import com.uptune.Song.SongDetails;
@@ -65,7 +63,7 @@ public class ArtistDetails extends Fragment {
         TextView bio = view.findViewById(R.id.artist_details_bio);
         bio.setText(this.bio);
 
-        ImageView imgView = view.findViewById(R.id.details_artist_img);
+        ImageView imgView = view.findViewById(R.id.settings_img);
         try {
             imgView.setImageBitmap(BitmapFactory.decodeStream(img.openStream()));
         } catch (IOException e) {

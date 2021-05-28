@@ -1,14 +1,20 @@
 package com.uptune.Account;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
 
+import com.google.android.material.imageview.ShapeableImageView;
 import com.uptune.R;
+import com.uptune.SessionAccount;
 
 public class SettingsActivity extends AppCompatActivity {
+
+    TextView mail, username;
+    ShapeableImageView img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,17 +30,21 @@ public class SettingsActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
-
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar_settings);
+        mail = findViewById(R.id.settings_mail);
+        username = findViewById(R.id.settings_username);
+        img = findViewById(R.id.settings_img);
+
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(v -> finish());
-
+        mail.setText(SessionAccount.getMail());
+        username.setText(SessionAccount.getUsername());
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
         }
     }

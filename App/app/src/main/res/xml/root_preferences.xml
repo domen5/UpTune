@@ -25,10 +25,6 @@
             android:key="phone"
             app:title="Phone number"
             app:useSimpleSummaryProvider="true" />
-        <EditTextPreference
-            android:key="img"
-            android:summary="a"
-            app:title="Image profile" />
 
     </PreferenceCategory>
 
