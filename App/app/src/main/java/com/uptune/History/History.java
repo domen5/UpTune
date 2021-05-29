@@ -32,25 +32,29 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class History extends AppCompatActivity implements FilterListener<Tag> {
-    ArrayList<HistoryElement> setCards = new ArrayList<>();
-    ArrayList<HistoryElement> defaultCards = new ArrayList<>();
+public class History extends AppCompatActivity  {
+    private ArrayList<HistoryElement> setCards = new ArrayList<>();
+    private ArrayList<HistoryElement> defaultCards = new ArrayList<>();
     private String[] mTitles = {"Default", "Newest", "Oldest", "Album", "Song", "Used", "Price"};
     private int[] mColors;
-    RecyclerView recyclerView;
-    RecyclerView.Adapter adapter;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
     private Filter<Tag> mFilter;
+    private FilterListener<Tag> filterListener;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
+
         this.recyclerView = findViewById(R.id.historyRecyclerView);
         this.mColors = getResources().getIntArray(R.array.colors);
         this.mFilter = findViewById(R.id.historyFilter);
+
+        this.filterListener = new MyFilterAdapter();
         mFilter.setAdapter(new History.Adapter(getTags()));
-        mFilter.setListener(this);
+        mFilter.setListener(this.filterListener);
         mFilter.setNoSelectedItemText("All Items");
         mFilter.build();
         getData();
@@ -69,16 +73,16 @@ public class History extends AppCompatActivity implements FilterListener<Tag> {
                     ele.setId(d.getKey());
                     setCards.add(ele);
                     defaultCards.add(ele);
-                    recyclerView.setHasFixedSize(true);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-                    recyclerView.setItemViewCacheSize(20);
-                    recyclerView.setDrawingCacheEnabled(true);
-                    recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
 
                 }
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+                recyclerView.setItemViewCacheSize(20);
+                recyclerView.setDrawingCacheEnabled(true);
+                recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
                 adapter = new HistoryAdapter(setCards);
                 recyclerView.setAdapter(adapter);
-                onNothingSelected();
+                filterListener.onNothingSelected();
             }
 
             @Override
@@ -87,59 +91,7 @@ public class History extends AppCompatActivity implements FilterListener<Tag> {
         });
     }
 
-    @Override
-    public void onFilterDeselected(Tag tag) {
 
-    }
-
-    @Override
-    public void onFilterSelected(Tag tag) {
-//        switch (tag.getText()) {
-//            case "Default":
-//                mFilter.deselectAll();
-//                mFilter.collapse();
-//                adapter = new HistoryAdapter(defaultCards);
-//                recyclerView.setAdapter(adapter);
-//                break;
-//        }
-    }
-
-    @Override
-    public void onFiltersSelected(@NotNull ArrayList<Tag> arrayList) {
-        setCards.clear();
-        for (Tag tag : arrayList) {
-            switch (tag.getText()) {
-                case "Default":
-                    mFilter.deselectAll();
-                    mFilter.collapse(); // Questo genera bug
-                    break;
-                case "Oldest":
-                    Collections.sort(setCards, HistoryElement.dateComparatorOldest);
-                    break;
-                case "Newest":
-                    Collections.sort(setCards, HistoryElement.dateComparatorNewest);
-                    break;
-                case "Price":
-                    Collections.sort(setCards);
-                    break;
-            }
-            for(HistoryElement el : defaultCards) {
-                if(el.getType().equalsIgnoreCase(tag.getText())) {
-                    setCards.add(el);
-                }
-            }
-        }
-        adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onNothingSelected() {
-        if(adapter != null) {
-            setCards.clear();
-            setCards.addAll(defaultCards);
-            adapter.notifyDataSetChanged();
-        }
-    }
 
     private List<Tag> getTags() {
         List<Tag> tags = new ArrayList<>();
@@ -148,7 +100,7 @@ public class History extends AppCompatActivity implements FilterListener<Tag> {
         return tags;
     }
 
-    class Adapter extends FilterAdapter<Tag> {
+    private class Adapter extends FilterAdapter<Tag> {
 
         Adapter(@NotNull List<? extends Tag> items) {
             super(items);
@@ -168,5 +120,71 @@ public class History extends AppCompatActivity implements FilterListener<Tag> {
             filterItem.deselect();
             return filterItem;
         }
+    }
+
+    class MyFilterAdapter implements FilterListener<Tag> {
+        @Override
+        public void onFilterDeselected(Tag tag) {
+
+        }
+
+        @Override
+        public void onFilterSelected(Tag tag) {
+//        switch (tag.getText()) {
+//            case "Default":
+//                mFilter.deselectAll();
+//                mFilter.collapse();
+//                adapter = new HistoryAdapter(defaultCards); // X
+//                recyclerView.setAdapter(adapter);           // X
+//                break;
+//        }
+
+
+//        Io farei così
+//        if(adapter != null) {
+//            setCards.clear();
+//            setCards.addAll(defaultCards);
+//            adapter.notifyDataSetChanged();
+//        }
+        }
+
+        @Override
+        public void onFiltersSelected(@NotNull ArrayList<Tag> arrayList) {
+            setCards.clear();
+            for (Tag tag : arrayList) {
+                switch (tag.getText()) {
+                    case "Default":
+                        mFilter.deselectAll();
+                        mFilter.collapse(); // Questo genera bug
+                        break;
+                    case "Oldest":
+                        Collections.sort(setCards, HistoryElement.dateComparatorOldest);
+                        break;
+                    case "Newest":
+                        Collections.sort(setCards, HistoryElement.dateComparatorNewest);
+                        break;
+                    case "Price":
+                        Collections.sort(setCards);
+                        break;
+                }
+
+                for(HistoryElement el : defaultCards) {
+                    if(el.getType().equalsIgnoreCase(tag.getText())) {
+                        setCards.add(el);
+                    }
+                }
+            }
+            adapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void onNothingSelected() {
+            if(adapter != null) {
+                setCards.clear();
+                setCards.addAll(defaultCards);
+                adapter.notifyDataSetChanged();
+            }
+        }
+
     }
 }
