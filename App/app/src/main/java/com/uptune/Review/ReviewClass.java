@@ -2,11 +2,13 @@ package com.uptune.Review;
 
 import com.uptune.SessionAccount;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 
-public class ReviewClass {
+public class ReviewClass implements Comparable<ReviewClass>{
     public String name, rate, desc, date, img, key, imgProduct, productName, artists;
 
     public ReviewClass() {
@@ -81,4 +83,32 @@ public class ReviewClass {
     public void setId(String key) {
         this.key = key;
     }
+
+    @Override
+    public int compareTo(ReviewClass e) {
+        return (int) Math.round(Double.parseDouble(this.rate) - Double.parseDouble(e.getRate()));
+    }
+    public static Comparator<ReviewClass> dateComparatorNewest = (o1, o2) -> {
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        try {
+            Date d1 = df.parse(o1.getDate());
+            Date d2 = df.parse(o2.getDate());
+            return d2.compareTo(d1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    };
+
+    public static Comparator<ReviewClass> dateComparatorOldest = (o1, o2) -> {
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        try {
+            Date d1 = df.parse(o1.getDate());
+            Date d2 = df.parse(o2.getDate());
+            return d1.compareTo(d2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    };
 }

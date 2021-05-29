@@ -3,6 +3,7 @@ package com.uptune.History;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -37,6 +38,7 @@ public class History extends AppCompatActivity  {
     private ArrayList<HistoryElement> defaultCards = new ArrayList<>();
     private String[] mTitles = {"Default", "Newest", "Oldest", "Album", "Song", "Used", "Price"};
     private int[] mColors;
+    ImageButton btnBack;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private Filter<Tag> mFilter;
@@ -47,7 +49,8 @@ public class History extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
-
+        btnBack = findViewById(R.id.review_back);
+        btnBack.setOnClickListener(v -> finish());
         this.recyclerView = findViewById(R.id.historyRecyclerView);
         this.mColors = getResources().getIntArray(R.array.colors);
         this.mFilter = findViewById(R.id.historyFilter);
