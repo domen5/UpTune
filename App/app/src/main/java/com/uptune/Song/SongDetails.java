@@ -22,7 +22,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -57,7 +56,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class SongDetails extends Fragment {
-    private String id, name, imgStr;
+    private String id, name, imgStr, artists;
     private MediaPlayer mediaPlayer;
     private FloatingActionButton fabPreview;
     MaterialButton btnBottom;
@@ -142,7 +141,7 @@ public class SongDetails extends Fragment {
                 txtProductTitle.setText(track.name);
                 toolbar.setTitle(track.name);
                 name = track.name;
-                String artists = track.artists.stream()
+                artists = track.artists.stream()
                         .map(a -> a.name)
                         .collect(Collectors.joining(", "));
                 txtArtist.setText(artists);
@@ -196,7 +195,7 @@ public class SongDetails extends Fragment {
         String username = SessionAccount.getUsername();
         String desc = editText.getEditableText().toString();
         String rate = ratingBar.getRating() + "";
-        ReviewClass reviewClass = new ReviewClass(username, rate, desc);
+        ReviewClass reviewClass = new ReviewClass(username, rate, desc, imgStr, name, artists);
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("review");
         reference.child(id).push().setValue(reviewClass);
         LookupSell lookupSell = new LookupSell(SessionAccount.getUsername(), id);

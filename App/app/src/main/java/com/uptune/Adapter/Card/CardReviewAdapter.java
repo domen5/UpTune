@@ -68,6 +68,7 @@ public class CardReviewAdapter extends RecyclerView.Adapter<com.uptune.Adapter.C
         holder.date.setText(reviewEl.getDate());
         holder.username.setText(reviewEl.getName());
         holder.desc.setText(reviewEl.getDesc());
+        holder.rate.setRating(Float.parseFloat(reviewEl.getRate()));
     }
 
     @Override

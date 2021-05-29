@@ -119,30 +119,24 @@ public class Used extends Fragment implements FilterListener<Tag> {
                     mFilter.collapse();
                     adapter = new CardUsedAdapter(defaultCards);
                     usedCardsRecycler.setAdapter(adapter);
-                    break;
+                    return;
                 case "Price":
                     Collections.sort(setCards);
-                    adapter = new CardUsedAdapter(setCards);
-                    usedCardsRecycler.setAdapter(adapter);
                     break;
                 case "A-Z":
                     Collections.sort(setCards, UsedElement.comparator);
-                    adapter = new CardUsedAdapter(setCards);
-                    usedCardsRecycler.setAdapter(adapter);
                     break;
                 case "Z-A":
                     Collections.sort(setCards, UsedElement.comparatorZ);
-                    adapter = new CardUsedAdapter(setCards);
-                    usedCardsRecycler.setAdapter(adapter);
                     break;
                 case "Vendor":
                     Collections.sort(setCards, UsedElement.usercomparator);
-                    adapter = new CardUsedAdapter(setCards);
-                    usedCardsRecycler.setAdapter(adapter);
                     break;
-
             }
         }
+        adapter = new CardUsedAdapter(setCards);
+        adapter.notifyDataSetChanged();
+        usedCardsRecycler.setAdapter(adapter);
     }
 
     @Override

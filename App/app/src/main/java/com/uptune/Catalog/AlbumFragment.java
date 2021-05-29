@@ -43,7 +43,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class AlbumFragment extends Fragment {
-    private String id, title, price;
+    private String id, title, price, artists, name;
     private RecyclerView songList;
     private RecyclerView.Adapter adapter;
     RecyclerView reviewRecycler;
@@ -51,7 +51,9 @@ public class AlbumFragment extends Fragment {
     private URL img;
     MaterialButton buy;
 
-    public AlbumFragment() {}
+    public AlbumFragment() {
+    }
+
     public AlbumFragment(String title, URL img, String id) {
         this.id = id;
         this.title = title;
@@ -88,9 +90,9 @@ public class AlbumFragment extends Fragment {
             price = String.format("%.2f", (arr.length() * 0.75));
             for (int i = 0; i < arr.length(); i++) {
                 JSONObject current = arr.getJSONObject(i);
-                String name = current.getString("name");
+                name = current.getString("name");
                 String id = current.getString("id");
-                String artists = "";
+                artists = "";
                 for (int j = 0; j < current.getJSONArray("artists").length(); j++) {
                     String artistName = current.getJSONArray("artists").getJSONObject(j).getString("name");
                     if (j == current.getJSONArray("artists").length() - 1)
@@ -160,7 +162,7 @@ public class AlbumFragment extends Fragment {
         String username = SessionAccount.getUsername();
         String desc = editText.getEditableText().toString();
         String rate = ratingBar.getRating() + "";
-        ReviewClass reviewClass = new ReviewClass(username, rate, desc);
+        ReviewClass reviewClass = new ReviewClass(username, rate, desc, img.toString(), name, artists);
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("review");
         reference.child(id).push().setValue(reviewClass);
         LookupSell lookupSell = new LookupSell(SessionAccount.getUsername(), id);

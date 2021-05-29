@@ -6,27 +6,46 @@
     android:layout_height="match_parent"
     tools:context=".Account.MyReviewsActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_reviews_my"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/review_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/rounded_button"
+            android:src="@drawable/ic_back" />
 
         <TextView
             android:id="@+id/toolbar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="@color/black"
+            android:layout_gravity="center_horizontal"
             android:fontFamily="@font/brandon_grotesque_black"
             android:text="My Reviews"
+            android:textColor="@color/black"
             android:textSize="32dp" />
-    </androidx.appcompat.widget.Toolbar>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/review_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:background="@color/gray"
+            android:paddingLeft="5dp"
+            android:paddingTop="15dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="15dp" />
 
+        <com.yalantis.filter.widget.Filter
+            android:id="@+id/historyFilter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp" />
+    </FrameLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
