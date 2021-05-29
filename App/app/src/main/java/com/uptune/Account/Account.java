@@ -97,67 +97,11 @@ public class Account extends Fragment {
 
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
         this.username = SessionAccount.getUsername();
-        DatabaseReference used = rootRef.child("lookupUsed").child(username);
-        DatabaseReference history = rootRef.child("history").child(username);
-        DatabaseReference review = rootRef.child("lookupReview").child(username);
-        history.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                nBought.setText(""+dataSnapshot.getChildrenCount());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-        used.addListenerForSingleValueEvent(new ValueEventListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                nSold.setText(""+dataSnapshot.getChildrenCount());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-        review.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                nReview.setText(""+dataSnapshot.getChildrenCount());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-
-        root.child(username).addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        SessionAccount account = dataSnapshot.getValue(SessionAccount.class);
-                        String name = account.getImg();
-                        try {
-                            Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL(name).getContent());
-                            accountImg.setImageBitmap(bitmap);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
+        fetchData(rootRef);
 
 
         //change img
-        accountImg.setOnClickListener(v ->
-
-        {
+        accountImg.setOnClickListener(v -> {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (getContext().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
                     String[] permission = {Manifest.permission.READ_EXTERNAL_STORAGE};
@@ -205,6 +149,64 @@ public class Account extends Fragment {
         logout.setOnClickListener(v ->
 
                 openLogoutDialog());
+    }
+
+    private void fetchData(DatabaseReference rootRef) {
+        DatabaseReference used = rootRef.child("lookupUsed").child(username);
+        DatabaseReference history = rootRef.child("history").child(username);
+        DatabaseReference review = rootRef.child("lookupReview").child(username);
+        history.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                nBought.setText("" + dataSnapshot.getChildrenCount());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+        used.addListenerForSingleValueEvent(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                nSold.setText("" + dataSnapshot.getChildrenCount());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+        review.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                nReview.setText("" + dataSnapshot.getChildrenCount());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+        root.child(username).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        SessionAccount account = dataSnapshot.getValue(SessionAccount.class);
+                        String name = account.getImg();
+                        try {
+                            Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL(name).getContent());
+                            accountImg.setImageBitmap(bitmap);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
     }
 
     private void openFileChooser() {
@@ -295,6 +297,12 @@ public class Account extends Fragment {
         dialog.show();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+        fetchData(rootRef);
+    }
 }
 
 class Model {

@@ -47,7 +47,7 @@ public class MyReviewsActivity extends AppCompatActivity {
 
 
     private void getData() {
-        final String[] oldId = {""};
+        final ArrayList<String> oldId = new ArrayList<>();
         FirebaseDatabase rootNode = FirebaseDatabase.getInstance();
         DatabaseReference reference = rootNode.getReference("lookupReview").child(SessionAccount.getUsername());
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -55,10 +55,11 @@ public class MyReviewsActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 setCards = new ArrayList<>();
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
-                    Log.i("TAPPI", d.child("id").getValue().toString());
-                    if(oldId[0].equals(d.child("id").getValue().toString()))
+                    if (oldId.size() == 0)
+                        oldId.add(d.child("id").getValue().toString());
+                    else if (oldId.contains(d.child("id").getValue().toString()))
                         continue;
-                    oldId[0] =d.child("id").getValue().toString();
+                    oldId.add(d.child("id").getValue().toString());
                     DatabaseReference reference = rootNode.getReference("review").child(d.child("id").getValue().toString());
                     reference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
