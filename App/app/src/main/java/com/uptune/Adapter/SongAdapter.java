@@ -43,7 +43,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.FeatureViewHol
             AppCompatActivity activity = (AppCompatActivity) v.getContext();
             activity.getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(fragmentId, new SongDetails(location.get(position).getId()))
+                    .replace(fragmentId, SongDetails.newInstance(location.get(position).getId()))
                     .addToBackStack(null)
                     .commit();
         });

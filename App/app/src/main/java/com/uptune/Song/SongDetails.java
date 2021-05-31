@@ -64,13 +64,6 @@ public class SongDetails extends Fragment {
     RecyclerView.Adapter adapter;
     ArrayList<ReviewClass> setCards = new ArrayList<>();
 
-    public SongDetails(String id) {
-        this.id = id;
-    }
-
-    public SongDetails() {
-    }
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_song_details, container, false);
         return root;
