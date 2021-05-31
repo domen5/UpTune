@@ -80,6 +80,9 @@ public class Used extends Fragment implements FilterListener<Tag> {
                     setCards.add(ele);
                     defaultCards.add(ele);
                     usedCardsRecycler.setHasFixedSize(true);
+                    usedCardsRecycler.setItemViewCacheSize(20);
+                    usedCardsRecycler.setDrawingCacheEnabled(true);
+                    usedCardsRecycler.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
                     usedCardsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
                     adapter = new CardUsedAdapter(setCards);
                     usedCardsRecycler.setAdapter(adapter);
@@ -103,6 +106,7 @@ public class Used extends Fragment implements FilterListener<Tag> {
             case "Default":
                 adapter = new CardUsedAdapter(defaultCards);
                 usedCardsRecycler.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
                 mFilter.deselectAll();
                 mFilter.collapse();
                 break;

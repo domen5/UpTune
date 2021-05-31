@@ -15,7 +15,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +53,7 @@ import java.net.URL;
 public class Account extends Fragment {
 
     Dialog dialog;
+    String urlSettings;
     MaterialCardView btnSettings, btnSell, btnBought, btnMyFiles, btnRating;
     TextView accountName, accountMail;
     ShapeableImageView accountImg;
@@ -112,43 +112,30 @@ public class Account extends Fragment {
         });
 
         // region button event
-        btnMyFiles.setOnClickListener(e ->
-
-        {
+        btnMyFiles.setOnClickListener(e -> {
             Intent intent = new Intent(getActivity(), MyFiles.class);
             startActivity(intent);
         });
-        btnSettings.setOnClickListener(e ->
-
-        {
+        btnSettings.setOnClickListener(e -> {
             Intent intent = new Intent(getActivity(), SettingsActivity.class);
+            intent.putExtra("bitmap", urlSettings);
             startActivity(intent);
         });
-        btnBought.setOnClickListener(e ->
-
-        {
+        btnBought.setOnClickListener(e -> {
             Intent intent = new Intent(getActivity(), History.class);
             startActivity(intent);
         });
-        btnSell.setOnClickListener(e ->
-
-        {
+        btnSell.setOnClickListener(e -> {
             Intent intent = new Intent(getActivity(), SellActivity.class);
             startActivity(intent);
         });
-        btnRating.setOnClickListener(e ->
-
-        {
+        btnRating.setOnClickListener(e -> {
             Intent intent = new Intent(getActivity(), MyReviewsActivity.class);
             startActivity(intent);
         });
         //endregion
-        dialog = new
-
-                Dialog(getContext());
-        logout.setOnClickListener(v ->
-
-                openLogoutDialog());
+        dialog = new Dialog(getContext());
+        logout.setOnClickListener(v -> openLogoutDialog());
     }
 
     private void fetchData(DatabaseReference rootRef) {
@@ -193,6 +180,7 @@ public class Account extends Fragment {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         SessionAccount account = dataSnapshot.getValue(SessionAccount.class);
                         String name = account.getImg();
+                        urlSettings = name;
                         try {
                             Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL(name).getContent());
                             accountImg.setImageBitmap(bitmap);
@@ -239,8 +227,8 @@ public class Account extends Fragment {
                 Task<Uri> result = taskSnapshot.getStorage().getDownloadUrl();
                 result.addOnSuccessListener(uri -> {
                     try {
-                        Log.i("URLI", uri.toString());
                         userImgUpload = new URL(uri.toString());
+                        urlSettings = uri.toString();
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     }
@@ -253,6 +241,12 @@ public class Account extends Fragment {
                             if (dataSnapshot.exists()) {
                                 DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("user").child(username);
                                 mDatabase.child("img").setValue(userImgUpload.toString());
+                                try {
+                                    Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL(userImgUpload.toString()).getContent());
+                                    accountImg.setImageBitmap(bitmap);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                             } else
                                 Toast.makeText(getContext(), "NULL", Toast.LENGTH_LONG).show();
                         }

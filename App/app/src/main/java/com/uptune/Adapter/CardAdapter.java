@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.uptune.Catalog.AlbumFragment;
-import com.uptune.Catalog.CardDetails;
 import com.uptune.Catalog.CategoriesDetails;
 import com.uptune.Helper.CardContainer;
 import com.uptune.R;
@@ -71,7 +70,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.FeatureViewHol
                     AppCompatActivity activity = (AppCompatActivity) v.getContext();
                     activity.getSupportFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.catalog, new CardDetails(location.get(position).getTitle(), location.get(position).getImage(), location.get(position).getID()))
+                            .replace(R.id.catalog, new AlbumFragment(location.get(position).getTitle(), location.get(position).getImage(), location.get(position).getID()))
                             .addToBackStack("a")
                             .commit();
                 });
