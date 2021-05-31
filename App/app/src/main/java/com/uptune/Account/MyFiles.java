@@ -3,71 +3,83 @@ package com.uptune.Account;
 import android.annotation.SuppressLint;
 import android.app.DownloadManager;
 import android.content.Context;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.Button;
-import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.Toast;
-
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
-import com.uptune.Adapter.CardAdapter;
+import com.uptune.Adapter.Card.HistoryElement;
 import com.uptune.Adapter.UserSongAdapter;
-import com.uptune.Helper.CardContainer;
 import com.uptune.R;
+import com.uptune.SessionAccount;
 import com.uptune.Song.SongList;
-
-import java.io.IOException;
+import org.jetbrains.annotations.NotNull;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.List;
 
 import static android.os.Environment.DIRECTORY_DOWNLOADS;
 
 public class MyFiles extends AppCompatActivity {
     FirebaseStorage firebaseStorage;
-    StorageReference storageReference;
+    private StorageReference storageReference;
     StorageReference ref;
     UserSongAdapter adapter;
-    FirebaseDatabase rootNode;
-    DatabaseReference reference;
-    FirebaseAuth auth;
-    Toolbar toolbar;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_files);
-        toolbar = findViewById(R.id.toolbar_my_files);
+
+        //toolbar event
+        final Toolbar toolbar = findViewById(R.id.toolbar_my_files);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(v -> finish());
-        //Get from db
-        auth = FirebaseAuth.getInstance();
-        rootNode = FirebaseDatabase.getInstance();
-        reference = rootNode.getReference("owned").child("leleshady");
-        ArrayList<SongList> setSongOwned = new ArrayList<>();
 
+        //Get from db
+//        final FirebaseAuth auth = FirebaseAuth.getInstance(); // non era utilizzato
+        final FirebaseDatabase rootNode = FirebaseDatabase.getInstance();
+
+        final DatabaseReference owned = rootNode.getReference("history").child(SessionAccount.getUsername());
+        owned.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                for (DataSnapshot d : snapshot.getChildren()) {
+                    // TODO: Magari cambiare HistoryElement in qualcos'altro
+                    HistoryElement el = d.getValue(HistoryElement.class);
+
+                    //TODO: salvare da qualche parte come string statica
+                    if(el.getType().equalsIgnoreCase("album")) {
+                        //TODO: gestire album
+                        // recuperare ed aggiungere tutte le canzoni dell'album?
+                    }
+                    if(el.getType().equalsIgnoreCase("song")) {
+                        //TODO: gestire song
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                Log.e("ERROR", "Owned items are not retrievable");
+                Log.e("ERROR", error.getMessage());
+            }
+        });
+        ArrayList<SongList> setSongOwned = new ArrayList<>();
 
         storageReference = firebaseStorage.getInstance().getReference("Shoot the stars aim for the moon/");
         storageReference.listAll().addOnSuccessListener(result -> {
@@ -80,6 +92,7 @@ public class MyFiles extends AppCompatActivity {
                         String fileName = tmp.substring(0, tmp.lastIndexOf('.'));
                         fileName = java.net.URLDecoder.decode(fileName, StandardCharsets.UTF_8.name());
                         fileName = fileName.substring("Shoot the stars aim for the moon/".length() + 3);
+
                         setSongOwned.add(new SongList(fileName, url, new URL(url), ""));
                         RecyclerView rv = findViewById(R.id.user_songs_recycler);
                         rv.setHasFixedSize(true);
