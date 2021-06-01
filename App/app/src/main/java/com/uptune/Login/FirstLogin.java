@@ -1,18 +1,15 @@
 package com.uptune.Login;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.view.animation.Animation;
-import android.widget.Button;
-import android.widget.ImageButton;
 
 import com.uptune.Login.Welcome.fragment_welcome1;
 import com.uptune.Login.Welcome.fragment_welcome2;
@@ -24,8 +21,6 @@ public class FirstLogin extends AppCompatActivity {
     private final int NUM_PAG = 3;
     private ViewPager viewPager;
     sliderPage sliderPage;
-    Animation anim;
-    ImageButton bt;
     Button skip;
 
     @Override
@@ -33,34 +28,18 @@ public class FirstLogin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_login);
 
-        bt = findViewById(R.id.button_back);
         skip = findViewById(R.id.button_skip);
-        bt.setVisibility(View.GONE);
 
         viewPager = findViewById(R.id.liquid);
 
         sliderPage = new sliderPage(getSupportFragmentManager());
-        if (sliderPage.getPos() == 0)
-            bt.setVisibility(View.GONE);
+
 
         viewPager.setAdapter(sliderPage);
-        // anim = AnimationUtils.loadAnimation(this, R.anim.start_anim_reg);
-        //viewPager.startAnimation(anim);
 
-        bt.setOnClickListener(v -> {
-            sliderPage = new sliderPage(getSupportFragmentManager(), sliderPage.getPos() - 1);
-            viewPager.setAdapter(sliderPage);
-        });
 
         skip.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), SpaceTab.class);
-
-            /*
-            intent.putExtra("name", name);
-            intent.putExtra("username", username);
-            intent.putExtra("email", mail);
-            intent.putExtra("phone", phone);
-            */
             startActivity(intent);
         });
     }

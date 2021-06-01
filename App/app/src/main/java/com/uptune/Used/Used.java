@@ -1,7 +1,6 @@
 package com.uptune.Used;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,18 +33,14 @@ import java.util.List;
 
 public class Used extends Fragment implements FilterListener<Tag> {
 
-    ArrayList<UsedElement> setCards = new ArrayList<>();
-    ArrayList<UsedElement> defaultCards = new ArrayList<>();
+    ArrayList<UsedElement> setCards;
+    ArrayList<UsedElement> defaultCards;
     private String[] mTitles = {"Default", "Price", "A-Z", "Z-A", "Vendor"};
     private int[] mColors;
     RecyclerView usedCardsRecycler;
     RecyclerView.Adapter adapter;
     private Filter<Tag> mFilter;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,6 +51,8 @@ public class Used extends Fragment implements FilterListener<Tag> {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setCards = new ArrayList<>();
+        defaultCards = new ArrayList<>();
         usedCardsRecycler = view.findViewById(R.id.used_catalog_recycler);
         mColors = getResources().getIntArray(R.array.colors);
         mFilter = view.findViewById(R.id.filter);
@@ -79,14 +76,14 @@ public class Used extends Fragment implements FilterListener<Tag> {
                     ele.setId(d.getKey());
                     setCards.add(ele);
                     defaultCards.add(ele);
-                    usedCardsRecycler.setHasFixedSize(true);
-                    usedCardsRecycler.setItemViewCacheSize(20);
-                    usedCardsRecycler.setDrawingCacheEnabled(true);
-                    usedCardsRecycler.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-                    usedCardsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-                    adapter = new CardUsedAdapter(setCards);
-                    usedCardsRecycler.setAdapter(adapter);
                 }
+                usedCardsRecycler.setHasFixedSize(true);
+                usedCardsRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+                usedCardsRecycler.setItemViewCacheSize(20);
+                usedCardsRecycler.setDrawingCacheEnabled(true);
+                usedCardsRecycler.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+                adapter = new CardUsedAdapter(setCards);
+                usedCardsRecycler.setAdapter(adapter);
             }
 
             @Override
@@ -116,13 +113,13 @@ public class Used extends Fragment implements FilterListener<Tag> {
     @Override
     public void onFiltersSelected(@NotNull ArrayList<Tag> arrayList) {
         for (Tag tag : arrayList) {
-            Log.i("TAPPI", tag.getText());
             switch (tag.getText()) {
                 case "Default":
                     mFilter.deselectAll();
                     mFilter.collapse();
                     adapter = new CardUsedAdapter(defaultCards);
                     usedCardsRecycler.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
                     return;
                 case "Price":
                     Collections.sort(setCards);
@@ -138,6 +135,8 @@ public class Used extends Fragment implements FilterListener<Tag> {
                     break;
             }
         }
+        if (setCards == defaultCards)
+            return;
         adapter = new CardUsedAdapter(setCards);
         adapter.notifyDataSetChanged();
         usedCardsRecycler.setAdapter(adapter);
@@ -147,6 +146,7 @@ public class Used extends Fragment implements FilterListener<Tag> {
     public void onNothingSelected() {
         adapter = new CardUsedAdapter(defaultCards);
         usedCardsRecycler.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     private List<Tag> getTags() {
@@ -177,5 +177,4 @@ public class Used extends Fragment implements FilterListener<Tag> {
             return filterItem;
         }
     }
-
 }

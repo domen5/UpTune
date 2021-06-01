@@ -92,7 +92,7 @@ public class Account extends Fragment {
         nBought = view.findViewById(R.id.account_bought);
         nSold = view.findViewById(R.id.account_sold);
         //Set account data
-        accountName.setText(SessionAccount.getName());
+        accountName.setText(SessionAccount.getUsername());
         accountMail.setText(SessionAccount.getMail());
 
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();

@@ -100,6 +100,7 @@
                     android:id="@+id/buy_artist_img"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/ic_user"
                     app:shapeAppearanceOverlay="@style/Circular" />
 
@@ -158,6 +159,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginLeft="10dp"
+                android:scaleType="centerCrop"
                 android:layout_marginTop="22dp"
                 android:src="@drawable/ic_user"
                 app:layout_constraintBottom_toBottomOf="parent"

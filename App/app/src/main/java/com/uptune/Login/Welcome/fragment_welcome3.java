@@ -45,12 +45,6 @@ public class fragment_welcome3 extends Fragment {
 
         btn.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), SpaceTab.class);
-            /*
-            intent.putExtra("name", name);
-            intent.putExtra("username", username);
-            intent.putExtra("email", mail);
-            intent.putExtra("phone", phone);
-            */
             startActivity(intent);
         });
     }

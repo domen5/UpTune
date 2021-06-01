@@ -90,8 +90,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.958"
             app:layout_constraintStart_toStartOf="parent"
-            app:tint="@color/orange"
-            tools:targetApi="q" />
+            app:tint="@color/orange" />
 
         <TextView
             android:id="@+id/bubble_3"

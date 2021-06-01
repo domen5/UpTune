@@ -34,6 +34,7 @@ import com.google.zxing.integration.android.IntentResult;
 import com.uptune.Helper.CaptureAct;
 import com.uptune.Helper.LookupSell;
 import com.uptune.Helper.SellHelper;
+import com.uptune.Navigation.SpaceTab;
 import com.uptune.R;
 import com.uptune.SessionAccount;
 import com.uptune.Web;
@@ -72,7 +73,6 @@ public class SellActivity extends AppCompatActivity {
         comment = findViewById(R.id.sell_description);
         price = findViewById(R.id.sell_price);
         img = findViewById(R.id.sell_add_img);
-
         scan = findViewById(R.id.scan_code);
         scan.setOnClickListener(v -> {
             scanCode();
@@ -80,22 +80,29 @@ public class SellActivity extends AppCompatActivity {
 
         sell = findViewById(R.id.btn_sell_now);
         sell.setOnClickListener(v -> {
-            auth = FirebaseAuth.getInstance();
-            reference = FirebaseDatabase.getInstance().getReference("used");
-            String name = album.getEditText().getText().toString();
-            String label = this.label.getEditText().getText().toString();
-            String artist = this.artist.getEditText().getText().toString();
-            String desc = this.comment.getEditText().getText().toString();
-            String manuf = this.manufacturer.getEditText().getText().toString();
-            String price = this.price.getEditText().getText().toString();
-            String img = productImg.toString();
-            SellHelper sellHelper = new SellHelper(name, label, artist, desc, manuf, price, img, SessionAccount.getUsername()); //"SessionAccount.getUsername()"
-            DatabaseReference ref = reference.push();
-            ref.setValue(sellHelper);
-            String key = ref.getKey();
-            LookupSell lookupSell = new LookupSell(SessionAccount.getUsername(), key);
-            reference = FirebaseDatabase.getInstance().getReference("lookupUsed");
-            reference.child(SessionAccount.getUsername()).push().setValue(lookupSell);
+            if (checkData()) {
+                auth = FirebaseAuth.getInstance();
+                reference = FirebaseDatabase.getInstance().getReference("used");
+                String name = album.getEditText().getText().toString();
+                String label = this.label.getEditText().getText().toString();
+                String artist = this.artist.getEditText().getText().toString();
+                String desc = this.comment.getEditText().getText().toString();
+                String manuf = this.manufacturer.getEditText().getText().toString();
+                String price = this.price.getEditText().getText().toString();
+                String img = productImg.toString();
+                SellHelper sellHelper = new SellHelper(name, label, artist, desc, manuf, price, img, SessionAccount.getUsername()); //"SessionAccount.getUsername()"
+                DatabaseReference ref = reference.push();
+                ref.setValue(sellHelper);
+                String key = ref.getKey();
+                LookupSell lookupSell = new LookupSell(SessionAccount.getUsername(), key);
+                reference = FirebaseDatabase.getInstance().getReference("lookupUsed");
+                reference.child(SessionAccount.getUsername()).push().setValue(lookupSell);
+
+                Intent accountIntent = new Intent(getApplicationContext(), SpaceTab.class);
+                startActivity(accountIntent);
+                //Loading view
+                this.finish();
+            }
         });
         addImg = findViewById(R.id.sell_add_img_btn);
         addImg.setOnClickListener(v -> {
@@ -110,8 +117,49 @@ public class SellActivity extends AppCompatActivity {
 
         img = findViewById(R.id.sell_add_img);
         img.setOnClickListener(v -> {
-            //FULLSCREEN IMG
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                    String[] permission = {Manifest.permission.READ_EXTERNAL_STORAGE};
+                    requestPermissions(permission, PERMISSION_CODE);
+                } else pickImage();
+            } else
+                pickImage();
         });
+    }
+
+    private boolean checkData() {
+        boolean check=true;
+        String val = album.getEditText().getText().toString();
+        if (val.isEmpty()) {
+            album.setError("Album title cannot be empty");
+            check=false;
+        }
+        val = this.label.getEditText().getText().toString();
+        if (val.isEmpty()) {
+            label.setError("Label cannot be empty");
+            check=false;
+        }
+        val = this.artist.getEditText().getText().toString();
+        if (val.isEmpty()) {
+            artist.setError("Artist name cannot be empty");
+            check=false;
+        }
+        val = this.comment.getEditText().getText().toString();
+        if (val.isEmpty()) {
+            comment.setError("Comment cannot be empty");
+            check=false;
+        }
+
+        val = this.price.getEditText().getText().toString();
+        if (val.isEmpty()) {
+            price.setError("Price cannot be empty");
+            check=false;
+        }
+        if (productImg==null) {
+            Toast.makeText(getApplicationContext(), "You have to add an image to sell your product!", Toast.LENGTH_LONG).show();
+            check=false;
+        }
+        return check;
     }
 
 
