@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
+    android:background="@drawable/history"
     app:cardCornerRadius="20dp"
     app:cardElevation="8dp"
     app:strokeColor="@color/white"
@@ -33,7 +34,7 @@
             android:gravity="left"
             android:maxLines="1"
             android:text="Some text"
-            android:textColor="@color/black"
+            android:textColor="#767676"
             android:textSize="20sp"
             app:autoSizeMaxTextSize="20sp"
             app:autoSizeMinTextSize="12sp"
@@ -58,10 +59,10 @@
                 android:fontFamily="@font/antic"
                 android:maxLines="1"
                 android:text="Artist names"
-                android:textColor="@color/black"
+                android:textColor="#767676"
                 android:textSize="15sp"
                 app:autoSizeMaxTextSize="20sp"
-                app:autoSizeMinTextSize="12sp"
+                app:autoSizeMinTextSize="10sp"
                 app:autoSizeStepGranularity="2sp"
                 app:autoSizeTextType="uniform" />
 
@@ -72,24 +73,26 @@
                 android:layout_below="@id/card_review_user"
                 android:layout_weight="1"
                 android:fontFamily="@font/antic"
-                android:gravity="center"
+                android:gravity="right"
                 android:text="date"
-                android:textColor="@color/black"
-                android:textSize="14dp" />
+                android:textColor="#767676"
+                android:textSize="12dp" />
 
         </LinearLayout>
 
 
         <TextView
             android:id="@+id/card_review_desc"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/lnd"
+            android:layout_margin="10dp"
             android:layout_toRightOf="@id/card_review_img"
+            android:background="@drawable/back"
             android:fontFamily="@font/antic"
             android:padding="10dp"
             android:text="sdasdasdasdas"
-            android:textColor="@color/black"
+            android:textColor="#767676"
             android:textSize="10dp" />
 
         <RatingBar
@@ -98,10 +101,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/card_review_desc"
-            android:layout_marginLeft="57dp"
+            android:layout_alignStart="@+id/card_review_desc"
+            android:layout_marginLeft="22dp"
             android:layout_marginTop="0dp"
             android:layout_toRightOf="@id/card_review_img"
-            android:rating="4" />
+            android:rating="4"
+            android:theme="@style/RatingBar" />
 
 
     </RelativeLayout>

@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class History extends AppCompatActivity  {
+public class History extends AppCompatActivity {
     private ArrayList<HistoryElement> setCards = new ArrayList<>();
     private ArrayList<HistoryElement> defaultCards = new ArrayList<>();
     private String[] mTitles = {"Default", "Newest", "Oldest", "Album", "Song", "Used", "Price"};
@@ -43,6 +43,7 @@ public class History extends AppCompatActivity  {
     private RecyclerView.Adapter adapter;
     private Filter<Tag> mFilter;
     private FilterListener<Tag> filterListener;
+    ArrayList<Tag> oldTags = new ArrayList<>();
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -95,7 +96,6 @@ public class History extends AppCompatActivity  {
     }
 
 
-
     private List<Tag> getTags() {
         List<Tag> tags = new ArrayList<>();
         for (int i = 0; i < mTitles.length; ++i)
@@ -133,56 +133,55 @@ public class History extends AppCompatActivity  {
 
         @Override
         public void onFilterSelected(Tag tag) {
-//        switch (tag.getText()) {
-//            case "Default":
-//                mFilter.deselectAll();
-//                mFilter.collapse();
-//                adapter = new HistoryAdapter(defaultCards); // X
-//                recyclerView.setAdapter(adapter);           // X
-//                break;
-//        }
-
-
-//        Io farei così
-//        if(adapter != null) {
-//            setCards.clear();
-//            setCards.addAll(defaultCards);
-//            adapter.notifyDataSetChanged();
-//        }
+            switch (tag.getText()) {
+                case "Default":
+                    mFilter.deselectAll();
+                    mFilter.collapse();
+                    adapter = new HistoryAdapter(defaultCards);
+                    recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                    break;
+            }
         }
 
         @Override
         public void onFiltersSelected(@NotNull ArrayList<Tag> arrayList) {
+            if (arrayList == oldTags)
+                return;
+            oldTags = arrayList;
             setCards.clear();
             for (Tag tag : arrayList) {
                 switch (tag.getText()) {
-                    case "Default":
-                        mFilter.deselectAll();
-                        mFilter.collapse(); // Questo genera bug
-                        break;
                     case "Oldest":
-                        Collections.sort(setCards, HistoryElement.dateComparatorOldest);
+                        Collections.sort(defaultCards, HistoryElement.dateComparatorOldest);
                         break;
                     case "Newest":
-                        Collections.sort(setCards, HistoryElement.dateComparatorNewest);
+                        Collections.sort(defaultCards, HistoryElement.dateComparatorNewest);
                         break;
                     case "Price":
-                        Collections.sort(setCards);
+                        Collections.sort(defaultCards);
                         break;
                 }
 
-                for(HistoryElement el : defaultCards) {
-                    if(el.getType().equalsIgnoreCase(tag.getText())) {
-                        setCards.add(el);
+            }
+            if ((arrayList.contains("Song")) && (arrayList.contains("Used")) && (arrayList.contains("Album")))
+                for (HistoryElement el : defaultCards) {
+                    setCards.add(el);
+                }
+            else
+                for (Tag tag : arrayList) {
+                    for (HistoryElement el : defaultCards) {
+                        if (el.getType().equalsIgnoreCase(tag.getText())) {
+                            setCards.add(el);
+                        }
                     }
                 }
-            }
             adapter.notifyDataSetChanged();
         }
 
         @Override
         public void onNothingSelected() {
-            if(adapter != null) {
+            if (adapter != null) {
                 setCards.clear();
                 setCards.addAll(defaultCards);
                 adapter.notifyDataSetChanged();

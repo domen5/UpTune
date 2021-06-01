@@ -1,8 +1,5 @@
 package com.uptune;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ActivityOptions;
 import android.app.Dialog;
 import android.content.Intent;
@@ -22,14 +19,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.uptune.Catalog.CategoriesDetails;
-import com.uptune.Login.Login;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.uptune.Navigation.SpaceTab;
 
 import java.io.IOException;
 
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity {
 
     Animation topAnim, bottomAnim;
     ImageView img;
@@ -63,7 +61,9 @@ public class MainActivity extends AppCompatActivity  {
                 e.printStackTrace();
             }
             new Handler().postDelayed(() -> {
-                Intent intent = new Intent(MainActivity.this, Login.class);
+                // debug
+                 SessionAccount s= new SessionAccount("1","1","1", "2");
+                Intent intent = new Intent(MainActivity.this, SpaceTab.class);
                 Pair[] pairs = new Pair[2];
                 pairs[0] = new Pair<View, String>(img, "logo_img");
                 pairs[1] = new Pair<View, String>(loadTitle, "loadTitle");

@@ -70,6 +70,18 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.FeatureV
         } catch (IOException e) {
             e.printStackTrace();
         }
+        holder.type.setText(element.getType());
+        switch (element.getType()){
+            case "album":
+                holder.type.setChipBackgroundColorResource(R.color.chip_album);
+                break;
+            case "song":
+                holder.type.setChipBackgroundColorResource(R.color.chip_song);
+                break;
+            case "used":
+                holder.type.setChipBackgroundColorResource(R.color.chip_used);
+                break;
+        }
     }
 
     @Override
@@ -81,14 +93,16 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.FeatureV
         TextView name, date, price;
         ImageView img;
         ConstraintLayout constraintLayout;
+        com.google.android.material.chip.Chip type;
 
         public FeatureViewHolder(@NonNull View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.historyName);
-            date = itemView.findViewById(R.id.historyDate);
-            price = itemView.findViewById(R.id.historyPrice);
-            img = itemView.findViewById(R.id.historyImg);
+            name = itemView.findViewById(R.id.used_name);
+            date = itemView.findViewById(R.id.used_user);
+            price = itemView.findViewById(R.id.used_price);
+            img = itemView.findViewById(R.id.used_img);
             constraintLayout = itemView.findViewById(R.id.historyConstraintLayout1);
+            type= itemView.findViewById(R.id.chip_1);
         }
     }
 }
