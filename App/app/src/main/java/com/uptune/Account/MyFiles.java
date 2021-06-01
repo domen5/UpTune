@@ -7,11 +7,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,7 +27,9 @@ import com.uptune.Adapter.UserSongAdapter;
 import com.uptune.R;
 import com.uptune.SessionAccount;
 import com.uptune.Song.SongList;
+
 import org.jetbrains.annotations.NotNull;
+
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -64,15 +68,16 @@ public class MyFiles extends AppCompatActivity {
                     HistoryElement el = d.getValue(HistoryElement.class);
 
                     //TODO: salvare da qualche parte come string statica
-                    if(el.getType().equalsIgnoreCase("album")) {
+                    if (el.getType().equalsIgnoreCase("album")) {
                         //TODO: gestire album
                         // recuperare ed aggiungere tutte le canzoni dell'album?
                     }
-                    if(el.getType().equalsIgnoreCase("song")) {
+                    if (el.getType().equalsIgnoreCase("song")) {
                         //TODO: gestire song
                     }
                 }
             }
+
             @Override
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
                 Log.e("ERROR", "Owned items are not retrievable");
@@ -96,7 +101,7 @@ public class MyFiles extends AppCompatActivity {
                         setSongOwned.add(new SongList(fileName, url, new URL(url), ""));
                         RecyclerView rv = findViewById(R.id.user_songs_recycler);
                         rv.setHasFixedSize(true);
-                        rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+                        rv.setLayoutManager(new LinearLayoutManager(this));
                         adapter = new UserSongAdapter(setSongOwned, this);
                         rv.setAdapter(adapter);
                     } catch (MalformedURLException | UnsupportedEncodingException e) {
