@@ -35,7 +35,6 @@
                 android:contentDescription="@null"
                 android:minHeight="100dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/logo2"
                 app:layout_collapseMode="parallax"
                 app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed" />
 
@@ -101,7 +100,6 @@
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ic_user"
                     app:shapeAppearanceOverlay="@style/Circular" />
 
                 <LinearLayout
@@ -138,7 +136,6 @@
                 android:id="@+id/buy_img"
                 android:layout_width="300dp"
                 android:layout_height="300dp"
-                android:src="@drawable/logo2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout6" />
@@ -161,7 +158,6 @@
                 android:layout_marginLeft="10dp"
                 android:scaleType="centerCrop"
                 android:layout_marginTop="22dp"
-                android:src="@drawable/ic_user"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"

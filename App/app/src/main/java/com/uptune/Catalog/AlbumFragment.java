@@ -3,6 +3,7 @@ package com.uptune.Catalog;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.uptune.Adapter.Card.CardReviewAdapter;
 import com.uptune.Adapter.SongAdapter;
 import com.uptune.Buy.BuyCreditCard;
+import com.uptune.Helper.LoadingDialog;
 import com.uptune.Helper.LookupSell;
 import com.uptune.R;
 import com.uptune.Review.ReviewClass;
@@ -50,6 +52,7 @@ public class AlbumFragment extends Fragment {
     ArrayList<ReviewClass> setCards = new ArrayList<>();
     private URL img;
     MaterialButton buy;
+    private LoadingDialog loading;
 
     public AlbumFragment() {
     }
@@ -134,6 +137,9 @@ public class AlbumFragment extends Fragment {
     }
 
     private void fetchRecycler() {
+        this.loading = new LoadingDialog(getActivity());
+        this.loading.startLoadingAnimation();
+        setCards = new ArrayList<>();
         FirebaseDatabase rootNode = FirebaseDatabase.getInstance();
         DatabaseReference reference = rootNode.getReference("review").child(id);
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -147,12 +153,18 @@ public class AlbumFragment extends Fragment {
                 reviewRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
                 adapter = new CardReviewAdapter(setCards);
                 reviewRecycler.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+                Handler handler = new Handler();
+                handler.postDelayed(() -> {
+                    loading.dismissLoadingDialog();
+                }, 1000);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+
     }
 
 
@@ -168,7 +180,8 @@ public class AlbumFragment extends Fragment {
         LookupSell lookupSell = new LookupSell(SessionAccount.getUsername(), id);
         reference = FirebaseDatabase.getInstance().getReference("lookupReview");
         reference.child(SessionAccount.getUsername()).push().setValue(lookupSell);
-        Toast.makeText(getContext(), "OK", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Review sent", Toast.LENGTH_SHORT).show();
+        fetchRecycler();
     }
 
     @Override

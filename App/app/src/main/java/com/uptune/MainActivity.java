@@ -22,7 +22,7 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.uptune.Navigation.SpaceTab;
+import com.uptune.Login.Login;
 
 import java.io.IOException;
 
@@ -62,8 +62,7 @@ public class MainActivity extends AppCompatActivity {
             }
             new Handler().postDelayed(() -> {
                 // debug
-                 SessionAccount s= new SessionAccount("1","1","1", "2");
-                Intent intent = new Intent(MainActivity.this, SpaceTab.class);
+                Intent intent = new Intent(MainActivity.this, Login.class);
                 Pair[] pairs = new Pair[2];
                 pairs[0] = new Pair<View, String>(img, "logo_img");
                 pairs[1] = new Pair<View, String>(loadTitle, "loadTitle");

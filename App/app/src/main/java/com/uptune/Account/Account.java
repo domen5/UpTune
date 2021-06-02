@@ -15,6 +15,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.uptune.Helper.LoadingDialog;
 import com.uptune.History.History;
 import com.uptune.MainActivity;
 import com.uptune.R;
@@ -62,6 +64,8 @@ public class Account extends Fragment {
     DatabaseReference root = FirebaseDatabase.getInstance().getReference("user");
     private String username;
 
+    private LoadingDialog loading;
+
     private final int PERMISSION_CODE = 1001;
     private final int IMAGE_PICK_CODE = 1000;
     private URL userImgUpload;
@@ -79,6 +83,9 @@ public class Account extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        this.loading = new LoadingDialog(getActivity());
+        this.loading.startLoadingAnimation();
         ImageButton logout = view.findViewById(R.id.btn_logout);
         btnSell = view.findViewById(R.id.btn_sell);
         btnSettings = view.findViewById(R.id.btn_settings);
@@ -94,11 +101,10 @@ public class Account extends Fragment {
         //Set account data
         accountName.setText(SessionAccount.getUsername());
         accountMail.setText(SessionAccount.getMail());
+        this.username = SessionAccount.getUsername();
 
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-        this.username = SessionAccount.getUsername();
         fetchData(rootRef);
-
 
         //change img
         accountImg.setOnClickListener(v -> {
@@ -142,7 +148,7 @@ public class Account extends Fragment {
         DatabaseReference used = rootRef.child("lookupUsed").child(username);
         DatabaseReference history = rootRef.child("history").child(username);
         DatabaseReference review = rootRef.child("lookupReview").child(username);
-        history.addListenerForSingleValueEvent(new ValueEventListener() {
+        history.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 nBought.setText("" + dataSnapshot.getChildrenCount());
@@ -152,7 +158,7 @@ public class Account extends Fragment {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-        used.addListenerForSingleValueEvent(new ValueEventListener() {
+        used.addValueEventListener(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -164,7 +170,7 @@ public class Account extends Fragment {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-        review.addListenerForSingleValueEvent(new ValueEventListener() {
+        review.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 nReview.setText("" + dataSnapshot.getChildrenCount());
@@ -174,7 +180,7 @@ public class Account extends Fragment {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-        root.child(username).addListenerForSingleValueEvent(
+        root.child(username).addValueEventListener(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -187,14 +193,16 @@ public class Account extends Fragment {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
+                        Handler handler = new Handler();
+                        handler.postDelayed(() -> loading.dismissLoadingDialog(), 2000);
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
 
                     }
-                });
-
+                }
+        );
     }
 
     private void openFileChooser() {

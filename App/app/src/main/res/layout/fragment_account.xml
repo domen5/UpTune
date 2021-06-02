@@ -43,7 +43,6 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:background="@color/white"
-        android:src="@drawable/logo2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/Circular"
@@ -163,7 +162,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/bangers"
                         android:gravity="center"
-                        android:text="6"
+                        android:text="-"
                         android:textAlignment="center"
                         android:textColor="#767676" />
 
@@ -201,7 +200,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/bangers"
                         android:gravity="center"
-                        android:text="3"
+                        android:text="-"
                         android:textAlignment="center"
                         android:textColor="#767676" />
 
@@ -239,7 +238,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/bangers"
                         android:gravity="center"
-                        android:text="5"
+                        android:text="-"
                         android:textAlignment="center"
                         android:textColor="#767676" />
 

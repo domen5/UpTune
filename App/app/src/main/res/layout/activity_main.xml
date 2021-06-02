@@ -14,7 +14,6 @@
         android:layout_marginTop="164dp"
         android:src="@drawable/logo2"
         android:transitionName="logo_img"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"

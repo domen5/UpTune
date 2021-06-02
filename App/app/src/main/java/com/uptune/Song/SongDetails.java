@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -36,6 +37,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.uptune.Adapter.Card.CardReviewAdapter;
 import com.uptune.Buy.BuyCreditCard;
+import com.uptune.Helper.LoadingDialog;
 import com.uptune.Helper.LookupSell;
 import com.uptune.R;
 import com.uptune.Review.ReviewClass;
@@ -63,6 +65,7 @@ public class SongDetails extends Fragment {
     RecyclerView reviewRecycler;
     RecyclerView.Adapter adapter;
     ArrayList<ReviewClass> setCards = new ArrayList<>();
+    private LoadingDialog loading;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_song_details, container, false);
@@ -73,6 +76,9 @@ public class SongDetails extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        this.loading = new LoadingDialog(getActivity());
+        this.loading.startLoadingAnimation();
 
         final Toolbar toolbar = view.findViewById(R.id.songDetailsToolbar);
         toolbar.setNavigationIcon(R.drawable.ic_back);
@@ -173,6 +179,8 @@ public class SongDetails extends Fragment {
                 reviewRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
                 adapter = new CardReviewAdapter(setCards);
                 reviewRecycler.setAdapter(adapter);
+                Handler handler = new Handler();
+                handler.postDelayed(() -> loading.dismissLoadingDialog(), 1500);
             }
 
             @Override
@@ -195,6 +203,8 @@ public class SongDetails extends Fragment {
         reference = FirebaseDatabase.getInstance().getReference("lookupReview");
         reference.child(SessionAccount.getUsername()).push().setValue(lookupSell);
         Toast.makeText(getContext(), "OK", Toast.LENGTH_SHORT).show();
+        fetchRecycler();
+        this.loading.startLoadingAnimation();
     }
 
     private void pay() {
