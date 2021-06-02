@@ -99,9 +99,9 @@ public class UsedElement implements Comparable<UsedElement> {
         return (int) Math.round(Double.parseDouble(this.price) - Double.parseDouble(e.getPrice()));
     }
 
-    public static Comparator<UsedElement> comparator = (o1, o2) -> o1.getName().compareTo(o2.getName());
-    public static Comparator<UsedElement> comparatorZ = (o1, o2) -> o2.getName().compareTo(o1.getName());
+    public static Comparator<UsedElement> comparator = (o1, o2) -> o1.getName().toLowerCase().compareTo(o2.getName().toLowerCase());
+    public static Comparator<UsedElement> comparatorZ = (o1, o2) -> o2.getName().toLowerCase().compareTo(o1.getName().toLowerCase());
 
-    public static Comparator<UsedElement> usercomparator = (o1, o2) -> o1.getUser().compareTo(o2.getUser());
+    public static Comparator<UsedElement> usercomparator = (o1, o2) -> o1.getUser().toLowerCase().compareTo(o2.getUser().toLowerCase());
 
 }

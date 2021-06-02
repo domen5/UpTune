@@ -150,25 +150,12 @@ public class History extends AppCompatActivity {
                 return;
             oldTags = arrayList;
             setCards.clear();
-            for (Tag tag : arrayList) {
-                switch (tag.getText()) {
-                    case "Oldest":
-                        Collections.sort(defaultCards, HistoryElement.dateComparatorOldest);
-                        break;
-                    case "Newest":
-                        Collections.sort(defaultCards, HistoryElement.dateComparatorNewest);
-                        break;
-                    case "Price":
-                        Collections.sort(defaultCards);
-                        break;
-                }
 
-            }
             if ((arrayList.contains("Song")) && (arrayList.contains("Used")) && (arrayList.contains("Album")))
                 for (HistoryElement el : defaultCards) {
                     setCards.add(el);
                 }
-            else
+            else {
                 for (Tag tag : arrayList) {
                     for (HistoryElement el : defaultCards) {
                         if (el.getType().equalsIgnoreCase(tag.getText())) {
@@ -176,6 +163,21 @@ public class History extends AppCompatActivity {
                         }
                     }
                 }
+            }
+            for (Tag tag : arrayList) {
+                switch (tag.getText()) {
+                    case "Oldest":
+                        Collections.sort(setCards, HistoryElement.dateComparatorOldest);
+                        break;
+                    case "Newest":
+                        Collections.sort(setCards, HistoryElement.dateComparatorNewest);
+                        break;
+                    case "Price":
+                        Collections.sort(setCards);
+                        break;
+                }
+            }
+
             adapter.notifyDataSetChanged();
         }
 

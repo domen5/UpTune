@@ -1,12 +1,15 @@
 package com.uptune.Used;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -102,15 +105,16 @@ public class Used extends Fragment implements FilterListener<Tag> {
     public void onFilterSelected(Tag tag) {
         switch (tag.getText()) {
             case "Default":
-                adapter = new CardUsedAdapter(defaultCards);
-                usedCardsRecycler.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
                 mFilter.deselectAll();
                 mFilter.collapse();
+                setCards.clear();
+                setCards.addAll(defaultCards);
+                adapter.notifyDataSetChanged();
                 break;
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onFiltersSelected(@NotNull ArrayList<Tag> arrayList) {
         for (Tag tag : arrayList) {
@@ -118,9 +122,8 @@ public class Used extends Fragment implements FilterListener<Tag> {
                 case "Default":
                     mFilter.deselectAll();
                     mFilter.collapse();
-                    adapter = new CardUsedAdapter(defaultCards);
-                    usedCardsRecycler.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
+//                    setCards.clear();
+//                    setCards.addAll(defaultCards);
                     return;
                 case "Price":
                     Collections.sort(setCards);
@@ -136,18 +139,23 @@ public class Used extends Fragment implements FilterListener<Tag> {
                     break;
             }
         }
-        if (setCards == defaultCards)
-            return;
-        adapter = new CardUsedAdapter(setCards);
         adapter.notifyDataSetChanged();
-        usedCardsRecycler.setAdapter(adapter);
+//        if (setCards == defaultCards)
+//            return;
+//        mFilter.deselectAll();
+//        mFilter.collapse();
+//        setCards.clear();
+//        setCards.addAll(defaultCards);
+//        adapter.notifyDataSetChanged();
     }
 
     @Override
     public void onNothingSelected() {
-        adapter = new CardUsedAdapter(defaultCards);
-        usedCardsRecycler.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+        if (adapter != null) {
+            setCards.clear();
+            setCards.addAll(defaultCards);
+            adapter.notifyDataSetChanged();
+        }
     }
 
     private List<Tag> getTags() {
