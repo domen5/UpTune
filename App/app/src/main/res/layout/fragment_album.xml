@@ -118,18 +118,4 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/album_details_buy_now"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="30dp"
-        android:baselineAlignBottom="false"
-        android:clickable="true"
-        android:src="@drawable/ic_music"
-        app:backgroundTint="@color/white"
-        app:fabSize="normal"
-        app:layout_anchor="@id/appBarLayout"
-        app:layout_anchorGravity="end|bottom"
-        app:rippleColor="@color/white" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -17,7 +17,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,7 +39,6 @@ public class BuyUsed extends Fragment {
     String id, price, imgStr, name;
     ImageView imgUser, imgArtist, img, imgBg;
     TextView title, artist, description, label, manuf;
-    FloatingActionButton btnBuy;
     MaterialButton bottonBuy;
 
     public BuyUsed(String id) {
@@ -72,7 +70,6 @@ public class BuyUsed extends Fragment {
         imgUser = view.findViewById(R.id.img_buy_profile);
         img = view.findViewById(R.id.buy_img);
         imgArtist = view.findViewById(R.id.buy_artist_img);
-        btnBuy = view.findViewById(R.id.buy_now);
         bottonBuy = view.findViewById(R.id.bottom_buy);
         artist = view.findViewById(R.id.buy_title_artist);
         description = view.findViewById(R.id.buy_description);
@@ -80,7 +77,6 @@ public class BuyUsed extends Fragment {
         label = view.findViewById(R.id.buy_label);
         title = view.findViewById(R.id.buy_title_details);
         fetchDataAndSetValue(id);
-        btnBuy.setOnClickListener(v -> pay());
         bottonBuy.setOnClickListener(v -> pay());
     }
 

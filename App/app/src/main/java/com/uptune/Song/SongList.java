@@ -1,8 +1,9 @@
 package com.uptune.Song;
 
 import java.net.URL;
+import java.util.Comparator;
 
-public class SongList {
+public class SongList  implements Comparable<SongList>{
 
     String title, id, artists;
     URL img;
@@ -54,4 +55,10 @@ public class SongList {
     }
 
 
+    @Override
+    public int compareTo(SongList o) {
+        return 0;
+    }
+
+    public static Comparator<SongList> sort = (o1, o2) -> o1.getTitle().compareTo(o2.getTitle());
 }

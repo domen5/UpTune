@@ -2,41 +2,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:allowDividerAbove="true"
     app:allowDividerBelow="true">
-
-    <PreferenceCategory
-        android:icon="@drawable/ic_user"
-        app:title="Account">
-
-        <EditTextPreference
-            app:selectable="false"
-            app:title="Username"
-            app:useSimpleSummaryProvider="true" />
-
-        <EditTextPreference
-            android:key="fullname"
-            app:title="Full name"
-            app:useSimpleSummaryProvider="true" />
-
-        <EditTextPreference
-            android:key="mail"
-            app:title="Mail account"
-            app:useSimpleSummaryProvider="true" />
-        <EditTextPreference
-            android:key="phone"
-            app:title="Phone number"
-            app:useSimpleSummaryProvider="true" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:icon="@drawable/ic_music_folder"
-        app:title="Storage">
-        <EditTextPreference
-            android:key="path"
-            android:summary="sadasd"
-            app:title="Path" />
-    </PreferenceCategory>
-
     <PreferenceCategory
         android:icon="@drawable/ic_boombox"
         app:title="App">

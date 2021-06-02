@@ -10,22 +10,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.uptune.Account.MyFiles;
 import com.uptune.R;
 import com.uptune.Song.SongList;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.URL;
@@ -36,9 +29,6 @@ import static android.os.Environment.DIRECTORY_DOWNLOADS;
 public class UserSongAdapter extends RecyclerView.Adapter<UserSongAdapter.FeatureViewHolder> {
     Context context;
     ArrayList<SongList> location;
-    FirebaseStorage firebaseStorage;
-    StorageReference storageReference;
-    StorageReference ref;
     MediaPlayer mediaPlayer;
     private Handler handler = new Handler();
     private Runnable updateSeek;

@@ -137,8 +137,8 @@ public class History extends AppCompatActivity {
                 case "Default":
                     mFilter.deselectAll();
                     mFilter.collapse();
-                    adapter = new HistoryAdapter(defaultCards);
-                    recyclerView.setAdapter(adapter);
+                    setCards.clear();
+                    setCards.addAll(defaultCards);
                     adapter.notifyDataSetChanged();
                     break;
             }

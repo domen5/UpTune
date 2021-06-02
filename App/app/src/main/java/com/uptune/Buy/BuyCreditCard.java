@@ -2,6 +2,7 @@ package com.uptune.Buy;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -43,7 +44,7 @@ public class BuyCreditCard extends AppCompatActivity {
         txtDesc.setText(price + "€");
         Button btn = findViewById(R.id.btn_pay);
         btn.setText("Confirm and Pay");
-
+        Log.i("TAPPI", name);
         cardForm.setPayBtnClickListner(card -> {
             //CARD N.O. 4111 1111 4555 1142
             //Record in db
@@ -62,6 +63,7 @@ public class BuyCreditCard extends AppCompatActivity {
                             appleSnapshot.getRef().removeValue();
                         }
                     }
+
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                     }
@@ -69,6 +71,15 @@ public class BuyCreditCard extends AppCompatActivity {
                 //Create notification & alert
             }
 
+            reference = FirebaseDatabase.getInstance().getReference("owned");
+            switch (name) {
+                case "Exodus":
+                    reference.child(SessionAccount.getUsername()).push().setValue("/Exodus");
+                    break;
+                case "Shoot For The Stars Aim For The Moon":
+                    reference.child(SessionAccount.getUsername()).push().setValue("/Shoot the stars aim for the moon");
+                    break;
+            }
             Intent accountIntent = new Intent(getApplicationContext(), SpaceTab.class);
             startActivity(accountIntent);
             //Loading view
