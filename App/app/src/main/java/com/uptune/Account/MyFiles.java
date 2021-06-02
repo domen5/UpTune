@@ -89,7 +89,6 @@ public class MyFiles extends AppCompatActivity {
             public void onCancelled( @NotNull DatabaseError error) {
             }
         });
-
     }
 
 

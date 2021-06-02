@@ -79,6 +79,15 @@ public class BuyCreditCard extends AppCompatActivity {
                 case "Shoot For The Stars Aim For The Moon":
                     reference.child(SessionAccount.getUsername()).push().setValue("/Shoot the stars aim for the moon");
                     break;
+                case "Music To Be Murdered By - Side B (Deluxe Edition)":
+                    reference.child(SessionAccount.getUsername()).push().setValue("/Music to be murder by");
+                    break;
+                case "American You":
+                    reference.child(SessionAccount.getUsername()).push().setValue("/Yela");
+                    break;
+                case "King's Disease":
+                    reference.child(SessionAccount.getUsername()).push().setValue("/King's disease");
+                    break;
             }
             Intent accountIntent = new Intent(getApplicationContext(), SpaceTab.class);
             startActivity(accountIntent);
