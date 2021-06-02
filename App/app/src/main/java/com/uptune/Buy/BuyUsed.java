@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.uptune.Helper.LoadingDialog;
 import com.uptune.R;
 import com.uptune.SessionAccount;
 import com.uptune.Used.UsedElement;
@@ -40,6 +41,8 @@ public class BuyUsed extends Fragment {
     ImageView imgUser, imgArtist, img, imgBg;
     TextView title, artist, description, label, manuf;
     MaterialButton bottonBuy;
+
+    private LoadingDialog loading;
 
     public BuyUsed(String id) {
         this.id = id;
@@ -62,6 +65,11 @@ public class BuyUsed extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        //Loading dialog
+        this.loading = new LoadingDialog(getActivity());
+        this.loading.startLoadingAnimation(); // lo stop loading è dentro fetchDataAndSetValue
+
         Toolbar toolbar = view.findViewById(R.id.toolbar_used);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(v -> getFragmentManager().popBackStack());
@@ -144,6 +152,10 @@ public class BuyUsed extends Fragment {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
+
+                        // LOADING DISMISS **************************************************************************
+                        loading.dismissLoadingDialog();
+                        // LOADING DISMISS messo qui perché è l'ultima immmagine scaricata
                     }
 
                     @Override
