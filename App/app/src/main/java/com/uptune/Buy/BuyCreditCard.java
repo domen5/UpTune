@@ -1,6 +1,10 @@
 package com.uptune.Buy;
 
+import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -17,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.uptune.Navigation.SpaceTab;
+import com.uptune.Notification.MyNotification;
 import com.uptune.R;
 import com.uptune.SessionAccount;
 
@@ -24,6 +29,7 @@ public class BuyCreditCard extends AppCompatActivity {
 
     String price, id, type, img, name;
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +51,14 @@ public class BuyCreditCard extends AppCompatActivity {
         Button btn = findViewById(R.id.btn_pay);
         btn.setText("Confirm and Pay");
         Log.i("TAPPI", name);
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel("Notification", "Notification", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
+
         cardForm.setPayBtnClickListner(card -> {
             //CARD N.O. 4111 1111 4555 1142
             //Record in db
@@ -89,6 +103,8 @@ public class BuyCreditCard extends AppCompatActivity {
                     reference.child(SessionAccount.getUsername()).push().setValue("/King's disease");
                     break;
             }
+            MyNotification notification = new MyNotification(getApplicationContext(), name, "Pay");
+            notification.send();
             Intent accountIntent = new Intent(getApplicationContext(), SpaceTab.class);
             startActivity(accountIntent);
             overridePendingTransition(R.anim.static_anim, R.anim.zoom_out);

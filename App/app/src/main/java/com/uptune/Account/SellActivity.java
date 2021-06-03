@@ -35,6 +35,7 @@ import com.uptune.Helper.CaptureAct;
 import com.uptune.Helper.LookupSell;
 import com.uptune.Helper.SellHelper;
 import com.uptune.Navigation.SpaceTab;
+import com.uptune.Notification.MyNotification;
 import com.uptune.R;
 import com.uptune.SessionAccount;
 import com.uptune.Web;
@@ -98,6 +99,9 @@ public class SellActivity extends AppCompatActivity {
                 reference = FirebaseDatabase.getInstance().getReference("lookupUsed");
                 reference.child(SessionAccount.getUsername()).push().setValue(lookupSell);
 
+
+                MyNotification notification = new MyNotification(getApplicationContext(), name, "Sell");
+                notification.send();
                 Intent accountIntent = new Intent(getApplicationContext(), SpaceTab.class);
                 startActivity(accountIntent);
                 //Loading view
@@ -128,36 +132,36 @@ public class SellActivity extends AppCompatActivity {
     }
 
     private boolean checkData() {
-        boolean check=true;
+        boolean check = true;
         String val = album.getEditText().getText().toString();
         if (val.isEmpty()) {
             album.setError("Album title cannot be empty");
-            check=false;
+            check = false;
         }
         val = this.label.getEditText().getText().toString();
         if (val.isEmpty()) {
             label.setError("Label cannot be empty");
-            check=false;
+            check = false;
         }
         val = this.artist.getEditText().getText().toString();
         if (val.isEmpty()) {
             artist.setError("Artist name cannot be empty");
-            check=false;
+            check = false;
         }
         val = this.comment.getEditText().getText().toString();
         if (val.isEmpty()) {
             comment.setError("Comment cannot be empty");
-            check=false;
+            check = false;
         }
 
         val = this.price.getEditText().getText().toString();
         if (val.isEmpty()) {
             price.setError("Price cannot be empty");
-            check=false;
+            check = false;
         }
-        if (productImg==null) {
+        if (productImg == null) {
             Toast.makeText(getApplicationContext(), "You have to add an image to sell your product!", Toast.LENGTH_LONG).show();
-            check=false;
+            check = false;
         }
         return check;
     }

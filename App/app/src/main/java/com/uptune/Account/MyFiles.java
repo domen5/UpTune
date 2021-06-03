@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,7 @@ import com.reddit.indicatorfastscroll.FastScrollItemIndicator;
 import com.reddit.indicatorfastscroll.FastScrollerThumbView;
 import com.reddit.indicatorfastscroll.FastScrollerView;
 import com.uptune.Adapter.UserSongAdapter;
+import com.uptune.Helper.LoadingDialog;
 import com.uptune.R;
 import com.uptune.SessionAccount;
 import com.uptune.Song.SongList;
@@ -42,6 +44,7 @@ public class MyFiles extends AppCompatActivity {
     private StorageReference storageReference;
     StorageReference ref;
     UserSongAdapter adapter;
+    private LoadingDialog loading;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -54,6 +57,9 @@ public class MyFiles extends AppCompatActivity {
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(v -> finish());
 
+
+        this.loading = new LoadingDialog(this);
+        this.loading.startLoadingAnimation();
 
         final FirebaseDatabase rootNode = FirebaseDatabase.getInstance();
         ArrayList<SongList> setSongOwned = new ArrayList<>();
@@ -87,6 +93,9 @@ public class MyFiles extends AppCompatActivity {
                         }
                     }).addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "FAIL", Toast.LENGTH_LONG).show());
                 }
+                Handler handler = new Handler();
+                handler.postDelayed(() -> loading.dismissLoadingDialog(), 2000);
+
             }
 
             @Override

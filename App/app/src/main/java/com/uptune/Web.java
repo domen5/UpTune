@@ -345,7 +345,7 @@ public class Web {
         JSONObject obj = null;
         String tmp = null;
         HttpURLConnection http = (HttpURLConnection) url.openConnection();
-        http.setRequestProperty("Authorization", "Bearer " + "wggaht6g74x4b9jlybc5esh31n630w");
+        http.setRequestProperty("Authorization", "Bearer " + "lrsqq0j9vspnqw8ch5x1o10ty70d11");
         BufferedReader br = null;
         br = new BufferedReader(new InputStreamReader(http.getInputStream()));
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
