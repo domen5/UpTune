@@ -339,7 +339,7 @@ public class Web {
     }
 
     public static JSONArray getBarCodeStuff(String code) throws IOException, JSONException {
-        URL url = new URL("https://api.barcodelookup.com/v2/products?barcode=" + code + "&formatted=y&key=wggaht6g74x4b9jlybc5esh31n630w");
+        URL url = new URL("https://api.barcodelookup.com/v2/products?barcode=" + code + "&formatted=y&key=lrsqq0j9vspnqw8ch5x1o10ty70d11");
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         JSONObject obj = null;
