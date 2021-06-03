@@ -4,8 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue_light"
-    tools:context=".Account.MyFiles">
+    android:background="@color/white"
+    android:forceDarkAllowed="false"
+    tools:context=".Account.MyFiles"
+    tools:targetApi="q">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_my_files"
@@ -23,27 +25,52 @@
             android:layout_gravity="center"
             android:fontFamily="@font/brandon_grotesque_black"
             android:text="My files"
+            android:textColor="#767676"
             android:textSize="32dp" />
     </androidx.appcompat.widget.Toolbar>
 
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/relativeLayout2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?actionBarSize"
+        android:background="@color/gray"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="50dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_my_files">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/user_songs_recycler"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_behavior="com.google.material.appbar.AppBarLayout$ScrollingViewBehavior" />
-    </RelativeLayout>
+            app:layout_behavior="com.google.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            app:layout_constraintEnd_toEndOf="@+id/fastscroller_thumb"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.reddit.indicatorfastscroll.FastScrollerView
+            android:id="@+id/fastscroller"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:textColor="#767676"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.reddit.indicatorfastscroll.FastScrollerThumbView
+            android:id="@+id/fastscroller_thumb"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_alignTop="@+id/fastscroller"
+            android:layout_alignBottom="@+id/fastscroller"
+            android:layout_toStartOf="@+id/fastscroller"
+            app:layout_constraintEnd_toStartOf="@+id/fastscroller" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

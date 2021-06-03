@@ -174,7 +174,7 @@ public class AlbumFragment extends Fragment {
         String username = SessionAccount.getUsername();
         String desc = editText.getEditableText().toString();
         String rate = ratingBar.getRating() + "";
-        ReviewClass reviewClass = new ReviewClass(username, rate, desc, img.toString(), name, artists);
+        ReviewClass reviewClass = new ReviewClass(username, rate, desc, img.toString(), title, artists);
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("review");
         reference.child(id).push().setValue(reviewClass);
         LookupSell lookupSell = new LookupSell(SessionAccount.getUsername(), id);

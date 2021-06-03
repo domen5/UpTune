@@ -17,6 +17,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.imageview.ShapeableImageView;
 import com.uptune.R;
 import com.uptune.Song.SongList;
 
@@ -145,6 +146,7 @@ public class UserSongAdapter extends RecyclerView.Adapter<UserSongAdapter.Featur
         });
         holder.seekBar.setEnabled(false);
         holder.btnDownload.setOnClickListener(v -> download(songList.getTitle(), songList.getImg()));
+        holder.img.setImageBitmap(location.get(position).getBitmap());
     }
 
     public void releaseMediaPlayer() {
@@ -196,7 +198,6 @@ public class UserSongAdapter extends RecyclerView.Adapter<UserSongAdapter.Featur
     }
 
     private void download(String name, URL url) {
-
         downloadFiles(this.context, name, ".m4a", DIRECTORY_DOWNLOADS, url);
     }
 
@@ -219,6 +220,7 @@ public class UserSongAdapter extends RecyclerView.Adapter<UserSongAdapter.Featur
         TextView title, currentTime, totalTime;
         ImageButton btnPlay, btnDownload;
         SeekBar seekBar;
+        ShapeableImageView img;
 
         public FeatureViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -229,6 +231,8 @@ public class UserSongAdapter extends RecyclerView.Adapter<UserSongAdapter.Featur
             btnDownload = itemView.findViewById(R.id.btn_download);
             btnPlay = itemView.findViewById(R.id.btn_play);
             seekBar.setMax(100);
+            img = itemView.findViewById(R.id.imageView3);
+
         }
     }
 }

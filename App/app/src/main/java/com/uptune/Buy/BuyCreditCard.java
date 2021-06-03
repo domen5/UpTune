@@ -91,7 +91,7 @@ public class BuyCreditCard extends AppCompatActivity {
             }
             Intent accountIntent = new Intent(getApplicationContext(), SpaceTab.class);
             startActivity(accountIntent);
-            //Loading view
+            overridePendingTransition(R.anim.static_anim, R.anim.zoom_out);
             this.finish();
         });
     }
