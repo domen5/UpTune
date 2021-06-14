@@ -126,7 +126,9 @@ public class MyFiles extends AppCompatActivity {
             case "/King's disease":
                 return BitmapFactory.decodeStream((InputStream) new URL("https://images-na.ssl-images-amazon.com/images/I/71jJHiBlYPL._AC_SY450_.jpg").getContent());
             case "/Exodus":
-                return BitmapFactory.decodeStream((InputStream) new URL(" https://i1.wp.com/abokimusic.com/wp-content/uploads/2021/05/Hood-Blues-364x364-1.jpeg?fit=364%2C364&ssl=1").getContent());
+                return BitmapFactory.decodeStream((InputStream) new URL("https://i1.wp.com/abokimusic.com/wp-content/uploads/2021/05/Hood-Blues-364x364-1.jpeg?fit=364%2C364&ssl=1").getContent());
+            case "/Coti":
+                return BitmapFactory.decodeStream((InputStream) new URL("https://images.genius.com/7a1f299b7eca7489a9ede64dfa29017a.300x300x1.png").getContent());
         }
         return null;
     }

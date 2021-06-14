@@ -102,6 +102,9 @@ public class BuyCreditCard extends AppCompatActivity {
                 case "King's Disease":
                     reference.child(SessionAccount.getUsername()).push().setValue("/King's disease");
                     break;
+                case "The Course of the Inevitable":
+                    reference.child(SessionAccount.getUsername()).push().setValue("/Coti");
+                    break;
             }
             MyNotification notification = new MyNotification(getApplicationContext(), name, "Pay");
             notification.send();

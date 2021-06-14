@@ -39,7 +39,7 @@ public class BuyUsed extends Fragment {
 
     String id, price, imgStr, name;
     ImageView imgUser, imgArtist, img, imgBg;
-    TextView title, artist, description, label, manuf;
+    TextView title, artist, description, label, manuf, userSeller;
     MaterialButton bottonBuy;
 
     private LoadingDialog loading;
@@ -74,6 +74,7 @@ public class BuyUsed extends Fragment {
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(v -> getFragmentManager().popBackStack());
         toolbar.setVisibility(View.VISIBLE);
+        userSeller=view.findViewById(R.id.text_buy_profile);
         imgBg = view.findViewById(R.id.used_image_bg);
         imgUser = view.findViewById(R.id.img_buy_profile);
         img = view.findViewById(R.id.buy_img);
@@ -127,6 +128,7 @@ public class BuyUsed extends Fragment {
                 price = ele.getPrice();
                 bottonBuy.setText("Buy for " + price + "€");
                 name = ele.getName();
+                userSeller.setText(ele.getUser());
                 title.setText(ele.getName());
                 description.setText(ele.getDescription());
                 artist.setText(ele.getArtist());

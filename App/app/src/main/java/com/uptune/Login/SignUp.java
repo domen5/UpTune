@@ -1,7 +1,5 @@
 package com.uptune.Login;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ActivityOptions;
 import android.app.Dialog;
 import android.content.Context;
@@ -19,6 +17,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -138,8 +138,12 @@ public class SignUp extends AppCompatActivity {
 
     private Boolean validateMail() {
         String val = mail.getEditText().getText().toString();
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         if (val.isEmpty()) {
             mail.setError("E-Mail cannot be empty");
+            return false;
+        } if (!val.matches(emailPattern)) {
+            mail.setError("Invalid e-mail address");
             return false;
         }
         mail.setError(null);
@@ -149,14 +153,21 @@ public class SignUp extends AppCompatActivity {
 
     private Boolean validatePass() {
         String passVal = "^" +
-                //"(?=.*[0-9])" +
+                "(?=.*[0-9])" +
                 "(?=.*[a-zA-Z])" +
-                //"(?=.*[@#$%^&+=!])" +
                 "(?=\\S+$)" +
-                ".{4,}$";
+                ".{6,}$";
         String val = password.getEditText().getText().toString();
         if (val.isEmpty()) {
             password.setError("Password cannot be empty");
+            return false;
+        }
+        if (val.length() < 6) {
+            password.setError("Password need to be at least 6 character long");
+            return false;
+        }
+        if (!val.matches(passVal)) {
+            password.setError("Password need to include one number, one uppercase and one lowercase character");
             return false;
         }
         password.setError(null);
@@ -171,8 +182,12 @@ public class SignUp extends AppCompatActivity {
             username.setError("Username cannot be empty");
             return false;
         }
-        if (val.length() >= 20) {
-            username.setError("Username too long");
+        if (val.length() > 20) {
+            username.setError("Username too long, max 20 character");
+            return false;
+        }
+        if (val.length() < 4) {
+            username.setError("Username too short, min 4 character");
             return false;
         }
         if (!val.matches(space)) {
