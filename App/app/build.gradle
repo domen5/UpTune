@@ -73,7 +73,7 @@ dependencies {
     implementation 'com.android.volley:volley:1.2.0'
     //img
     implementation 'com.squareup.picasso:picasso:2.71828'
-    implementation 'com.github.Yalantis:SearchFilter:v1.0.4'
+    implementation 'com.github.Yalantis:SearchFilter:1.0.4'
     implementation 'com.craftman.cardform:cardform:0.0.2'
 
     implementation 'com.alespero:expandable-cardview:0.8'
